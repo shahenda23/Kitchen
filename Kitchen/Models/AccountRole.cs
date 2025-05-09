@@ -11,7 +11,6 @@ namespace Kitchen.Models
         public int AccountID { get; set; }
         public Account Account { get; set; }
 
-
         [ForeignKey("Role")]
         public int RoleID { get; set; }
         public Role Role { get; set; }
