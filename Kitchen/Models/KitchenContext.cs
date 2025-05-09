@@ -23,7 +23,8 @@ namespace Kitchen.Models
         {
             
         }
-       
+  
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=Kitchen;Integrated Security=True;Encrypt=False");
