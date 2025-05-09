@@ -8,5 +8,7 @@
         public string CustomerPhone { get; set; }
         public string? CustomerEmail { get; set; }
 
+        public Account Account { get; set; }
+
     }
 }
