@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="View Models\" />
     <Folder Include="Repository\" />
   </ItemGroup>
 
