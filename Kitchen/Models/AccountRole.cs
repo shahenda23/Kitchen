@@ -5,12 +5,13 @@ namespace Kitchen.Models
 {
     public class AccountRole
     {
-        [Key, Column(Order = 0)]
+        public int Id {  get; set; }
+        
         [ForeignKey("Account")]
         public int AccountID { get; set; }
         public Account Account { get; set; }
 
-        [Key, Column(Order = 1)]
+
         [ForeignKey("Role")]
         public int RoleID { get; set; }
         public Role Role { get; set; }
