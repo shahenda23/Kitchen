@@ -34,7 +34,7 @@ namespace Kitchen.Models
         public Manager Manager { get; set; }
 
 
-        public List<AccountRole> AccountRoles { get; set; }
+        public List<AccountRole>? AccountRoles { get; set; }
 
 
     }

@@ -1,3 +1,6 @@
+using Kitchen.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace Kitchen
 {
     public class Program
@@ -8,6 +11,12 @@ namespace Kitchen
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            // Get Connection String
+            builder.Services.AddDbContext<KitchenContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
+            });
 
             var app = builder.Build();
 
