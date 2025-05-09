@@ -6,6 +6,9 @@ namespace Kitchen.Models
     {
         public DbSet<Manager> Managers { get; set; }
         public DbSet<Chef> Chefs { get; set; }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<AccountRole> AccountRoles { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public KitchenContext()
         {
             
