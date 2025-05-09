@@ -26,7 +26,7 @@ namespace Kitchen.Models
        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-KRVT3AP;Initial Catalog=Kitchen;Integrated Security=True;Encrypt=False");
+            optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=Kitchen;Integrated Security=True;Encrypt=False");
         }
     }
 }
