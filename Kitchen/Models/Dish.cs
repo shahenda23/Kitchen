@@ -14,6 +14,8 @@ namespace Kitchen.Models
         public List<Feedback> Feedbacks { get; set; }
         public Chef Chef { get; set; }
 
+        public List<OrderDetails> OrderDetails { get; set; }
+
 
     }
 }
