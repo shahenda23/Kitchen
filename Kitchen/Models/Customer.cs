@@ -7,6 +7,8 @@
         public string CustomerAddress { get; set; }
         public string CustomerPhone { get; set; }
         public string? CustomerEmail { get; set; }
+        public Order? Order { get; set; } 
+        public List<Feedback>? Feedbacks { get; set; }
 
         public Account Account { get; set; }
 
