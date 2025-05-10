@@ -12,7 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kitchen.Migrations
 {
     [DbContext(typeof(KitchenContext))]
+<<<<<<<< HEAD:Kitchen/Migrations/20250510150653_init.Designer.cs
     [Migration("20250510150653_init")]
+========
+    [Migration("20250510150052_init")]
+>>>>>>>> 3015d2ea5817a97c01d24f65149903f125827bf2:Kitchen/Migrations/20250510150052_init.Designer.cs
     partial class init
     {
         /// <inheritdoc />
