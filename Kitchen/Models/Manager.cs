@@ -18,6 +18,6 @@ namespace Kitchen.Models
         [RegularExpression(@"^(010|011|012|013|015)\d{8}$", ErrorMessage = "Invalid Egyptian phone number format")]
         public int? Phone { get; set; }
         public Account Account { get; set; }
-        public List<Chef>? Chefs { get; set; }
+        public List<Staff>? Chefs { get; set; }
     }
 }

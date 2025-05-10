@@ -6,16 +6,12 @@ namespace Kitchen.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Price { get; set; }
-        public string Type { get; set; }
-        public string Description { get; set; }
+        public float Price { get; set; }
+        public string? Image { get; set; }
+        public string? Description { get; set; }
+        public string? Category { get; set; }
 
-        [ForeignKey("Chef")]
-        public int Chef_ID { get; set; }
-        public List<Feedback> Feedbacks { get; set; }
-        public Chef Chef { get; set; }
-
-        public List<OrderDetails> OrderDetails { get; set; }
+        public List<OrderDetails>? OrderDetails{ get; set; }
 
 
     }
