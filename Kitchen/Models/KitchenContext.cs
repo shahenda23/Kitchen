@@ -7,12 +7,11 @@ namespace Kitchen.Models
         public DbSet<Account> Accounts { get; set; }
         public DbSet<AccountRole> AccountRoles { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<Manager> Managers { get; set; }
-        public DbSet<Chef> Chefs { get; set; }
+        public DbSet<Staff> Staff { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Dish> Dishes { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderDetails> orderDetails { get; set; }
+        public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
 
 
@@ -28,7 +27,7 @@ namespace Kitchen.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=Kitchen;Integrated Security=True;Encrypt=False");
+            optionsBuilder.UseSqlServer("Data Source=DESKTOP-LUEP6ES\\SQLEXPRESS;Initial Catalog=Kitchen;Integrated Security=True;Encrypt=False");
         }
     }
 }
