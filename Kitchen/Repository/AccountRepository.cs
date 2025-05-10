@@ -11,9 +11,13 @@ namespace Kitchen.Repository
         }
         public List<Account> GetAll()
         {
-            throw new NotImplementedException();
+            return context.Accounts.ToList();
         }
         public Account GetById(int id)
+        {
+            return ;
+        }
+        public Account GetOne(string username, string password)
         {
             throw new NotImplementedException();
         }
