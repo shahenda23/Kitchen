@@ -7,7 +7,7 @@ namespace Kitchen.Models
         public int Id { get; set; }
         public string? Date { get; set; }
 
-        public decimal TotalPrice { get; set; }
+        public float TotalPrice { get; set; }
         
         [ForeignKey("Customer")]
         public int CustomerId { get; set; }
