@@ -8,9 +8,13 @@
 
   <ItemGroup>
     <Compile Remove="View Models\**" />
+    <Compile Remove="ViewModels\**" />
     <Content Remove="View Models\**" />
+    <Content Remove="ViewModels\**" />
     <EmbeddedResource Remove="View Models\**" />
+    <EmbeddedResource Remove="ViewModels\**" />
     <None Remove="View Models\**" />
+    <None Remove="ViewModels\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,10 +23,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
 </Project>
