@@ -9,6 +9,6 @@ namespace Kitchen.Models
         [Required]
         [StringLength(20)]
         public string RoleName { get; set; }
-        public List<AccountRole> AccountRoles { get; set; }
+        public List<AccountRole>? AccountRoles { get; set; }
     }
 }

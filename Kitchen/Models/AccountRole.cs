@@ -9,11 +9,11 @@ namespace Kitchen.Models
 
         [ForeignKey("Account")]
         public int AccountID { get; set; }
-        public Account Account { get; set; }
+        public Account? Account { get; set; }
 
         [ForeignKey("Role")]
         public int RoleID { get; set; }
-        public Role Role { get; set; }
+        public Role? Role { get; set; }
 
     }
 }
