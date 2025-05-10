@@ -7,12 +7,16 @@ namespace Kitchen.Models
 
         public int Id { get; set; }
         public string? Comment { get; set; }
+        
         public int Rate { get; set; }
+
         [ForeignKey("Customer")]
         public int Customer_ID { get; set; }
-        [ForeignKey("Dish")]
-        public int Dish_ID { get; set; }
-        public Customer Customer { get; set; }
-        public Dish Dish { get; set; }
+        public Customer? Customer { get; set; }
+
+        [ForeignKey("Order")]
+        public int OrderId { get; set; }
+
+        public Order? Order { get; set; }
     }
 }
