@@ -4,7 +4,7 @@ namespace Kitchen.Models
 {
     public class Order
     {
-        public int OrderId { get; set; }
+        public int Id { get; set; }
         public string? Date { get; set; }
 
         public decimal TotalPrice { get; set; }
