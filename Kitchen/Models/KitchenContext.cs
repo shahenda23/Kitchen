@@ -23,7 +23,7 @@ namespace Kitchen.Models
         {
             
         }
-  
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
