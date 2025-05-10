@@ -8,9 +8,13 @@
 
   <ItemGroup>
     <Compile Remove="View Models\**" />
+    <Compile Remove="ViewModels\**" />
     <Content Remove="View Models\**" />
+    <Content Remove="ViewModels\**" />
     <EmbeddedResource Remove="View Models\**" />
+    <EmbeddedResource Remove="ViewModels\**" />
     <None Remove="View Models\**" />
+    <None Remove="ViewModels\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +23,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ViewModel1\" />
   </ItemGroup>
 
 </Project>
