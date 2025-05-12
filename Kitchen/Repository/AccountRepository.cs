@@ -1,4 +1,5 @@
 ﻿using Kitchen.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Kitchen.Repository
 {
@@ -9,13 +10,20 @@ namespace Kitchen.Repository
         {
             context = _Ctx;
         }
-        public List<Account> GetAll()
+        public List<Account> GetAll(string inclues = "")
         {
-            return context.Accounts.ToList();
+            if(inclues == "")
+            {
+                return context.Accounts.ToList();
+            }
+            else
+            {
+                return context.Accounts.Include(inclues).ToList();
+            }
         }
         public Account GetById(int id)
         {
-            return ;
+            return context.Accounts.FirstOrDefault(a=>a.Id==id);
         }
         public Account GetOne(string username, string password)
         {

@@ -2,7 +2,7 @@
 {
     public interface IRepository<T>
     {
-        List<T> GetAll();
+        List<T> GetAll(string includes ="");
         T GetById(int id);
         void Add(T obj);
         void Edit(T obj);
