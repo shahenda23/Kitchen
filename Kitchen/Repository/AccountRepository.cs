@@ -13,10 +13,7 @@ namespace Kitchen.Repository
         {
             return context.Accounts.ToList();
         }
-        public Account GetById(int id)
-        {
-            return ;
-        }
+       
         public Account GetOne(string username, string password)
         {
             throw new NotImplementedException();
@@ -34,6 +31,11 @@ namespace Kitchen.Repository
             throw new NotImplementedException();
         }
         public void Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Account GetById(int id)
         {
             throw new NotImplementedException();
         }

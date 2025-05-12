@@ -1,4 +1,5 @@
 using Kitchen.Models;
+using Kitchen.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kitchen
@@ -17,6 +18,9 @@ namespace Kitchen
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
             });
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+
 
             var app = builder.Build();
 
