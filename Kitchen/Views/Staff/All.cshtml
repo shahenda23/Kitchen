@@ -1,4 +1,4 @@
-﻿@using Kitchen.ViewModel
+﻿@using Kitchen.ViewModel1
 @model AllStaffWithPagesViewModel
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -62,7 +62,7 @@
     <a href="@Url.Action("All", "Staff", new { page = Model.CurrentPage + 1, pageSize = Model.PageSize })"
        class="pagination-arrow right-arrow @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")"
        style="@(Model.CurrentPage == Model.TotalPages ? "pointer-events:none; opacity:0.5" : "")">
-        &gt;
+        &g
     </a>
 </div>
 
