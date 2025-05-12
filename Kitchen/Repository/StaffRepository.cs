@@ -1,4 +1,5 @@
 ﻿using Kitchen.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Kitchen.Repository
 {
@@ -30,9 +31,17 @@ namespace Kitchen.Repository
             staff.AccountId = obj.AccountId;
         }
 
-        public List<Staff> GetAll()
+        public List<Staff> GetAll(string inclues = "")
         {
-            return context.Staff.ToList();
+            if (inclues == "")
+            {
+                return context.Staff.ToList();
+            }
+            else
+            {
+                return context.Staff.Include(inclues).ToList();
+            }
+            
         }
 
         public Staff GetById(int id)
