@@ -1,4 +1,5 @@
 ﻿using Kitchen.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Kitchen.Repository
 {
@@ -11,32 +12,52 @@ namespace Kitchen.Repository
         }
         public void Add(Dish obj)
         {
-            context.Dishes.Add(obj);
+            context.Add(obj);
         }
 
         public void Delete(int id)
         {
-            context.Dishes.Remove(GetById(id));
+            context.Remove(GetById(id));
         }
 
         public void Edit(Dish obj)
         {
-            context.Dishes.Update(obj);
+            context.Update(obj);
         }
 
-        public List<Dish> GetAll()
+        public List<Dish> GetAll(string includes = "")
         {
-            throw new NotImplementedException();
+            List<Dish> list;
+            if (string.IsNullOrEmpty(includes))
+            {
+                list = context.Dishes.ToList();
+
+            }
+            else
+            {
+                list = context.Dishes.Include(includes).ToList();
+            }
+            return list;
         }
 
-        public Dish GetById(int id)
+        public Dish GetById(int id,string includes = "")
         {
-            throw new NotImplementedException();
+            Dish obj;
+            if (string.IsNullOrEmpty(includes))
+            {
+                obj = context.Dishes.FirstOrDefault(d => d.Id == id);
+
+            }
+            else
+            {
+                obj = context.Dishes.Include(includes).FirstOrDefault(d => d.Id == id);
+            }
+            return obj;
         }
 
         public void Save()
         {
-            throw new NotImplementedException();
+            context.SaveChanges();
         }
     }
 }
