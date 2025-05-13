@@ -13,8 +13,6 @@ namespace Kitchen.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
-
-
         public KitchenContext()
         {
             
@@ -23,8 +21,6 @@ namespace Kitchen.Models
         {
             
         }
-
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=Kitchen;Integrated Security=True;Encrypt=False");

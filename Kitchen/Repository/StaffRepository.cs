@@ -44,6 +44,11 @@ namespace Kitchen.Repository
             
         }
 
+        public List<Staff> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
         public Staff GetById(int id)
         {
             return context.Staff.FirstOrDefault(s=> s.Id==id);

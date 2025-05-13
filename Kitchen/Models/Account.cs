@@ -20,10 +20,6 @@ namespace Kitchen.Models
         
         public Customer? Customer { get; set; }
         public Staff? Staff { get; set; }
-
-
         public List<AccountRole>? AccountRoles { get; set; }
-
-
     }
 }
