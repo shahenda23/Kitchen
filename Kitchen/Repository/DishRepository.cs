@@ -6,9 +6,9 @@ namespace Kitchen.Repository
     public class DishRepository : IDishRepository
     {
         public KitchenContext context;
-        public DishRepository(KitchenContext context)
+        public DishRepository(KitchenContext Context)
         {
-            context = context;
+            context = Context;
         }
         public void Add(Dish obj)
         {
@@ -42,7 +42,7 @@ namespace Kitchen.Repository
 
         public Dish GetById(int id,string includes = "")
         {
-            Dish obj;
+            Dish? obj;
             if (string.IsNullOrEmpty(includes))
             {
                 obj = context.Dishes.FirstOrDefault(d => d.Id == id);
