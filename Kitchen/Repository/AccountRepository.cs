@@ -41,5 +41,10 @@ namespace Kitchen.Repository
         {
             context.SaveChanges();
         }
+
+        public Account GetById(int id, string includes = "")
+        {
+            throw new NotImplementedException();
+        }
     }
 }

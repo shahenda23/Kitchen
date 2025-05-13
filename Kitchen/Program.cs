@@ -24,6 +24,9 @@ namespace Kitchen
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<IStaffRepository, StaffRepository>();
+            builder.Services.AddScoped<IDishRepository, DishRepository>();
+            builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
+
 
             // Cookie
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();

@@ -53,6 +53,11 @@ namespace Kitchen.Repository
             return context.Customers.FirstOrDefault(c=> c.Id == id);
         }
 
+        public Customer GetById(int id, string includes = "")
+        {
+            throw new NotImplementedException();
+        }
+
         public Customer GetByPhoneNumber(string phoneNumber, string Includes = "")
         {
             if (Includes == "")
