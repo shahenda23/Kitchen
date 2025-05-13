@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Kitchen.Repository
 {
-    public class StaffRepository: IStaffRepository
+    public class StaffRepository : IStaffRepository
     {
         KitchenContext context;
         public StaffRepository(KitchenContext ctx) 
@@ -47,6 +47,11 @@ namespace Kitchen.Repository
         public Staff GetById(int id)
         {
             return context.Staff.FirstOrDefault(s=> s.Id==id);
+        }
+
+        public Staff GetById(int id, string includes = "")
+        {
+            throw new NotImplementedException();
         }
 
         public void Save()

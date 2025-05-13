@@ -18,8 +18,8 @@ namespace Kitchen
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
             });
-            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-            builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+            builder.Services.AddScoped<IStaffRepository, StaffRepository>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
