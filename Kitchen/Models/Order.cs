@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kitchen.Models
 {
@@ -8,7 +10,7 @@ namespace Kitchen.Models
         public DateTime Date { get; set; } = DateTime.Now;
 
         public float TotalPrice { get; set; }
-        
+
         [ForeignKey("Customer")]
         public int CustomerId { get; set; }
         public Customer? Customer { get; set; }
