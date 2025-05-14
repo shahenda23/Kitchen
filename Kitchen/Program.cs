@@ -1,6 +1,5 @@
 using Kitchen.Models;
 using Kitchen.Repository;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kitchen
@@ -19,17 +18,15 @@ namespace Kitchen
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
             });
-
-            // Repository
-            builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<IStaffRepository, StaffRepository>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
             builder.Services.AddScoped<IDishRepository, DishRepository>();
-            builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
+            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
 
-            // Cookie
-            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+
+
 
             var app = builder.Build();
 
