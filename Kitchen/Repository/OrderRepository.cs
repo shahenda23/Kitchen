@@ -26,9 +26,21 @@ namespace Kitchen.Repository
             throw new NotImplementedException();
         }
 
-        public List<Order> GetAll()
+        
+
+        public List<Order> GetAll(string includes = "")
         {
-            throw new NotImplementedException();
+            List<Order> list;
+            if (string.IsNullOrEmpty(includes))
+            {
+                list = context.Orders.ToList();
+
+            }
+            else
+            {
+                list = context.Orders.Include(includes).ToList();
+            }
+            return list;
         }
 
         public IEnumerable<Order> GetByCustomer(int customerId)
@@ -39,6 +51,11 @@ namespace Kitchen.Repository
         public Order GetById(int id)
         {
             return context.Orders.Include(o => o.Feedbacks).FirstOrDefault(o => o.Id == id);
+        }
+
+        public Order GetById(int id, string includes = "")
+        {
+            throw new NotImplementedException();
         }
 
         public void Save()

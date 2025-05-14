@@ -31,6 +31,11 @@ namespace Kitchen.Repository
             throw new NotImplementedException();
         }
 
+        public List<Feedback> GetAll(string includes = "")
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Feedback> GetByCustomer(int customerId)
         {
             return context.Feedbacks
@@ -40,6 +45,11 @@ namespace Kitchen.Repository
         }
 
         public Feedback GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Feedback GetById(int id, string includes = "")
         {
             throw new NotImplementedException();
         }

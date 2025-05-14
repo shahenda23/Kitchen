@@ -19,6 +19,14 @@ namespace Kitchen
                 options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
             });
             builder.Services.AddScoped<IStaffRepository, StaffRepository>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+            builder.Services.AddScoped<IDishRepository, DishRepository>();
+            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+
+
+
+
 
             var app = builder.Build();
 

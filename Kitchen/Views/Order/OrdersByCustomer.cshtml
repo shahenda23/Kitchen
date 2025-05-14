@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Kitchen.Models.Order>
+
+<h1>Orders for Customer</h1>
+
+<p>
+    <a asp-action="CreateOrder" asp-controller="Order">Create New Order</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Date)</th>
+            <th>@Html.DisplayNameFor(model => model.TotalPrice)</th>
+            <th>@Html.DisplayNameFor(model => model.Customer.Name)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                <td>@Html.DisplayFor(modelItem => item.TotalPrice)</td>
+                <td>@Html.DisplayFor(modelItem => item.Customer.Name)</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">View Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

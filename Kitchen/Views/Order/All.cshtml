@@ -1,0 +1,29 @@
+﻿@model List<Kitchen.Models.Order>
+
+<h2>All Orders</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Customer Name</th>
+            <th>Order Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.Customer.Name</td>
+                <td>@order.Date.ToShortDateString()</td>
+                <td>
+                    <a class="btn btn-info" href="@Url.Action("OrderDetails", "Order", new { orderId = order.Id })">
+                        Order Details
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

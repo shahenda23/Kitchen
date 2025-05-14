@@ -10,11 +10,41 @@ namespace Kitchen.Controllers
     {
         IOrderRepository orderrepo;
         IFeedbackRepository feedbackrepo;
-        public OrderController(IOrderRepository _orderrepo,IFeedbackRepository _feedbackrepo)
+        IDishRepository dishrepo;
+        public OrderController(IOrderRepository _orderrepo,IFeedbackRepository _feedbackrepo,IDishRepository _dishrepo)
         {
             orderrepo = _orderrepo;
             feedbackrepo = _feedbackrepo;
+            dishrepo = _dishrepo;
         }
+        public IActionResult All()
+        {
+            List<Order> order = orderrepo.GetAll();
+            return View(order);
+        }
+        public IActionResult OrdersByCustomer(int customerId)
+        {
+            var orders = orderrepo.GetByCustomer(customerId); 
+            return View(orders);
+        }
+
+        
+        public IActionResult CreateOrder()
+        {
+            var orderdishVM = new OrderDishesViewModel
+            {
+                OrderDetails = dishrepo.GetAll().Select(d => new OrderDetails
+                {
+                    DishId = d.Id,
+                    Price = d.Price
+                }).ToList()
+            };
+
+            return View(orderdishVM);
+        }
+
+
+
         public IActionResult OrderDetails(OrderDishesViewModel Orderfromreq)
         {
             if (ModelState.IsValid) {
@@ -30,14 +60,12 @@ namespace Kitchen.Controllers
                 {
                     Customer = custVM,
                     //Rating = Orderfromreq.orderrate,
-                    OrderDetails = new List<OrderDetails> 
+                    OrderDetails = Orderfromreq.OrderDetails.Select(d => new OrderDetails
                     {
-                        new OrderDetails
-                        {
-                            DishId = Orderfromreq.dishid,
-                            Price = Orderfromreq.dishprice
-                        }
-                    }
+                        DishId = d.DishId,
+                        Price = d.Price,
+                        Quantity = 1
+                    }).ToList()
                 };
 
 
@@ -45,20 +73,21 @@ namespace Kitchen.Controllers
                 orderrepo.Save();
                 return RedirectToAction("OrderSuccess");
             }
-            Orderfromreq.dishname = dishrepo.GetAll();
-            return View();
+            //Orderfromreq.dishname = dishrepo.GetAll();
+            return View(Orderfromreq);
             
         }
-
         //public IActionResult CreateOrder(Order order)
         //{
-        //    if (ModelState.IsValid)
+        //    var orderdishVM = new OrderDishesViewModel
         //    {
-        //        orderrepo.Add( order);
-        //        return RedirectToAction("OrderSuccess");
-        //    }
-        //    return View(order);
+        //        DishNames = dishrepo.GetAll().Select(d => d.Name).ToList() 
+        //    };
+
+
+        //    return View(orderdishVM);
         //}
+
         //public IActionResult ViewOrders(int customerId)
         //{
         //    var orders = orderrepo.GetByCustomer(customerId);
