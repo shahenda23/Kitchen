@@ -46,5 +46,10 @@ namespace Kitchen.Repository
         {
             throw new NotImplementedException();
         }
+
+        public List<Account> GetAll(string includes = "")
+        {
+            throw new NotImplementedException();
+        }
     }
 }
