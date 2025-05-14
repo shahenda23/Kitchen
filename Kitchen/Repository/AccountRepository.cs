@@ -10,40 +10,36 @@ namespace Kitchen.Repository
         {
             context = _Ctx;
         }
-        public List<Account> GetAll(string inclues = "")
+        public List<Account> GetAll()
         {
-            if(inclues == "")
-            {
-                return context.Accounts.ToList();
-            }
-            else
-            {
-                return context.Accounts.Include(inclues).ToList();
-            }
+            return context.Accounts.ToList();
         }
         public Account GetById(int id)
         {
-            return context.Accounts.FirstOrDefault(a=>a.Id==id);
+            return context.Accounts.FirstOrDefault(a => a.Id == id);
         }
         public Account GetOne(string username, string password)
         {
-            throw new NotImplementedException();
+            return context.Accounts.FirstOrDefault(a => a.Username == username && a.Password == password);
         }
         public void Add(Account obj)
         {
-            throw new NotImplementedException();
+            context.Accounts.Add(obj);
         }
         public void Edit(Account obj)
         {
-            throw new NotImplementedException();
+            Account accountDB = GetById(obj.Id);
+            accountDB.Username = obj.Username;
+            accountDB.Password = obj.Password;
+            accountDB.Email = obj.Email;
         }
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            context.Accounts.Remove(GetById(id));
         }
         public void Save()
         {
-            throw new NotImplementedException();
+            context.SaveChanges();
         }
 
         public Account GetById(int id, string includes = "")

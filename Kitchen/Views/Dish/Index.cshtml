@@ -4,47 +4,61 @@
     ViewData["Title"] = "Dishes List";
 }
 
-<h1>Dishes List</h1>
+<h1 class="mb-4">🍽️ Dishes List</h1>
 
-<p>
-    <a asp-action="Add" class="btn btn-success">Add New Dish</a>
-</p>
+<!-- Search & Filter -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <form asp-action="Search" method="get" class="d-flex">
+            <input type="text" name="searchString" class="form-control me-2" placeholder="Search by name..." />
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <form asp-action="Filter" method="get" class="d-flex">
+            <select name="category" class="form-select me-2">
+                <option value="">All Categories</option>
+                <option value="Starter">Starter</option>
+                <option value="Main">Main</option>
+                <option value="Dessert">Dessert</option>
+            </select>
+            <button type="submit" class="btn btn-secondary">Filter</button>
+        </form>
+    </div>
+    <div class="col-md-2 text-end">
+        <a asp-action="Add" class="btn btn-success">+ Add Dish</a>
+    </div>
+</div>
 
-<table class="table table-bordered table-hover">
-    <thead class="table-dark">
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.Name)</th>
-            <th>@Html.DisplayNameFor(model => model.Price)</th>
-            <th>Image</th>
-            <th>@Html.DisplayNameFor(model => model.Description)</th>
-            <th>@Html.DisplayNameFor(model => model.Category)</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Name</td>
-                <td>@item.Price</td>
-                <td>
-                    @if (!string.IsNullOrEmpty(item.Image))
-                    {
-                        <img src="~/Images/@item.Image" alt="Dish Image" width="100" height="80" />
-                    }
-                    else
-                    {
-                        <span>No image</span>
-                    }
-                </td>
-                <td>@item.Description</td>
-                <td>@item.Category</td>
-                <td>
-                    <a asp-action="Edit" asp-route-TId="@item.Id" class="btn btn-primary btn-sm">Edit</a>
+<!-- Cards View -->
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                @if (!string.IsNullOrEmpty(item.Image))
+                {
+                    <img src="~/Images/@item.Image" class="card-img-top" alt="@item.Name" style="height: 200px; object-fit: cover;" />
+                }
+                else
+                {
+                    <img src="https://via.placeholder.com/350x200?text=No+Image" class="card-img-top" alt="No Image" />
+                }
+
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name</h5>
+                    <p class="card-text">
+                        <strong>Price:</strong> @item.Price.ToString("C") <br />
+                        <strong>Category:</strong> @item.Category <br />
+                        
+                    </p>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Details</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Edit</a>
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -16,7 +16,7 @@ namespace Kitchen.Controllers
 
         public ActionResult All()
         {
-            List<Customer> customer = customerRepository.GetAll("Account");
+            List<Customer> customer = customerRepository.GetAll();
             
             return View("All",customer);
         }
@@ -32,10 +32,7 @@ namespace Kitchen.Controllers
             viewModel.PhoneNumber = customer.PhoneNumber;
             viewModel.AccountId = customer.AccountId;
             viewModel.Email= account.Email;
-            viewModel.UserName = account.Username;
-
             return View("Search",viewModel);
         }
-
     }
 }
