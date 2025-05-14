@@ -40,6 +40,11 @@ namespace Kitchen.Repository
             return list;
         }
 
+        public List<Dish> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
         public Dish GetById(int id,string includes = "")
         {
             Dish? obj;
@@ -53,6 +58,11 @@ namespace Kitchen.Repository
                 obj = context.Dishes.Include(includes).FirstOrDefault(d => d.Id == id);
             }
             return obj;
+        }
+
+        public Dish GetById(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public void Save()

@@ -156,7 +156,7 @@ namespace Kitchen.Controllers
 
             return RedirectToAction("Index");
         }
-        
+
 
         public IActionResult Search(string searchString)
         {

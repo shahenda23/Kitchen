@@ -12,8 +12,13 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kitchen.Migrations
 {
     [DbContext(typeof(KitchenContext))]
+<<<<<<<< HEAD:Kitchen/Migrations/20250513082827_initadd.Designer.cs
     [Migration("20250513082827_initadd")]
     partial class initadd
+========
+    [Migration("20250510150959_delete")]
+    partial class delete
+>>>>>>>> 5d1ff4de39c6d9c50f8af11f6e3239592476e05d:Kitchen/Migrations/20250510150959_delete.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
