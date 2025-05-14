@@ -12,10 +12,13 @@ namespace Kitchen.Controllers
     {
         IAccountRepository AccountRepo;
         ICustomerRepository CustomerRepo;
-        public AccountController(IAccountRepository _accountRepo, ICustomerRepository _customerRepository)
+        IRoleRepository RoleRepo;
+        public AccountController(
+            IAccountRepository _accountRepo, ICustomerRepository _customerRepository, IRoleRepository _roleRepo)
         {
             AccountRepo = _accountRepo;
             CustomerRepo = _customerRepository;
+            RoleRepo = _roleRepo;
         }
         public IActionResult Register()
         {
@@ -43,6 +46,11 @@ namespace Kitchen.Controllers
                         PhoneNumber = infoREQ.CustomerPhoneNumber,
                         AccountId = accountDB.Id
                     };
+                    AccountRole roleDB = new AccountRole()
+                    {
+                        AccountID = accountDB.Id,
+                        RoleID = 3,
+                    };
                     CustomerRepo.Add(customerDB);
                     CustomerRepo.Save();
                     return RedirectToAction("Login");
@@ -64,10 +72,13 @@ namespace Kitchen.Controllers
                 Account accountDB = AccountRepo.GetOne(infoREQ.CustomerUserName, infoREQ.CustomerPassword);
                 if (accountDB != null)
                 {
+                    AccountRole roleDB = RoleRepo.GetById(accountDB.Id);
+
                     ClaimsIdentity claims = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                     claims.AddClaim(new Claim("ID", accountDB.Id.ToString()));
                     claims.AddClaim(new Claim(ClaimTypes.Name, accountDB.Username));
-                    ClaimsPrincipal principal = new ClaimsPrincipal(claims);
+                    claims.AddClaim(new Claim(ClaimTypes.Role, roleDB.RoleID.ToString()));
+                 ClaimsPrincipal principal = new ClaimsPrincipal(claims);
                     await HttpContext.SignInAsync(principal);
                     return RedirectToAction("Index", "Home");
                 }

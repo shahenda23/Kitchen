@@ -23,6 +23,7 @@ namespace Kitchen
             // Repository
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+            builder.Services.AddScoped<IRoleRepository, RoleRepository>();
             builder.Services.AddScoped<IStaffRepository, StaffRepository>();
             builder.Services.AddScoped<IDishRepository, DishRepository>();
             builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();

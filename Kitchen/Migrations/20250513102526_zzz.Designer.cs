@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kitchen.Migrations
 {
     [DbContext(typeof(KitchenContext))]
-    [Migration("20250510145229_in")]
-    partial class @in
+    [Migration("20250513102526_zzz")]
+    partial class zzz
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
