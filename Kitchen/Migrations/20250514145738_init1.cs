@@ -6,11 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Kitchen.Migrations
 {
     /// <inheritdoc />
-<<<<<<<< HEAD:Kitchen/Migrations/20250513102526_zzz.cs
-    public partial class zzz : Migration
-========
-    public partial class delete : Migration
->>>>>>>> 5d1ff4de39c6d9c50f8af11f6e3239592476e05d:Kitchen/Migrations/20250510150959_delete.cs
+    public partial class init1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -138,6 +134,7 @@ namespace Kitchen.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TotalPrice = table.Column<float>(type: "real", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

@@ -53,6 +53,8 @@ namespace Kitchen.Controllers
                     };
                     CustomerRepo.Add(customerDB);
                     CustomerRepo.Save();
+                    RoleRepo.Add(roleDB);
+                    RoleRepo.Save();
                     return RedirectToAction("Login");
                 }
                 ModelState.AddModelError("", "Password do NOT match");
@@ -78,7 +80,7 @@ namespace Kitchen.Controllers
                     claims.AddClaim(new Claim("ID", accountDB.Id.ToString()));
                     claims.AddClaim(new Claim(ClaimTypes.Name, accountDB.Username));
                     claims.AddClaim(new Claim(ClaimTypes.Role, roleDB.RoleID.ToString()));
-                 ClaimsPrincipal principal = new ClaimsPrincipal(claims);
+                    ClaimsPrincipal principal = new ClaimsPrincipal(claims);
                     await HttpContext.SignInAsync(principal);
                     return RedirectToAction("Index", "Home");
                 }

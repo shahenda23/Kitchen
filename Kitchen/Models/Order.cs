@@ -8,8 +8,8 @@ namespace Kitchen.Models
     {
         public int Id { get; set; }
         public DateTime Date { get; set; } = DateTime.Now;
-
         public float TotalPrice { get; set; }
+        public string Status { get; set; }
 
         [ForeignKey("Customer")]
         public int CustomerId { get; set; }

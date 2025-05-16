@@ -9,11 +9,11 @@ namespace Kitchen.Repository
         {
             context = _Ctx;
         }
-        public List<AccountRole> GetAll()
+        public List<AccountRole> GetAll(string includes = "")
         {
             return context.AccountRoles.ToList();
         }
-        public AccountRole GetById(int id)
+        public AccountRole GetById(int id, string includes = "")
         {
             return context.AccountRoles.FirstOrDefault(a => a.Id == id);
         }
