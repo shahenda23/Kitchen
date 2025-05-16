@@ -10,6 +10,7 @@ namespace Kitchen.Models
         public DateTime Date { get; set; } = DateTime.Now;
 
         public float TotalPrice { get; set; }
+        public string? Status { get; set; } = "Pending";
 
         [ForeignKey("Customer")]
         public int CustomerId { get; set; }

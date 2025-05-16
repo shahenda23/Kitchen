@@ -20,7 +20,7 @@ namespace Kitchen.Controllers
             List<Dish> DishList = DishRep.GetAll();
             return View("Index", DishList);
         }
-        
+
         public IActionResult Details(int id)
         {
             var dish = DishRep.GetById(id);

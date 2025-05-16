@@ -3,13 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Kitchen.Repository
 {
-    public class DishRepository : IDishRepository
+    public class DishRepository(KitchenContext Context) : IDishRepository
     {
-        public KitchenContext context;
-        public DishRepository(KitchenContext Context)
-        {
-            context = Context;
-        }
+        public KitchenContext context = Context;
+
         public void Add(Dish obj)
         {
             context.Add(obj);
@@ -59,12 +56,6 @@ namespace Kitchen.Repository
             }
             return obj;
         }
-
-        public Dish GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Save()
         {
             context.SaveChanges();
