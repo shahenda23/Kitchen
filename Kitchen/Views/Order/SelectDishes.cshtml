@@ -1,4 +1,5 @@
-﻿@model List<Kitchen.Models.Dish>
+﻿@using System.Text.Json
+@model List<Kitchen.Models.Dish>
 
 @{
     ViewData["Title"] = "Select Your Dishes";
@@ -39,9 +40,7 @@
     </style>
 </head>
 <body>
-
     <h2>Select Your Favorite Dishes</h2>
-
     <form id="orderForm" asp-action="CreateOrder" method="post">
         <div class="row">
             @for (int i = 0; i < Model.Count; i++)
@@ -62,25 +61,23 @@
                         <div class="card-body">
                             <h5 class="card-title">@Model[i].Name</h5>
                             <p class="card-text">Price: @Model[i].Price EGP</p>
-
                             <div class="d-flex align-items-center mb-2">
                                 <button type="button" class="btn btn-danger btn-sm me-2" onclick="decreaseQuantity(@Model[i].Id)">-</button>
                                 <span id="qty-@Model[i].Id" class="fw-bold">0</span>
                                 <button type="button" class="btn btn-success btn-sm ms-2" onclick="increaseQuantity(@Model[i].Id)">+</button>
                             </div>
-
-                            <button type="button" class="btn btn-primary btn-sm mt-2" onclick="addToOrder(@Model[i].Id, @Model[i].Price)">
+                            <button type="button" class="btn btn-primary btn-sm mt-2"
+                                    onclick='addToOrder(@Model[i].Id, @Html.Raw(JsonSerializer.Serialize(Model[i].Name ?? "")), @Model[i].Price.ToString(System.Globalization.CultureInfo.InvariantCulture))'>
                                 <i class="bi bi-plus-circle"></i> Add to Order
                             </button>
+
                         </div>
                     </div>
                 </div>
             }
         </div>
-
         <input type="hidden" id="orderDetailsInput" name="orderDetailsJson" />
     </form>
-
     <div id="bottomNavbar" class="fixed-bottom bg-light border-top p-2 d-none animate__animated animate__slideInUp shadow">
         <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center">

@@ -19,12 +19,13 @@ namespace Kitchen
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
             });
-
-            // Repository
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+
             builder.Services.AddScoped<IStaffRepository, StaffRepository>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
             builder.Services.AddScoped<IDishRepository, DishRepository>();
             builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
 

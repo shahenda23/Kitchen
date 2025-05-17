@@ -51,7 +51,7 @@ function decreaseQuantity(id) {
     }
 }
 
-function addToOrder(id, price) {
+function addToOrder(id, name, price) {
     var qtySpan = document.getElementById('qty-' + id);
     var quantity = parseInt(qtySpan.innerText);
 
@@ -64,6 +64,7 @@ function addToOrder(id, price) {
         } else {
             order.push({
                 DishId: dishId,
+                Name: name,
                 Price: parseFloat(price),
                 Quantity: quantity
             });
@@ -79,6 +80,36 @@ function addToOrder(id, price) {
 function calculateTotalPrice() {
     return order.reduce((total, item) => total + (item.Price * item.Quantity), 0).toFixed(2);
 }
+
+//function updateOrderSummary() {
+//    var orderSummary = document.getElementById('orderSummary');
+//    if (!orderSummary) return;
+
+//    orderSummary.innerHTML = '';
+
+//    if (order.length === 0) {
+//        document.getElementById('bottomNavbar').classList.add('d-none');
+//        return;
+//    }
+
+//    var totalDiv = document.createElement('div');
+//    totalDiv.className = "me-3 text-success";
+//    totalDiv.innerHTML = `Total: ${calculateTotalPrice()} EGP`;
+//    orderSummary.appendChild(totalDiv);
+
+//    order.forEach(item => {
+//        var itemDiv = document.createElement('div');
+//        itemDiv.className = "me-2";
+//        itemDiv.innerHTML = `
+//            Dish #${item.DishId}
+//            <span class="badge bg-success">${item.Quantity}</span>
+//            <button class="btn btn-sm btn-outline-danger ms-1" onclick="removeItem(${item.DishId})">
+//                <i class="bi bi-x-circle"></i>
+//            </button>
+//        `;
+//        orderSummary.appendChild(itemDiv);
+//    });
+//}
 
 function updateOrderSummary() {
     var orderSummary = document.getElementById('orderSummary');
@@ -100,7 +131,7 @@ function updateOrderSummary() {
         var itemDiv = document.createElement('div');
         itemDiv.className = "me-2";
         itemDiv.innerHTML = `
-            Dish #${item.DishId}
+            ${item.Name}
             <span class="badge bg-success">${item.Quantity}</span>
             <button class="btn btn-sm btn-outline-danger ms-1" onclick="removeItem(${item.DishId})">
                 <i class="bi bi-x-circle"></i>
@@ -109,6 +140,7 @@ function updateOrderSummary() {
         orderSummary.appendChild(itemDiv);
     });
 }
+
 
 function removeItem(id) {
     order = order.filter(d => d.DishId != id);
@@ -155,6 +187,7 @@ function displayOrderDetails(orderDetails) {
         const row = document.createElement("tr");
         row.innerHTML = `
             <td>${item.DishId}</td>
+            <td>${item.Name}</td>
             <td>${item.Price.toFixed(2)} EGP</td>
             <td>${item.Quantity}</td>
             <td>${subtotal.toFixed(2)} EGP</td>

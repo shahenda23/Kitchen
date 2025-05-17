@@ -6,24 +6,24 @@ namespace Kitchen.Repository
     public class OrderDetailsRepository: IOrderDetailsRepository
     {
         public KitchenContext context;
-        public OrderDetailsRepository(KitchenContext context)
+        public OrderDetailsRepository(KitchenContext _ctx)
         {
-            context = context;
+            context = _ctx;
         }
 
         public void Add(OrderDetails obj)
         {
-            context.Add(obj);
+            context.OrderDetails.Add(obj);
         }
 
         public void Delete(int id)
         {
-            context.Remove(GetById(id));
+            context.OrderDetails.Remove(GetById(id));
         }
 
         public void Edit(OrderDetails obj)
         {
-            context.Update(obj);
+            context.OrderDetails.Update(obj);
         }
 
         public List<OrderDetails> GetAll(string includes="")

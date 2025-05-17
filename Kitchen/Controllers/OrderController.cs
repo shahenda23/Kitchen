@@ -16,7 +16,9 @@ namespace Kitchen.Controllers
         ICustomerRepository custrepo;
         IOrderDetailsRepository orderdetailsrepo;
 
-        public OrderController(IOrderDetailsRepository _orderdetailsrepo,IOrderRepository _orderrepo,ICustomerRepository _custrepo, IFeedbackRepository _feedbackrepo, IDishRepository _dishrepo)
+        public OrderController(
+            IOrderDetailsRepository _orderdetailsrepo,IOrderRepository _orderrepo,
+            ICustomerRepository _custrepo, IFeedbackRepository _feedbackrepo, IDishRepository _dishrepo)
         {
             orderrepo = _orderrepo;
             feedbackrepo = _feedbackrepo;
@@ -37,15 +39,11 @@ namespace Kitchen.Controllers
             var dishes = dishrepo.GetAll();
             return View(dishes);
         }
-
-
         public IActionResult OrdersByCustomer(int customerId)
         {
             var orders = orderrepo.GetByCustomer(customerId);
             return View(orders);
         }
-
-
         public IActionResult CreateOrder(string orderDetailsJson)
         {
             if (string.IsNullOrEmpty(orderDetailsJson))
@@ -128,11 +126,9 @@ namespace Kitchen.Controllers
             // 6. تحويل لصفحة النجاح
             return RedirectToAction("OrderSuccess");
         }
-
         public IActionResult OrderSuccess()
         {
             return View();
         }
-
     }
 }
