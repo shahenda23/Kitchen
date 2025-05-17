@@ -7,13 +7,10 @@ namespace Kitchen.ViewModel1
         public string customername { get; set; }
         public string customeraddress { get; set; }
         public string customerphone { get; set; }
-        public DateTime orderdate { get; set; } = DateTime.Now;
-        public string OrderDetailsJson { get; set; }
-        public int orderrate { get; set; }
-        public string dishname { get; set; }
-        public int dishid { get; set; }
+        //public DateTime orderdate { get; set; } = DateTime.Now;
         public float orderprice { get; set; }
-        //public TimeOnly ordertime { get; set; }
+        public string? orderStatus { get; set; }
+        public string OrderDetailsJson { get; set; }
         public List<OrderDetails>? OrderDetails { get; set; }
     }
 }

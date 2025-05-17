@@ -16,8 +16,7 @@ namespace Kitchen.Controllers
         ICustomerRepository custrepo;
         IOrderDetailsRepository orderdetailsrepo;
 
-        public OrderController(
-            IOrderDetailsRepository _orderdetailsrepo,IOrderRepository _orderrepo,
+        public OrderController(IOrderDetailsRepository _orderdetailsrepo,IOrderRepository _orderrepo,
             ICustomerRepository _custrepo, IFeedbackRepository _feedbackrepo, IDishRepository _dishrepo)
         {
             orderrepo = _orderrepo;
@@ -78,29 +77,28 @@ namespace Kitchen.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View("CreateOrder", model);
             }
-
-            // 1. تسجيل العميل
-            var customer = new Customer
-            {
-                Name = model.customername,
-                Address = model.customeraddress,
-                PhoneNumber = model.customerphone
-            };
-            custrepo.Add(customer);
+            //var customerID = User.FindFirst("ID")?.Value;
+            //int customerID = int.Parse(Request.Cookies["ID"]);
+            //Customer customerDB = custrepo.GetById(int.Parse(customerID));
+            Customer customerDB = custrepo.GetByPhoneNumber(model.customerphone);
+            customerDB.Name = model.customername;
+            customerDB.PhoneNumber = model.customerphone;
+            customerDB.Address = model.customeraddress;
+            custrepo.Edit(customerDB);
             custrepo.Save();
 
             // 2. فك JSON تفاصيل الطلب
             var orderDetailsItems = JsonConvert.DeserializeObject<List<OrderDetailsItem>>(model.OrderDetailsJson);
 
             // 3. حساب إجمالي السعر
-            var totalPrice = orderDetailsItems.Sum(item => item.Subtotal);
+            var totalPrice = orderDetailsItems.Sum(item => item.Price * item.Quantity);
 
             // 4. تسجيل الطلب
             var order = new Order
             {
-                CustomerId = customer.Id,
+                CustomerId = customerDB.Id,
                 Date = DateTime.Now,
                 TotalPrice = totalPrice,
                 Status = "Pending"
@@ -120,10 +118,8 @@ namespace Kitchen.Controllers
                 };
                 orderdetailsrepo.Add(orderDetails);
             }
-
             orderdetailsrepo.Save();
 
-            // 6. تحويل لصفحة النجاح
             return RedirectToAction("OrderSuccess");
         }
         public IActionResult OrderSuccess()

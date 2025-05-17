@@ -42,20 +42,9 @@ namespace Kitchen.Repository
             }
             
         }
-
-        public List<Customer> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Customer GetById(int id)
-        {
-            return context.Customers.FirstOrDefault(c=> c.Id == id);
-        }
-
         public Customer GetById(int id, string includes = "")
         {
-            throw new NotImplementedException();
+            return context.Customers.FirstOrDefault(c => c.Id == id);
         }
 
         public Customer GetByPhoneNumber(string phoneNumber, string Includes = "")

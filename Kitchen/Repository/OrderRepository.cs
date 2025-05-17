@@ -15,19 +15,14 @@ namespace Kitchen.Repository
             context.Orders.Add(obj);
 
         }
-
         public void Delete(int id)
         {
             throw new NotImplementedException();
         }
-
         public void Edit(Order obj)
         {
             throw new NotImplementedException();
         }
-
-        
-
         public List<Order> GetAll(string includes = "")
         {
             List<Order> list;
@@ -42,22 +37,14 @@ namespace Kitchen.Repository
             }
             return list;
         }
-
         public IEnumerable<Order> GetByCustomer(int customerId)
         {
             return context.Orders.Where(o => o.CustomerId == customerId).ToList();
         }
-
-        public Order GetById(int id)
+        public Order GetById(int id, string includes = "")
         {
             return context.Orders.Include(o => o.Feedbacks).FirstOrDefault(o => o.Id == id);
         }
-
-        public Order GetById(int id, string includes = "")
-        {
-            throw new NotImplementedException();
-        }
-
         public void Save()
         {
             context.SaveChanges();      

@@ -13,8 +13,8 @@ namespace Kitchen.Controllers
         IAccountRepository AccountRepo;
         ICustomerRepository CustomerRepo;
         IRoleRepository RoleRepo;
-        public AccountController(
-            IAccountRepository _accountRepo, ICustomerRepository _customerRepository, IRoleRepository _roleRepo)
+        public AccountController(IAccountRepository _accountRepo, 
+            ICustomerRepository _customerRepository, IRoleRepository _roleRepo)
         {
             AccountRepo = _accountRepo;
             CustomerRepo = _customerRepository;
@@ -71,15 +71,16 @@ namespace Kitchen.Controllers
         {
             if (ModelState.IsValid)
             {
-                Account accountDB = AccountRepo.GetOne(infoREQ.CustomerUserName, infoREQ.CustomerPassword);
+                Account accountDB = AccountRepo.
+                    GetOne(infoREQ.CustomerUserName, infoREQ.CustomerPassword);
                 if (accountDB != null)
                 {
                     AccountRole roleDB = RoleRepo.GetById(accountDB.Id);
 
                     ClaimsIdentity claims = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-                    claims.AddClaim(new Claim("ID", accountDB.Id.ToString()));
+                    claims.AddClaim(new Claim("CustomerID", accountDB.Id.ToString()));
                     claims.AddClaim(new Claim(ClaimTypes.Name, accountDB.Username));
-                    claims.AddClaim(new Claim(ClaimTypes.Role, roleDB.RoleID.ToString()));
+                    //claims.AddClaim(new Claim(ClaimTypes.Role, roleDB.RoleID.ToString()));
                     ClaimsPrincipal principal = new ClaimsPrincipal(claims);
                     await HttpContext.SignInAsync(principal);
                     return RedirectToAction("Index", "Home");
