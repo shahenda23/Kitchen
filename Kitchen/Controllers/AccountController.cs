@@ -76,11 +76,12 @@ namespace Kitchen.Controllers
                 if (accountDB != null)
                 {
                     AccountRole roleDB = RoleRepo.GetById(accountDB.Id);
+                    Customer customerDB = CustomerRepo.GetByAccountId(accountDB.Id);
 
                     ClaimsIdentity claims = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-                    claims.AddClaim(new Claim("CustomerID", accountDB.Id.ToString()));
+                    claims.AddClaim(new Claim("ID", customerDB.Id.ToString()));
                     claims.AddClaim(new Claim(ClaimTypes.Name, accountDB.Username));
-                    //claims.AddClaim(new Claim(ClaimTypes.Role, roleDB.RoleID.ToString()));
+                    claims.AddClaim(new Claim(ClaimTypes.Role, roleDB.RoleID.ToString()));
                     ClaimsPrincipal principal = new ClaimsPrincipal(claims);
                     await HttpContext.SignInAsync(principal);
                     return RedirectToAction("Index", "Home");

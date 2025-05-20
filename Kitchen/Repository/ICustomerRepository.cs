@@ -4,6 +4,7 @@ namespace Kitchen.Repository
 {
     public interface ICustomerRepository : IRepository<Customer>
     {
-        Customer GetByPhoneNumber(string phoneNumber, string Includes="");
+        Customer GetByAccountId(int id);
+        Customer GetByPhoneNumber(string number, string Includes = "");
     }
 }

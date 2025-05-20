@@ -79,10 +79,8 @@ namespace Kitchen.Controllers
             {
                 return View("CreateOrder", model);
             }
-            //var customerID = User.FindFirst("ID")?.Value;
-            //int customerID = int.Parse(Request.Cookies["ID"]);
-            //Customer customerDB = custrepo.GetById(int.Parse(customerID));
-            Customer customerDB = custrepo.GetByPhoneNumber(model.customerphone);
+            int customerID = int.Parse(User.FindFirst("ID")?.Value);
+            Customer customerDB = custrepo.GetById(customerID);
             customerDB.Name = model.customername;
             customerDB.PhoneNumber = model.customerphone;
             customerDB.Address = model.customeraddress;

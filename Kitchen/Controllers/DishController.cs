@@ -70,8 +70,6 @@ namespace Kitchen.Controllers
                 DishRep.Save();
                 return RedirectToAction("Index");
             }
-
-
             return View("Create", DishReq);
         }
 

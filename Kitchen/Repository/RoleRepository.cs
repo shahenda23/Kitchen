@@ -15,7 +15,7 @@ namespace Kitchen.Repository
         }
         public AccountRole GetById(int id, string includes = "")
         {
-            return context.AccountRoles.FirstOrDefault(a => a.Id == id);
+            return context.AccountRoles.FirstOrDefault(a => a.AccountID == id);
         }
         public void Add(AccountRole obj)
         {

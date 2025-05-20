@@ -42,11 +42,16 @@ namespace Kitchen.Repository
             }
             
         }
+
+        public Customer GetByAccountId(int id)
+        {
+            return context.Customers.FirstOrDefault(c => c.AccountId == id);
+        }
+
         public Customer GetById(int id, string includes = "")
         {
             return context.Customers.FirstOrDefault(c => c.Id == id);
         }
-
         public Customer GetByPhoneNumber(string phoneNumber, string Includes = "")
         {
             if (Includes == "")
@@ -56,7 +61,7 @@ namespace Kitchen.Repository
             else
             {
                 return context.Customers.Include(Includes).FirstOrDefault(c => c.PhoneNumber == phoneNumber);
-            } 
+            }
         }
 
         public void Save()
