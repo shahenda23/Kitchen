@@ -1,6 +1,6 @@
 ﻿using Kitchen.Models;
 
-namespace Kitchen.ViewModel1
+namespace Kitchen.ViewModel
 {
     public class AllStaffWithPagesViewModel
     {

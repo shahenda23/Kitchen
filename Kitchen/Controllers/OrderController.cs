@@ -1,7 +1,6 @@
-﻿using Kitchen.DTO;
-using Kitchen.Models;
+﻿using Kitchen.Models;
 using Kitchen.Repository;
-using Kitchen.ViewModel1;
+using Kitchen.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -88,7 +87,7 @@ namespace Kitchen.Controllers
             custrepo.Save();
 
             // 2. فك JSON تفاصيل الطلب
-            var orderDetailsItems = JsonConvert.DeserializeObject<List<OrderDetailsItem>>(model.OrderDetailsJson);
+            var orderDetailsItems = JsonConvert.DeserializeObject<List<OrderDetailsItemViewModel>>(model.OrderDetailsJson);
 
             // 3. حساب إجمالي السعر
             var totalPrice = orderDetailsItems.Sum(item => item.Price * item.Quantity);

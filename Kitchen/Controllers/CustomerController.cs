@@ -1,6 +1,6 @@
 ﻿using Kitchen.Models;
 using Kitchen.Repository;
-using Kitchen.ViewModel1;
+using Kitchen.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kitchen.Controllers

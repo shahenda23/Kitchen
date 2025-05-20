@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Kitchen.ViewModel1
+namespace Kitchen.ViewModel
 {
     public class FeedbackViewModel
     {

@@ -1,6 +1,6 @@
-﻿namespace Kitchen.DTO
+﻿namespace Kitchen.ViewModel
 {
-    public class OrderDetailsItem
+    public class OrderDetailsItemViewModel
     {
         public int DishId { get; set; }
         public float Price { get; set; }

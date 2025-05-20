@@ -1,6 +1,6 @@
 ﻿using Kitchen.Models;
 using Kitchen.Repository;
-using Kitchen.ViewModel1;
+using Kitchen.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kitchen.Controllers
@@ -15,10 +15,10 @@ namespace Kitchen.Controllers
             
         }
         //show all dish
-        public IActionResult Index()
+        public IActionResult All()
         {
             List<Dish> DishList = DishRep.GetAll();
-            return View("Index", DishList);
+            return View("All", DishList);
         }
 
         public IActionResult Details(int id)

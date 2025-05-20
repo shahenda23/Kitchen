@@ -1,4 +1,4 @@
-﻿namespace Kitchen.ViewModel1
+﻿namespace Kitchen.ViewModel
 {
     public class CustomerWithAccountViewModel
     {
