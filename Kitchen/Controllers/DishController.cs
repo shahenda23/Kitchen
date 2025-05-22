@@ -20,7 +20,6 @@ namespace Kitchen.Controllers
             List<Dish> DishList = DishRep.GetAll();
             return View("All", DishList);
         }
-
         public IActionResult Details(int id)
         {
             var dish = DishRep.GetById(id);
@@ -68,14 +67,14 @@ namespace Kitchen.Controllers
 
                 DishRep.Add(newDish);
                 DishRep.Save();
-                return RedirectToAction("Index");
+                return RedirectToAction("All");
             }
             return View("Create", DishReq);
         }
 
-        public IActionResult Edit(int TId)
+        public IActionResult Edit(int id)
         {
-            Dish dishList = DishRep.GetById(TId);
+            Dish dishList = DishRep.GetById(id);
 
             DishViewModel DishVM = new();
             DishVM.Id = dishList.Id;
@@ -85,16 +84,14 @@ namespace Kitchen.Controllers
             DishVM.Description = dishList.Description;
             DishVM.Category = dishList?.Category;
 
-            return View("Create", DishVM);
-
+            return View("Edit", DishVM);
         }
         [HttpPost]
-        public IActionResult SaveEdit(DishViewModel DishReq)
+        public IActionResult Edit(DishViewModel DishReq)
         {
             if (ModelState.IsValid)
             {
                 Dish? DishDB = DishRep.GetById(DishReq.Id);
-
 
                 if (DishDB == null)
                 {
@@ -125,10 +122,10 @@ namespace Kitchen.Controllers
                 DishRep.Edit(DishDB);
                 DishRep.Save();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("All");
             }
 
-            return View("Create", DishReq);
+            return View("Edit", DishReq);
         }
         public IActionResult Delete(int id)
         {
@@ -154,8 +151,6 @@ namespace Kitchen.Controllers
 
             return RedirectToAction("Index");
         }
-
-
         public IActionResult Search(string searchString)
         {
             var dishes = DishRep.GetAll();
@@ -163,7 +158,7 @@ namespace Kitchen.Controllers
             {
                 dishes = dishes.Where(d => d.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
             }
-            return View("Index", dishes);
+            return View("All", dishes);
         }
         public IActionResult Filter(string category)
         {
@@ -172,8 +167,7 @@ namespace Kitchen.Controllers
             {
                 dishes = dishes.Where(d => d.Category == category).ToList();
             }
-            return View("Index", dishes);
+            return View("All", dishes);
         }
-
     }
 }

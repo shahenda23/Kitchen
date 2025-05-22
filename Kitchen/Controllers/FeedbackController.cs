@@ -22,11 +22,7 @@ namespace Kitchen.Controllers
             };
             return View(feedbackorderVM);
         }
-        public IActionResult FeedbackSuccess()
-        {
-            return View();
-        }
-
+        
         [HttpPost]
         public IActionResult SubmitFeedback(FeedbackViewModel feedbackVM)
         {
@@ -36,15 +32,20 @@ namespace Kitchen.Controllers
                 {
                     Comment = feedbackVM.Comment,
                     Rate = feedbackVM.orderrate,
-                    OrderId = feedbackVM.orderId,
-                    Customer_ID = feedbackVM.customerId
+                    OrderId = (int)HttpContext.Session.GetInt32("OrderID"),
+                    Customer_ID = int.Parse(User.FindFirst("ID")?.Value)
                 };
 
                 feedbackrepo.Add(feedback);
+                feedbackrepo.Save();
                 return RedirectToAction("FeedbackSuccess"); 
             }
 
             return View(feedbackVM); 
+        }
+        public IActionResult FeedbackSuccess()
+        {
+            return RedirectToAction("Index", "Home");
         }
     }
 }

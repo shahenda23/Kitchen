@@ -14,7 +14,7 @@ namespace Kitchen.Repository
         {
             return context.Accounts.ToList();
         }
-        public Account GetById(int id)
+        public Account GetById(int id, string includes = "")
         {
             return context.Accounts.FirstOrDefault(a => a.Id == id);
         }
@@ -41,12 +41,6 @@ namespace Kitchen.Repository
         {
             context.SaveChanges();
         }
-
-        public Account GetById(int id, string includes = "")
-        {
-            throw new NotImplementedException();
-        }
-
         public List<Account> GetAll(string includes = "")
         {
             throw new NotImplementedException();

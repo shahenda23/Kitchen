@@ -1,8 +1,12 @@
-﻿using Kitchen.Models;
+﻿using System.Security.Claims;
+using Kitchen.Models;
 using Kitchen.Repository;
 using Kitchen.ViewModel;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using Newtonsoft.Json;
 
 namespace Kitchen.Controllers
@@ -24,18 +28,10 @@ namespace Kitchen.Controllers
             custrepo = _custrepo;
             orderdetailsrepo = _orderdetailsrepo;
         }
-
-
         public IActionResult All()
         {
             List<Order> order = orderrepo.GetAll();
             return View(order);
-        }
-
-        public IActionResult SelectDishes()
-        {
-            var dishes = dishrepo.GetAll();
-            return View(dishes);
         }
         public IActionResult OrdersByCustomer(int customerId)
         {
@@ -46,7 +42,7 @@ namespace Kitchen.Controllers
         {
             if (string.IsNullOrEmpty(orderDetailsJson))
             {
-                return RedirectToAction("SelectDishes");
+                return RedirectToAction("All", "Dish");
             }
 
             List<OrderDetails> orderDetails = JsonConvert.DeserializeObject<List<OrderDetails>>(orderDetailsJson);
@@ -56,7 +52,7 @@ namespace Kitchen.Controllers
 
             if (orderDetails.Count == 0)
             {
-                return RedirectToAction("SelectDishes");
+                return RedirectToAction("All", "Dish");
             }
 
             // Calculate the total price
@@ -102,6 +98,8 @@ namespace Kitchen.Controllers
             };
             orderrepo.Add(order);
             orderrepo.Save();
+
+            HttpContext.Session.SetInt32("OrderID", order.Id);
 
             // 5. تسجيل تفاصيل الأطباق
             foreach (var item in orderDetailsItems)

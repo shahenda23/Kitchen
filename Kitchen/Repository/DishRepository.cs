@@ -3,9 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Kitchen.Repository
 {
-    public class DishRepository(KitchenContext Context) : IDishRepository
+    public class DishRepository : IDishRepository
     {
-        public KitchenContext context = Context;
+        public KitchenContext context;
+        public DishRepository(KitchenContext _Ctx)
+        {
+            context = _Ctx;
+        }
 
         public void Add(Dish obj)
         {
@@ -35,11 +39,6 @@ namespace Kitchen.Repository
                 list = context.Dishes.Include(includes).ToList();
             }
             return list;
-        }
-
-        public List<Dish> GetAll()
-        {
-            throw new NotImplementedException();
         }
 
         public Dish GetById(int id,string includes = "")

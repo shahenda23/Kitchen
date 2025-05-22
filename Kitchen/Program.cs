@@ -32,6 +32,8 @@ namespace Kitchen
 
             // Cookie
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+            // Session
+            builder.Services.AddSession();
 
             var app = builder.Build();
 
@@ -45,6 +47,8 @@ namespace Kitchen
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.MapControllerRoute(
                 name: "default",
