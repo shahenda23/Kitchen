@@ -93,7 +93,7 @@ namespace Kitchen.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return View("Login");
+            return RedirectToAction("index", "Home");
         }
     }
 }
