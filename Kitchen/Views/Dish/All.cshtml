@@ -12,30 +12,30 @@
     <script src="~/js/site.js"></script>
     <style>
         body {
-            padding: 20px;
+        padding: 20px;
         }
 
         .card {
-            transition: transform 0.2s;
+        transition: transform 0.2s;
         }
 
-            .card:hover {
-                transform: scale(1.05);
-            }
+        .card:hover {
+        transform: scale(1.05);
+        }
 
         .fixed-bottom {
-            z-index: 1050;
+        z-index: 1050;
         }
 
         .btn-success {
-            background-color: #28a745;
-            border-color: #28a745;
+        background-color: #28a745;
+        border-color: #28a745;
         }
 
-            .btn-success:hover {
-                background-color: #218838;
-                border-color: #1e7e34;
-            }
+        .btn-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+        }
     </style>
 </head>
 <body>
@@ -60,114 +60,50 @@
                 <button type="submit" class="btn btn-secondary">Filter</button>
             </form>
         </div>
-        <div class="col-md-2 text-end">
-            <a asp-action="Add" class="btn btn-success">+ Add Dish</a>
-        </div>
-    </div>
-
-    <!-- Cards View -->
-    @* <div class="row"> *@
-    @*     @foreach (var item in Model) *@
-    @*     { *@
-    @*         <div class="col-md-4 mb-4"> *@
-    @*             <div class="card h-100"> *@
-    @*                 @if (!string.IsNullOrEmpty(item.Image)) *@
-    @*                 { *@
-    @*                     <img src="~/Images/@item.Image" class="card-img-top" alt="@item.Name" style="height: 200px; object-fit: cover;" /> *@
-    @*                 } *@
-    @*                 else *@
-    @*                 { *@
-    @*                     <img src="https://via.placeholder.com/350x200?text=No+Image" class="card-img-top" alt="No Image" /> *@
-    @*                 } *@
-
-    @*                 <div class="card-body"> *@
-    @*                     <h5 class="card-title">@item.Name</h5> *@
-    @*                     <p class="card-text"> *@
-    @*                         <strong>Price:</strong> @item.Price.ToString("C") <br /> *@
-    @*                         <strong>Category:</strong> @item.Category <br /> *@
-
-    @*                     </p> *@
-    @*                 </div> *@
-    @*                 <div class="card-footer d-flex justify-content-between"> *@
-    @*                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Details</a> *@
-    @*                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Edit</a> *@
-    @*                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a> *@
-    @*                 </div> *@
-    @*             </div> *@
-    @*         </div> *@
-    @*     } *@
-    @* </div> *@
-    @* <form id="orderForm" asp-action="CreateOrder" asp-controller="Order" method="post"> *@
-    @*     <div class="row"> *@
-    @*         @foreach (var i in Model) *@
-    @*         { *@
-    @*             <div class="col-md-4"> *@
-    @*                 <div class="card mb-3"> *@
-    @*                     @if (!string.IsNullOrEmpty(@i.Image)) *@
-    @*                     { *@
-    @*                         <img src="/Images/@i.Image" class="card-img-top" alt="@i.Name" style="height: 200px; object-fit: cover;" /> *@
-    @*                     } *@
-    @*                     else *@
-    @*                     { *@
-    @*                         <div class="bg-light text-center p-5" style="height: 200px;"> *@
-    @*                             <i class="bi bi-image text-muted" style="font-size: 3rem;"></i> *@
-    @*                             <p class="mt-2">No Image</p> *@
-    @*                         </div> *@
-    @*                     } *@
-    @*                     <div class="card-body"> *@
-    @*                         <h5 class="card-title">@i.Name</h5> *@
-    @*                         <p class="card-text">Price: @i.Price EGP</p> *@
-    @*                         <div class="d-flex align-items-center mb-2"> *@
-    @*                             <button type="button" class="btn btn-danger btn-sm me-2" onclick="decreaseQuantity(@i.Id)">-</button> *@
-    @*                             <span id="qty-@i.Id" class="fw-bold">0</span> *@
-    @*                             <button type="button" class="btn btn-success btn-sm ms-2" onclick="increaseQuantity(@i.Id)">+</button> *@
-    @*                         </div> *@
-    @*                         <button type="button" class="btn btn-primary btn-sm mt-2" *@
-    @*                                 onclick='addToOrder(@i.Id, @Html.Raw(JsonSerializer.Serialize(@i.Name ?? "")), @i.Price.ToString(System.Globalization.CultureInfo.InvariantCulture))'> *@
-    @*                             <i class="bi bi-plus-circle"></i> Add to Order *@
-    @*                         </button> *@
-
-    @*                     </div> *@
-    @*                 </div> *@
-    @*             </div> *@
-    @*         } *@
-    @*     </div> *@
-    @*     <input type="hidden" id="orderDetailsInput" name="orderDetailsJson" /> *@
-    @* </form> *@
-    <form id="orderForm" asp-action="CreateOrder" asp-controller="Order" method="post">
-    <div class="row">
-        @foreach (var i in Model)
+        @if (User.IsInRole("2"))
         {
-            <div class="col-md-4">
-                <div class="card mb-3">
-                    @if (!string.IsNullOrEmpty(i.Image))
-                    {
-                        <img src="/Images/@i.Image" class="card-img-top" alt="@i.Name" style="height: 200px; object-fit: cover;" />
-                    }
-                    else
-                    {
-                        <div class="bg-light text-center p-5" style="height: 200px;">
-                            <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
-                            <p class="mt-2">No Image</p>
+            <div class="col-md-2 text-end">
+                <a asp-action="Add" class="btn btn-success">+ Add Dish</a>
+            </div>
+        }
+    </div>
+    <form id="orderForm" asp-action="CreateOrder" asp-controller="Order" method="post">
+        <div class="row">
+            @foreach (var i in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        @if (!string.IsNullOrEmpty(i.Image))
+                        {
+                            <img src="/Images/@i.Image" class="card-img-top" alt="@i.Name" style="height: 200px; object-fit: cover;" />
+                        }
+                        else
+                        {
+                            <div class="bg-light text-center p-5" style="height: 200px;">
+                                <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
+                                <p class="mt-2">No Image</p>
+                            </div>
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@i.Name</h5>
+                            <p class="card-text">Price: @i.Price EGP</p>
+                            <div class="d-flex align-items-center mb-2">
+                                <button type="button" class="btn btn-danger btn-sm me-2" onclick="decreaseQuantity(@i.Id)">-</button>
+                                <span id="qty-@i.Id" class="fw-bold">0</span>
+                                <button type="button" class="btn btn-success btn-sm ms-2" onclick="increaseQuantity(@i.Id)">+</button>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm mt-2"
+                            onclick='addToOrder(@i.Id, @Html.Raw(JsonSerializer.Serialize(i.Name ?? "")), @i.Price.ToString(System.Globalization.CultureInfo.InvariantCulture))'>
+                                <i class="bi bi-plus-circle"></i> Add to Order
+                            </button>
                         </div>
-                    }
-                    <div class="card-body">
-                        <h5 class="card-title">@i.Name</h5>
-                        <p class="card-text">Price: @i.Price EGP</p>
-                        <div class="d-flex align-items-center mb-2">
-                            <button type="button" class="btn btn-danger btn-sm me-2" onclick="decreaseQuantity(@i.Id)">-</button>
-                            <span id="qty-@i.Id" class="fw-bold">0</span>
-                            <button type="button" class="btn btn-success btn-sm ms-2" onclick="increaseQuantity(@i.Id)">+</button>
-                        </div>
-                        <button type="button" class="btn btn-primary btn-sm mt-2"
-                                onclick='addToOrder(@i.Id, @Html.Raw(JsonSerializer.Serialize(i.Name ?? "")), @i.Price.ToString(System.Globalization.CultureInfo.InvariantCulture))'>
-                            <i class="bi bi-plus-circle"></i> Add to Order
-                        </button>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between">
-                        <a asp-action="Details" asp-route-id="@i.Id" class="btn btn-info btn-sm">Details</a>
-                        <a asp-action="Edit" asp-route-id="@i.Id" class="btn btn-primary btn-sm">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@i.Id" class="btn btn-danger btn-sm">Delete</a>
+                        <div class="card-footer d-flex justify-content-between">
+                            <a asp-action="Details" asp-route-id="@i.Id" class="btn btn-info btn-sm">Details</a>
+                            @if (User.IsInRole("2"))
+                            {
+                                <a asp-action="Edit" asp-route-id="@i.Id" class="btn btn-primary btn-sm">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@i.Id" class="btn btn-danger btn-sm">Delete</a>
+                            }
                         </div>
                     </div>
                 </div>

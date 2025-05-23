@@ -1,0 +1,66 @@
+﻿@model Kitchen.ViewModel.OrderDishesViewModel
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+<h2 class="text-success mb-4">Thank you, @Model.customername!</h2>
+
+<h1>Order Details</h1>
+
+<div class="mb-4">
+    <h4>Customer Information</h4>
+    <dl class="row">
+        <dt class="col-sm-3">Name</dt>
+        <dd class="col-sm-9">@Model.customername</dd>
+        <dt class="col-sm-3">Address</dt>
+        <dd class="col-sm-9">@Model.customeraddress</dd>
+        <dt class="col-sm-3">Phone</dt>
+        <dd class="col-sm-9">@Model.customerphone</dd>
+    </dl>
+</div>
+
+<div class="mb-4">
+    <h4>Order Summary</h4>
+    <dl class="row">
+        <dt class="col-sm-3">Total Price</dt>
+        <dd class="col-sm-9">@Model.orderprice.ToString("C")</dd>
+        <dt class="col-sm-3">Status</dt>
+        <dd class="col-sm-9">@Model.orderStatus</dd>
+    </dl>
+</div>
+
+@if (Model.OrderDetails != null && Model.OrderDetails.Any())
+{
+    <div>
+        <h4>Dishes</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Dish Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderDetails)
+                {
+                    <tr>
+                        <td>@(item.Dish?.Name ?? "N/A")</td>
+                        <td>@item.Price.ToString("C")</td>
+                        <td>@item.Quantity</td>
+                        <td>@((item.Price * item.Quantity).ToString("C"))</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="alert alert-info">No dishes found for this order.</div>
+}
+<div class="mt-3">
+    <a asp-action="All" asp-controller="Dish" class="btn btn-success">Edit Order</a>
+    <a asp-action="All" class="btn btn-secondary">Back to Orders</a>
+</div>

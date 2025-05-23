@@ -25,15 +25,9 @@ namespace Kitchen.Repository
         {
             throw new NotImplementedException();
         }
-
-        public List<Feedback> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
         public List<Feedback> GetAll(string includes = "")
         {
-            throw new NotImplementedException();
+            return context.Feedbacks.ToList();
         }
 
         public IEnumerable<Feedback> GetByCustomer(int customerId)
@@ -43,12 +37,6 @@ namespace Kitchen.Repository
                    .Include(f => f.Customer) 
                    .ToList();
         }
-
-        public Feedback GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Feedback GetById(int id, string includes = "")
         {
             throw new NotImplementedException();

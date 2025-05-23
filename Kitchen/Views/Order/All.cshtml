@@ -1,7 +1,12 @@
 ﻿@model List<Kitchen.Models.Order>
 
 <h2>All Orders</h2>
-
+<div class="col-md-6">
+    <form asp-action="Search" method="get" class="d-flex">
+        <input type="text" name="searchString" class="form-control me-2" placeholder="Search by name or phone number..." />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -19,7 +24,7 @@
                 <td>@order.Customer.Name</td>
                 <td>@order.Date.ToShortDateString()</td>
                 <td>
-                    <a class="btn btn-info" href="@Url.Action("OrderDetails", "Order", new { orderId = order.Id })">
+                    <a class="btn btn-info" href="@Url.Action("OrderDetails", "Order", new { id = order.Id })">
                         Order Details
                     </a>
                 </td>

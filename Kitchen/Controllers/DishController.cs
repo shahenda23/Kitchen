@@ -1,10 +1,12 @@
 ﻿using Kitchen.Models;
 using Kitchen.Repository;
 using Kitchen.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kitchen.Controllers
 {
+    [Authorize(Roles = "1, 2, 3, 4")]
     public class DishController : Controller
     {
         IDishRepository DishRep;
@@ -14,7 +16,6 @@ namespace Kitchen.Controllers
             DishRep = dishrep;
             
         }
-        //show all dish
         public IActionResult All()
         {
             List<Dish> DishList = DishRep.GetAll();
@@ -31,7 +32,7 @@ namespace Kitchen.Controllers
 
             return View(dish);
         }
-        
+        [Authorize(Roles = "2")]
         public IActionResult Add()
         {
             var model = new DishViewModel();
@@ -39,6 +40,8 @@ namespace Kitchen.Controllers
             return View("Create", model);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "2")]
         public IActionResult Create(DishViewModel DishReq)
         {
             if (DishReq.Name != null)
@@ -71,7 +74,7 @@ namespace Kitchen.Controllers
             }
             return View("Create", DishReq);
         }
-
+        [Authorize(Roles = "2")]
         public IActionResult Edit(int id)
         {
             Dish dishList = DishRep.GetById(id);
@@ -87,6 +90,8 @@ namespace Kitchen.Controllers
             return View("Edit", DishVM);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "2")]
         public IActionResult Edit(DishViewModel DishReq)
         {
             if (ModelState.IsValid)
@@ -127,6 +132,7 @@ namespace Kitchen.Controllers
 
             return View("Edit", DishReq);
         }
+        [Authorize(Roles = "2")]
         public IActionResult Delete(int id)
         {
             var dish = DishRep.GetById(id);
@@ -138,6 +144,7 @@ namespace Kitchen.Controllers
         }
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "2")]
         public IActionResult DeleteConfirmed(int id)
         {
             var dish = DishRep.GetById(id);

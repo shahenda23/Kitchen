@@ -1,11 +1,13 @@
 ﻿using Kitchen.Models;
 using Kitchen.Repository;
 using Kitchen.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 
 namespace Kitchen.Controllers
 {
+    [Authorize(Roles = "3")]
     public class FeedbackController : Controller
     {
         IFeedbackRepository feedbackrepo; 
@@ -13,6 +15,19 @@ namespace Kitchen.Controllers
         {
             feedbackrepo = _feedbackrepo;
         }
+        public IActionResult All()
+        {
+            List<Feedback> feedBackList = feedbackrepo.GetAll();
+            return View("All", feedBackList);
+        }
+        public IActionResult Random()
+        {
+            var allFeedbacks = feedbackrepo.GetAll("Customer");
+            var random = new Random();
+            var randomFeedbacks = allFeedbacks.OrderBy(x => random.Next()).Take(5).ToList();
+            return View(randomFeedbacks);
+        }
+
         [HttpGet]
         public IActionResult CreateFeedback(int orderId)
         {
