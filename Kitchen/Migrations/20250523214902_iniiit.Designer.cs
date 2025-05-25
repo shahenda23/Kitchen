@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kitchen.Migrations
 {
     [DbContext(typeof(KitchenContext))]
-    [Migration("20250514145738_init1")]
-    partial class init1
+    [Migration("20250523214902_iniiit")]
+    partial class iniiit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -75,6 +75,26 @@ namespace Kitchen.Migrations
                     b.ToTable("AccountRoles");
                 });
 
+            modelBuilder.Entity("Kitchen.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("Kitchen.Models.Customer", b =>
                 {
                     b.Property<int>("Id")
@@ -114,8 +134,8 @@ namespace Kitchen.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Category")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Category_Id")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -131,6 +151,8 @@ namespace Kitchen.Migrations
                         .HasColumnType("real");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Category_Id");
 
                     b.ToTable("Dishes");
                 });
@@ -179,7 +201,6 @@ namespace Kitchen.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("TotalPrice")
@@ -250,6 +271,9 @@ namespace Kitchen.Migrations
                     b.Property<int>("AccountId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(25)
@@ -298,6 +322,17 @@ namespace Kitchen.Migrations
                         .IsRequired();
 
                     b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("Kitchen.Models.Dish", b =>
+                {
+                    b.HasOne("Kitchen.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("Category_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Kitchen.Models.Feedback", b =>
