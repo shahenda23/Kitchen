@@ -15,24 +15,7 @@
             {
                 <div class="staff-card-wrapper">
                     <div class="staff-card">
-                        <!-- Card Image -->
-                        @if (item.Id == 5)
-                        {
-                            <img src="~/Images/c1.png" class="staff-card-img" alt="@item.Name" />
-                        }
-                        else if (item.Id == 6)
-                        {
-                            <img src="~/Images/c3.png" class="staff-card-img" alt="@item.Name" />
-                        }
-                        else if (item.Id == 7)
-                        {
-                            <img src="~/Images/c2.png" class="staff-card-img" alt="@item.Name" />
-                        }
-                        else
-                        {
-                            <img src="~/Images/c4.png" class="staff-card-img" alt="@item.Name" />
-                        }
-
+                        <img src="~/Images/@item.Image" class="staff-card-img" alt="@item.Name" />
                         <!-- Card Content -->
                         <div class="staff-card-body">
                             <h5 class="staff-name">@item.Name</h5>
@@ -47,9 +30,6 @@
                                 </a>
                                 <a href="https://www.instagram.com/" class="staff-social-icon" target="_blank">
                                     <i class="fab fa-instagram"></i>
-                                </a>
-                                <a href="/Staff/Details?Id=@item.Id" class="staff-social-icon">
-                                    <i class="fa-solid fa-info"></i>
                                 </a>
                             </div>
                         </div>

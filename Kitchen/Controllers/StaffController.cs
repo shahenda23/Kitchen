@@ -17,34 +17,6 @@ namespace Kitchen.Controllers
         {
             staffRepository = staffRepo;
         }
-        //public IActionResult All(int page=1 , int PageSize = DefaultPageSize)
-        //{
-        //    var AllStaff = staffRepository.GetAll();
-        //    var StaffCount = AllStaff.Count();
-        //    var TotalPages = (int)Math.Ceiling((decimal) StaffCount / PageSize);
-
-        //    var staff = AllStaff
-        //        .Skip((page-1)*PageSize)
-        //        .Take(PageSize)
-        //        .Select(s => new AllStaffViewModel
-        //        {
-        //            Id = s.Id,
-        //            Name = s.Name,
-        //            Position = s.Position,
-        //            Salary = s.Salary
-        //        })
-        //        .ToList();
-
-        //    AllStaffWithPagesViewModel viewModel = new()
-        //    {
-        //        allStaff = staff,
-        //        PageSize = PageSize,    
-        //        TotalPages = TotalPages,
-        //        CurrentPage = page
-        //    };
-
-        //    return View("All", viewModel);
-        //}
         public IActionResult All1()
         {
             List<Staff> AllStaff = staffRepository.GetAll();
@@ -57,7 +29,8 @@ namespace Kitchen.Controllers
                     Id = item.Id,
                     Name = item.Name,
                     Position = item.Position,
-                    Salary = item.Salary
+                    Salary = item.Salary,
+                    Image=item.Image
                 });
             }
             return View("All1" , viewModel);

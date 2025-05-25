@@ -67,29 +67,33 @@
                                     </div>
                                     <div class="dish-info">
                                         <div>
-                                            @if(User.IsInRole("5"))
+                                                @if (User.IsInRole("1,2,3,4"))
                                             {
-                                                <h3 class="dish-title">@dish.Name.ToUpper()</h3>
+                                                 <a href="/Dish/Details/@dish.Id"><h3 class="dish-title">@dish.Name.ToUpper()</h3></a>
+                                                
                                             }
                                             else
                                             {
-                                                <a href="/Dish/Details/@dish.Id"><h3 class="dish-title">@dish.Name.ToUpper()</h3></a>
+                                                 <h3 class="dish-title">@dish.Name.ToUpper()</h3>
                                             }
                                             <p class="dish-description">@dish.Description</p>
                                             <div class="dish-price">@dish.Price.ToString("N2") EGP</div>
                                         </div>
-                                        <div>
-                                            <div class="quantity-controls">
-                                                <button type="button" class="qty-btn decrease" onclick="decreaseQuantity(@dish.Id)">-</button>
-                                                <span id="qty-@dish.Id" class="qty-display">0</span>
-                                                <button type="button" class="qty-btn increase" onclick="increaseQuantity(@dish.Id)">+</button>
-                                            </div>
-                                            <button type="button" class="add-to-order-btn"
-                                                    onclick='addToOrder(@dish.Id, @Html.Raw(Json.Serialize(dish.Name ?? "")), @dish.Price.ToString(System.Globalization.CultureInfo.InvariantCulture))'>
-                                                <i class="bi bi-plus-circle"></i>
-                                                Add to Cart
-                                            </button>
-                                        </div>
+                                            @if (!User.IsInRole("1,2,3,4"))
+                                            {
+                                                <div>
+                                                    <div class="quantity-controls">
+                                                        <button type="button" class="qty-btn decrease" onclick="decreaseQuantity(@dish.Id)">-</button>
+                                                        <span id="qty-@dish.Id" class="qty-display">0</span>
+                                                        <button type="button" class="qty-btn increase" onclick="increaseQuantity(@dish.Id)">+</button>
+                                                    </div>
+                                                    <button type="button" class="add-to-order-btn"
+                                                            onclick='addToOrder(@dish.Id, @Html.Raw(Json.Serialize(dish.Name ?? "")), @dish.Price.ToString(System.Globalization.CultureInfo.InvariantCulture))'>
+                                                        <i class="bi bi-plus-circle"></i>
+                                                        Add to Cart
+                                                    </button>
+                                                </div>
+                                            }
                                     </div>
                                 </div>
                             }
@@ -104,29 +108,33 @@
                                     </div>
                                     <div class="dish-info">
                                         <div>
-                                            @if (User.IsInRole("5"))
+                                                @if (User.IsInRole("1,2,3,4"))
                                             {
-                                                <h3 class="dish-title">@dish.Name.ToUpper()</h3>
+                                                <a href="/Dish/Details/@dish.Id"><h3 class="dish-title">@dish.Name.ToUpper()</h3></a>
                                             }
                                             else
                                             {
-                                                <a href="/Dish/Details/@dish.Id"><h3 class="dish-title">@dish.Name.ToUpper()</h3></a>
+                                                <h3 class="dish-title">@dish.Name.ToUpper()</h3>
+                                                
                                             }
                                             <p class="dish-description">@dish.Description</p>
                                             <div class="dish-price">@dish.Price.ToString("N2") EGP</div>
                                         </div>
-                                        <div>
-                                            <div class="quantity-controls">
-                                                <button type="button" class="qty-btn decrease" onclick="decreaseQuantity(@dish.Id)">-</button>
-                                                <span id="qty-@dish.Id" class="qty-display">0</span>
-                                                <button type="button" class="qty-btn increase" onclick="increaseQuantity(@dish.Id)">+</button>
+                                            @if (!User.IsInRole("1,2,3,4"))
+                                        {
+                                            <div>
+                                                <div class="quantity-controls">
+                                                    <button type="button" class="qty-btn decrease" onclick="decreaseQuantity(@dish.Id)">-</button>
+                                                    <span id="qty-@dish.Id" class="qty-display">0</span>
+                                                    <button type="button" class="qty-btn increase" onclick="increaseQuantity(@dish.Id)">+</button>
+                                                </div>
+                                                <button type="button" class="add-to-order-btn"
+                                                        onclick='addToOrder(@dish.Id, @Html.Raw(Json.Serialize(dish.Name ?? "")), @dish.Price.ToString(System.Globalization.CultureInfo.InvariantCulture))'>
+                                                    <i class="bi bi-plus-circle"></i>
+                                                    Add to Cart
+                                                </button>
                                             </div>
-                                            <button type="button" class="add-to-order-btn"
-                                                    onclick='addToOrder(@dish.Id, @Html.Raw(Json.Serialize(dish.Name ?? "")), @dish.Price.ToString(System.Globalization.CultureInfo.InvariantCulture))'>
-                                                <i class="bi bi-plus-circle"></i>
-                                                Add to Cart
-                                            </button>
-                                        </div>
+                                        }
                                     </div>
                                 </div>
                             }

@@ -1,5 +1,4 @@
-﻿
-:root {
+﻿:root {
     --primary-orange: #d35400;
     --secondary-orange: #bb7143;
     --accent-orange: #e67e22;
@@ -12,6 +11,7 @@
     --shadow-lg: 0 15px 25px rgba(0,0,0,0.2);
 }
 
+/* ===== Base Styles ===== */
 * {
     margin: 0;
     padding: 0;
@@ -23,8 +23,10 @@ body {
     background: var(--bg-cream);
     min-height: 100vh;
     color: var(--text-dark);
+    position: relative;
 }
 
+/* ===== Dish Container ===== */
 .dish-container {
     max-width: 1200px;
     margin: 5rem auto;
@@ -32,6 +34,7 @@ body {
     position: relative;
 }
 
+/* ===== Dish Card ===== */
 .dish-card {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
@@ -41,11 +44,10 @@ body {
     overflow: hidden;
     box-shadow: var(--shadow-lg);
     position: relative;
-    z-index: 1;
     animation: fadeInUp 0.8s ease-out;
 }
 
-
+/* ===== Image Section ===== */
 .image-section {
     position: relative;
     padding: 2rem;
@@ -84,6 +86,7 @@ body {
     z-index: 2;
 }
 
+/* ===== Content Section ===== */
 .content-section {
     padding: 3rem 2rem 3rem 0;
     position: relative;
@@ -132,11 +135,14 @@ body {
     border-left: 3px solid var(--accent-orange);
 }
 
+/* ===== Action Buttons ===== */
 .action-buttons {
     display: flex;
     gap: 1rem;
     margin-top: 3rem;
     flex-wrap: wrap;
+    position: relative;
+    z-index: 10; /* Ensure buttons stay above inactive modal */
 }
 
 .btn {
@@ -152,6 +158,8 @@ body {
     text-decoration: none;
     border: none;
     box-shadow: var(--shadow-sm);
+    position: relative;
+    z-index: 1;
 }
 
     .btn:hover {
@@ -180,7 +188,7 @@ body {
         color: white;
     }
 
-/* Decorative elements */
+/* ===== Decorative Elements ===== */
 .food-icon {
     position: absolute;
     opacity: 0.1;
@@ -201,7 +209,7 @@ body {
     color: var(--accent-orange);
 }
 
-/* Modal styles */
+/* ===== Modal Styles ===== */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -209,18 +217,17 @@ body {
     right: 0;
     bottom: 0;
     background: rgba(0,0,0,0.7);
-    display: flex;
+    display: none; /* Start hidden */
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: 1000; /* Only show above everything when active */
     opacity: 0;
-    pointer-events: none;
     transition: opacity 0.3s ease;
 }
 
     .modal-overlay.active {
+        display: flex;
         opacity: 1;
-        pointer-events: all;
     }
 
 .modal-content {
@@ -280,7 +287,21 @@ body {
     background: #f1f1f1;
     color: var(--text-dark);
 }
-/* Responsive design */
+
+/* ===== Animations ===== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== Responsive Design ===== */
 @media (max-width: 992px) {
     .dish-card {
         grid-template-columns: 1fr;
@@ -301,7 +322,12 @@ body {
         margin: 2rem auto;
     }
 
+    .action-buttons {
+        flex-direction: column;
+    }
+
     .btn {
+        width: 100%;
         justify-content: center;
     }
 }

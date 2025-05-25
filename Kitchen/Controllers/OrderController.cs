@@ -21,7 +21,7 @@ namespace Kitchen.Controllers
             custrepo = _custrepo;
             orderdetailsrepo = _orderdetailsrepo;
         }
-        [Authorize(Roles = "2 , 4 ")]
+        [Authorize(Roles = "1, 2, 3, 4, 5")]
         public IActionResult All()
         {
             List<Order> order = orderrepo.GetAll("Customer");
@@ -121,7 +121,7 @@ namespace Kitchen.Controllers
                 orderdetailsrepo.Add(orderDetails);
             }
             orderdetailsrepo.Save();
-            return RedirectToAction("OrderDetails", new { id = order.Id });
+            return RedirectToAction("Profile" , "Customer" , new { id = order.Id });
         }
         public IActionResult Search(string searchString)
         {

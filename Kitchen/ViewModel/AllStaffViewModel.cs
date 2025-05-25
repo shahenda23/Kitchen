@@ -6,5 +6,6 @@
         public string Name { get; set; }
         public float Salary { get; set; }
         public string Position { get; set; }
+        public string Image { get; set; }
     }
 }

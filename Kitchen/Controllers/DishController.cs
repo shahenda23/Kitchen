@@ -117,6 +117,7 @@ namespace Kitchen.Controllers
                 DishDB.Description = DishReq.Description;
                 DishDB.Category_Id = DishReq.CategoryId;
 
+
                 if (DishReq.ImageFile != null)
                 {
 
@@ -138,6 +139,7 @@ namespace Kitchen.Controllers
 
                 return RedirectToAction("All");
             }
+            DishReq.Categories = CategoryRep.GetAll();
 
             return View("Edit", DishReq);
         }

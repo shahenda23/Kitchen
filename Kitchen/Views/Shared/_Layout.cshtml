@@ -149,21 +149,21 @@
                             <a class="nav-link text-light @((ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["Action"]?.ToString() == "Index") ? "active" : "")"
                                asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        @if (!User.IsInRole("5"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-light @((ViewContext.RouteData.Values["Controller"]?.ToString() == "Order" && ViewContext.RouteData.Values["Action"]?.ToString() == "All") ? "active" : "")"
-                                   asp-controller="Order" asp-action="All">
-                                    Orders
-                                </a>
-                            </li>
-                        }
                         <li class="nav-item">
                             <a class="nav-link text-light @((ViewContext.RouteData.Values["Controller"]?.ToString() == "Dish" && ViewContext.RouteData.Values["Action"]?.ToString() == "All") ? "active" : "")"
                                asp-controller="Dish" asp-action="All">Menu</a>
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
+                            @if (!User.IsInRole("5"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light @((ViewContext.RouteData.Values["Controller"]?.ToString() == "Order" && ViewContext.RouteData.Values["Action"]?.ToString() == "All") ? "active" : "")"
+                                       asp-controller="Order" asp-action="All">
+                                        Orders
+                                    </a>
+                                </li>
+                            }
                             <li class="nav-item">
                                 <a class="nav-link text-light @((ViewContext.RouteData.Values["Controller"]?.ToString() == "Account" && ViewContext.RouteData.Values["Action"]?.ToString() == "Logout") ? "active" : "")"
                                    asp-controller="Account" asp-action="Logout">
