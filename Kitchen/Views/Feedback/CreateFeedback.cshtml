@@ -8,7 +8,7 @@
         <span asp-validation-for="Comment" id="nameError" class="text-danger"></span>
     </div>
 
-    <input type="hidden" name="Customer_ID" value="@Model.customerId" />
+    <input type="hidden" name="Customer_ID" value="@Model.CustomerId" />
 
     <label>Rating:</label>
     <div class="star-rating">
@@ -45,7 +45,7 @@
         }
     </script>
 
-    <input type="hidden" name="OrderId" value="@Model.orderId">
+    <input type="hidden" name="OrderId" value="@Model.OrderId">
 
     <button type="submit">Submit Feedback</button>
 </form>

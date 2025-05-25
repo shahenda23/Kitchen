@@ -9,21 +9,21 @@ namespace Kitchen.Controllers
     [Authorize(Roles = "1, 2, 3, 4")]
     public class DishController : Controller
     {
-        IDishRepository DishRep;
+        IDishRepository DishRepo;
         
-        public DishController(IDishRepository dishrep)
+        public DishController(IDishRepository _dishRepo)
         {
-            DishRep = dishrep;
+            DishRepo = _dishRepo;
             
         }
         public IActionResult All()
         {
-            List<Dish> DishList = DishRep.GetAll();
+            List<Dish> DishList = DishRepo.GetAll();
             return View("All", DishList);
         }
         public IActionResult Details(int id)
         {
-            var dish = DishRep.GetById(id);
+            var dish = DishRepo.GetById(id);
 
             if (dish == null)
             {
@@ -68,8 +68,8 @@ namespace Kitchen.Controllers
                     Category = DishReq.Category
                 };
 
-                DishRep.Add(newDish);
-                DishRep.Save();
+                DishRepo.Add(newDish);
+                DishRepo.Save();
                 return RedirectToAction("All");
             }
             return View("Create", DishReq);
@@ -77,7 +77,7 @@ namespace Kitchen.Controllers
         [Authorize(Roles = "2")]
         public IActionResult Edit(int id)
         {
-            Dish dishList = DishRep.GetById(id);
+            Dish dishList = DishRepo.GetById(id);
 
             DishViewModel DishVM = new();
             DishVM.Id = dishList.Id;
@@ -96,7 +96,7 @@ namespace Kitchen.Controllers
         {
             if (ModelState.IsValid)
             {
-                Dish? DishDB = DishRep.GetById(DishReq.Id);
+                Dish? DishDB = DishRepo.GetById(DishReq.Id);
 
                 if (DishDB == null)
                 {
@@ -122,10 +122,8 @@ namespace Kitchen.Controllers
 
                     DishDB.Image = fileName;
                 }
-
-
-                DishRep.Edit(DishDB);
-                DishRep.Save();
+                DishRepo.Edit(DishDB);
+                DishRepo.Save();
 
                 return RedirectToAction("All");
             }
@@ -135,7 +133,7 @@ namespace Kitchen.Controllers
         [Authorize(Roles = "2")]
         public IActionResult Delete(int id)
         {
-            var dish = DishRep.GetById(id);
+            var dish = DishRepo.GetById(id);
             if (dish == null)
             {
                 return NotFound();
@@ -147,20 +145,20 @@ namespace Kitchen.Controllers
         [Authorize(Roles = "2")]
         public IActionResult DeleteConfirmed(int id)
         {
-            var dish = DishRep.GetById(id);
+            var dish = DishRepo.GetById(id);
             if (dish == null)
             {
                 return NotFound();
             }
 
-            DishRep.Delete(id);
-            DishRep.Save();
+            DishRepo.Delete(id);
+            DishRepo.Save();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("All");
         }
         public IActionResult Search(string searchString)
         {
-            var dishes = DishRep.GetAll();
+            var dishes = DishRepo.GetAll();
             if (!string.IsNullOrEmpty(searchString))
             {
                 dishes = dishes.Where(d => d.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
@@ -169,7 +167,7 @@ namespace Kitchen.Controllers
         }
         public IActionResult Filter(string category)
         {
-            var dishes = DishRep.GetAll();
+            var dishes = DishRepo.GetAll();
             if (!string.IsNullOrEmpty(category))
             {
                 dishes = dishes.Where(d => d.Category == category).ToList();

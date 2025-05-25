@@ -33,7 +33,7 @@ namespace Kitchen.Controllers
         {
             var feedbackorderVM = new FeedbackViewModel
             {
-                orderId = orderId 
+                OrderId = orderId,
             };
             return View(feedbackorderVM);
         }
@@ -46,9 +46,9 @@ namespace Kitchen.Controllers
                 var feedback = new Feedback
                 {
                     Comment = feedbackVM.Comment,
-                    Rate = feedbackVM.orderrate,
-                    OrderId = (int)HttpContext.Session.GetInt32("OrderID"),
-                    Customer_ID = int.Parse(User.FindFirst("ID")?.Value)
+                    Rate = feedbackVM.OrderRate,
+                    OrderId = feedbackVM.OrderId,
+                    Customer_ID = int.Parse(User.FindFirst("CustomerID")?.Value)
                 };
 
                 feedbackrepo.Add(feedback);

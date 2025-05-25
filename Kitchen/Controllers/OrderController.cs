@@ -10,7 +10,7 @@ namespace Kitchen.Controllers
     [Authorize(Roles = "1, 2, 3, 4")]
     public class OrderController : Controller
     {
-        IOrderRepository orderrepo;
+        IOrderRepository orderrepo; 
         ICustomerRepository custrepo;
         IOrderDetailsRepository orderdetailsrepo;
 
@@ -81,7 +81,7 @@ namespace Kitchen.Controllers
             {
                 return View("CreateOrder", model);
             }
-            int customerID = int.Parse(User.FindFirst("ID")?.Value);
+            int customerID = int.Parse(User.FindFirst("CustomerID")?.Value);
             Customer customerDB = custrepo.GetById(customerID);
             customerDB.Name = model.customername;
             customerDB.PhoneNumber = model.customerphone;
@@ -121,7 +121,7 @@ namespace Kitchen.Controllers
                 orderdetailsrepo.Add(orderDetails);
             }
             orderdetailsrepo.Save();
-            return RedirectToAction("OrderDetails", new { id = order.Id });
+            return RedirectToAction("Profile", "Customer");
         }
         public IActionResult Search(string searchString)
         {
@@ -134,6 +134,25 @@ namespace Kitchen.Controllers
                             )).ToList();
             }
             return View("All", orders);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateOrderStatus(int orderId)
+        {
+            var order = orderrepo.GetById(orderId);
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            // Update status to "Delivered"
+            order.Status = "Delivered";
+            orderrepo.Edit(order);
+            orderrepo.Save();
+
+            // Redirect to Create Feedback action
+            return RedirectToAction("CreateFeedback", "Feedback", new { orderId = orderId });
         }
     }
 }
