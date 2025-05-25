@@ -1,57 +1,40 @@
 ﻿using Kitchen.Models;
 using Kitchen.Repository;
 using Kitchen.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kitchen.Controllers
 {
+    [Authorize(Roles = "5")]
     public class CustomerController : Controller
     {
-        ICustomerRepository customerRepository;
-        IAccountRepository accountRepository;
-        public CustomerController(ICustomerRepository customerRepo, IAccountRepository accountRepo)
+        ICustomerRepository customerRepo;
+        IOrderRepository orderRepo;
+        IOrderDetailsRepository orderdetailsRepo;
+        public CustomerController(ICustomerRepository _customerRepo, IOrderRepository _orderRepo, IOrderDetailsRepository _orderdetailsRepo)
         {
-            customerRepository = customerRepo;
-            accountRepository = accountRepo;
+            customerRepo = _customerRepo;
+            orderRepo = _orderRepo;
+            orderdetailsRepo = _orderdetailsRepo;
         }
-        public ActionResult All()
+        public IActionResult Profile()
         {
-            List<Customer> customer = customerRepository.GetAll("Account");
-            List<CustomerWithAccountViewModel> CustomerAccounts = new List<CustomerWithAccountViewModel>();
-
-            foreach (Customer customerItem in customer)
+            int customerID = int.Parse(User.FindFirst("ID")?.Value);
+            Customer customerDB = customerRepo.GetById(customerID);
+            IEnumerable<Order> orderDB = orderRepo.GetByCustomer(customerID);
+            if (customerDB != null)
             {
-                var account = accountRepository.GetById(customerItem.AccountId);
-
-                CustomerAccounts.Add(new CustomerWithAccountViewModel
+                ProfileViewModel ProfileVM = new ProfileViewModel()
                 {
-                    Id = customerItem.Id,
-                    Address = customerItem.Address,
-                    Name = customerItem.Name,
-                    PhoneNumber = customerItem.PhoneNumber,
-                    AccountId = customerItem.AccountId,
-                    Email = account?.Email ?? string.Empty // Use null-conditional operator and default to empty string
-                });
+                    customerName = customerDB.Name,
+                    customerSAddress = customerDB.Address,
+                    customerPhone = customerDB.PhoneNumber,
+                    Orders = orderDB,
+                };
+                return View("Profile", ProfileVM);
             }
-
-            return View("All", CustomerAccounts);
+            return NotFound();
         }
-        public ActionResult GetByPhone(string Number)
-        {
-            Customer customer = customerRepository.GetByPhoneNumber(Number);
-
-            Account account = accountRepository.GetById(customer.AccountId);
-
-            CustomerWithAccountViewModel viewModel = new CustomerWithAccountViewModel();
-            viewModel.Id = customer.Id;
-            viewModel.Address = customer.Address;
-            viewModel.Name = customer.Name;
-            viewModel.PhoneNumber = customer.PhoneNumber;
-            viewModel.AccountId = customer.AccountId;
-            viewModel.Email = account.Email;
-
-            return View("Search", viewModel);
-        }
-
     }
 }

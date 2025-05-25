@@ -1,42 +1,31 @@
-﻿using System.Security.Claims;
-using Kitchen.Models;
+﻿using Kitchen.Models;
 using Kitchen.Repository;
 using Kitchen.ViewModel;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Kitchen.Controllers
 {
+    [Authorize(Roles = "1, 2, 3, 4, 5")]
     public class OrderController : Controller
     {
         IOrderRepository orderrepo;
-        IFeedbackRepository feedbackrepo;
-        IDishRepository dishrepo;
         ICustomerRepository custrepo;
         IOrderDetailsRepository orderdetailsrepo;
 
-        public OrderController(IOrderDetailsRepository _orderdetailsrepo,IOrderRepository _orderrepo,
-            ICustomerRepository _custrepo, IFeedbackRepository _feedbackrepo, IDishRepository _dishrepo)
+        public OrderController(IOrderDetailsRepository _orderdetailsrepo,
+            IOrderRepository _orderrepo, ICustomerRepository _custrepo)
         {
             orderrepo = _orderrepo;
-            feedbackrepo = _feedbackrepo;
-            dishrepo = _dishrepo;
             custrepo = _custrepo;
             orderdetailsrepo = _orderdetailsrepo;
         }
+        [Authorize(Roles = "2 , 4 ")]
         public IActionResult All()
         {
-            List<Order> order = orderrepo.GetAll();
+            List<Order> order = orderrepo.GetAll("Customer");
             return View(order);
-        }
-        public IActionResult OrdersByCustomer(int customerId)
-        {
-            var orders = orderrepo.GetByCustomer(customerId);
-            return View(orders);
         }
         public IActionResult CreateOrder(string orderDetailsJson)
         {
@@ -66,8 +55,26 @@ namespace Kitchen.Controllers
 
             return View(orderdishVM);
         }
+        public IActionResult OrderDetails(int id)
+        {
+            var order = orderrepo.GetById(id);
+            if (order == null)
+                return NotFound();
+
+            var model = new OrderDishesViewModel
+            {
+                customername = order.Customer?.Name,
+                customeraddress = order.Customer?.Address,
+                customerphone = order.Customer?.PhoneNumber,
+                orderprice = order.TotalPrice,
+                orderStatus = order.Status,
+                OrderDetails = order.OrderDetails
+            };
+            return View(model);
+        }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> OrderDetails(OrderDishesViewModel model)
         {
             if (!ModelState.IsValid)
@@ -114,12 +121,19 @@ namespace Kitchen.Controllers
                 orderdetailsrepo.Add(orderDetails);
             }
             orderdetailsrepo.Save();
-
-            return RedirectToAction("OrderSuccess");
+            return RedirectToAction("OrderDetails", new { id = order.Id });
         }
-        public IActionResult OrderSuccess()
+        public IActionResult Search(string searchString)
         {
-            return View();
+            var orders = orderrepo.GetAll();
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                orders = orders.Where(d => d.Customer != null && (
+                            d.Customer.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                            d.Customer.PhoneNumber.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+                            )).ToList();
+            }
+            return View("All", orders);
         }
     }
 }

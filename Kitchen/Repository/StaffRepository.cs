@@ -13,7 +13,7 @@ namespace Kitchen.Repository
 
         public void Add(Staff obj)
         {
-            throw new NotImplementedException();
+            context.Staff.Add(obj);
         }
 
         public void Delete(int id)
@@ -31,32 +31,22 @@ namespace Kitchen.Repository
             staff.AccountId = obj.AccountId;
         }
 
-        public List<Staff> GetAll(string inclues = "")
+        public List<Staff> GetAll(string includes = "")
         {
-            if (inclues == "")
+            if (includes == "")
             {
                 return context.Staff.ToList();
             }
             else
             {
-                return context.Staff.Include(inclues).ToList();
+                return context.Staff.Include(includes).ToList();
             }
             
         }
 
-        public List<Staff> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Staff GetById(int id)
-        {
-            return context.Staff.FirstOrDefault(s=> s.Id==id);
-        }
-
         public Staff GetById(int id, string includes = "")
         {
-            throw new NotImplementedException();
+            return context.Staff.FirstOrDefault(s => s.Id == id);
         }
 
         public void Save()

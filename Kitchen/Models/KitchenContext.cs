@@ -13,6 +13,7 @@ namespace Kitchen.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public KitchenContext()
         {
             

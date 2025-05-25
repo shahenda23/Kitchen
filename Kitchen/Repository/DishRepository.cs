@@ -28,17 +28,14 @@ namespace Kitchen.Repository
 
         public List<Dish> GetAll(string includes = "")
         {
-            List<Dish> list;
-            if (string.IsNullOrEmpty(includes))
+            if (includes == "")
             {
-                list = context.Dishes.ToList();
-
+                return context.Dishes.ToList();
             }
             else
             {
-                list = context.Dishes.Include(includes).ToList();
+                return context.Dishes.Include(includes).ToList();
             }
-            return list;
         }
 
         public Dish GetById(int id,string includes = "")

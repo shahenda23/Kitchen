@@ -9,10 +9,11 @@ namespace Kitchen.Models
         public float Price { get; set; }
         public string? Image { get; set; }
         public string? Description { get; set; }
-        public string? Category { get; set; }
+        [ForeignKey("Category")]
+        public int Category_Id { get; set; }
+
+        public Category? Category { get; set; }  
 
         public List<OrderDetails>? OrderDetails{ get; set; }
-
-
     }
 }

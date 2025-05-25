@@ -8,18 +8,28 @@ namespace Kitchen.Controllers
     public class DishController : Controller
     {
         IDishRepository DishRep;
+        ICategoryRepository CategoryRep;
         
-        public DishController(IDishRepository dishrep)
+        public DishController(IDishRepository dishrep , ICategoryRepository categoryRep)
         {
             DishRep = dishrep;
+            CategoryRep = categoryRep;
             
         }
         //show all dish
+
         public IActionResult All()
         {
-            List<Dish> DishList = DishRep.GetAll();
-            return View("All", DishList);
+            var viewModel = new DishListViewModel
+            {
+                Dishes = DishRep.GetAll(),
+                Categories = CategoryRep.GetAll()
+            };
+            return View("All", viewModel);
+            
         }
+
+
         public IActionResult Details(int id)
         {
             var dish = DishRep.GetById(id);
@@ -35,10 +45,14 @@ namespace Kitchen.Controllers
         public IActionResult Add()
         {
             var model = new DishViewModel();
+            model.Categories = CategoryRep.GetAll();
 
             return View("Create", model);
         }
+
         [HttpPost]
+
+
         public IActionResult Create(DishViewModel DishReq)
         {
             if (DishReq.Name != null)
@@ -62,7 +76,7 @@ namespace Kitchen.Controllers
                     Price = DishReq.Price,
                     Image = fileName,
                     Description = DishReq.Description,
-                    Category = DishReq.Category
+                    Category_Id = DishReq.CategoryId
                 };
 
                 DishRep.Add(newDish);
@@ -74,16 +88,16 @@ namespace Kitchen.Controllers
 
         public IActionResult Edit(int id)
         {
-            Dish dishList = DishRep.GetById(id);
+            Dish dish = DishRep.GetById(id);
 
             DishViewModel DishVM = new();
-            DishVM.Id = dishList.Id;
-            DishVM.Name = dishList.Name;
-            DishVM.Image = dishList.Image;
-            DishVM.Price = dishList.Price;
-            DishVM.Description = dishList.Description;
-            DishVM.Category = dishList?.Category;
-
+            DishVM.Id = dish.Id;
+            DishVM.Name = dish.Name;
+            DishVM.Image = dish.Image;
+            DishVM.Price = dish.Price;
+            DishVM.Description = dish.Description;
+            DishVM.CategoryId = dish.Category_Id;
+            DishVM.Categories= CategoryRep.GetAll();
             return View("Edit", DishVM);
         }
         [HttpPost]
@@ -101,7 +115,7 @@ namespace Kitchen.Controllers
                 DishDB.Name = DishReq.Name;
                 DishDB.Price = DishReq.Price;
                 DishDB.Description = DishReq.Description;
-                DishDB.Category = DishReq.Category;
+                DishDB.Category_Id = DishReq.CategoryId;
 
                 if (DishReq.ImageFile != null)
                 {
@@ -127,15 +141,6 @@ namespace Kitchen.Controllers
 
             return View("Edit", DishReq);
         }
-        public IActionResult Delete(int id)
-        {
-            var dish = DishRep.GetById(id);
-            if (dish == null)
-            {
-                return NotFound();
-            }
-            return View(dish);
-        }
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
@@ -149,7 +154,7 @@ namespace Kitchen.Controllers
             DishRep.Delete(id);
             DishRep.Save();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", id);
         }
         public IActionResult Search(string searchString)
         {
@@ -160,14 +165,14 @@ namespace Kitchen.Controllers
             }
             return View("All", dishes);
         }
-        public IActionResult Filter(string category)
-        {
-            var dishes = DishRep.GetAll();
-            if (!string.IsNullOrEmpty(category))
-            {
-                dishes = dishes.Where(d => d.Category == category).ToList();
-            }
-            return View("All", dishes);
-        }
+        //public IActionResult Filter(string category)
+        //{
+        //    var dishes = DishRep.GetAll();
+        //    if (!string.IsNullOrEmpty(category))
+        //    {
+        //        dishes = dishes.Where(d => d.Category == category).ToList();
+        //    }
+        //    return View("All", dishes);
+        //}
     }
 }

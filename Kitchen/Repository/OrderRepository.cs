@@ -39,7 +39,11 @@ namespace Kitchen.Repository
         }
         public IEnumerable<Order> GetByCustomer(int customerId)
         {
-            return context.Orders.Where(o => o.CustomerId == customerId).ToList();
+            return context.Orders
+                .Where(o => o.CustomerId == customerId)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Dish)
+                .ToList();
         }
         public Order GetById(int id, string includes = "")
         {

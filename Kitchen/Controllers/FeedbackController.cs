@@ -1,28 +1,43 @@
 ﻿using Kitchen.Models;
 using Kitchen.Repository;
 using Kitchen.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 
 namespace Kitchen.Controllers
 {
+    [Authorize(Roles = "1,2,3,4,5")]
     public class FeedbackController : Controller
     {
-        IFeedbackRepository feedbackrepo; 
+        IFeedbackRepository feedbackrepo;
         public FeedbackController(IFeedbackRepository _feedbackrepo)
         {
             feedbackrepo = _feedbackrepo;
         }
+        public IActionResult All()
+        {
+            List<Feedback> feedBackList = feedbackrepo.GetAll("Customer");
+            return View("All", feedBackList);
+        }
+        public IActionResult Random()
+        {
+            var allFeedbacks = feedbackrepo.GetAll("Customer");
+            var random = new Random();
+            var randomFeedbacks = allFeedbacks.OrderBy(x => random.Next()).Take(5).ToList();
+            return View(randomFeedbacks);
+        }
+
         [HttpGet]
         public IActionResult CreateFeedback(int orderId)
         {
             var feedbackorderVM = new FeedbackViewModel
             {
-                orderId = orderId 
+                orderId = orderId
             };
             return View(feedbackorderVM);
         }
-        
+
         [HttpPost]
         public IActionResult SubmitFeedback(FeedbackViewModel feedbackVM)
         {
@@ -38,10 +53,10 @@ namespace Kitchen.Controllers
 
                 feedbackrepo.Add(feedback);
                 feedbackrepo.Save();
-                return RedirectToAction("FeedbackSuccess"); 
+                return RedirectToAction("FeedbackSuccess");
             }
 
-            return View(feedbackVM); 
+            return View(feedbackVM);
         }
         public IActionResult FeedbackSuccess()
         {
