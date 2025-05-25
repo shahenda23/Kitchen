@@ -17,7 +17,6 @@ namespace Kitchen.Models
         [Required]
         [EmailAddress (ErrorMessage = "Invalid Email Address Fromat\U0001fae0\r\n!")]
         public string Email { get; set; }
-        
         public Customer? Customer { get; set; }
         public Staff? Staff { get; set; }
         public List<AccountRole>? AccountRoles { get; set; }

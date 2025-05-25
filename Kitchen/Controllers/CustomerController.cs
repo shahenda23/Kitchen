@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Kitchen.Controllers
 {
-    [Authorize(Roles = "5")]
+    //[Authorize(Roles = "4")]
     public class CustomerController : Controller
     {
         ICustomerRepository customerRepo;
@@ -20,7 +20,7 @@ namespace Kitchen.Controllers
         }
         public IActionResult Profile()
         {
-            int customerID = int.Parse(User.FindFirst("ID")?.Value);
+            int customerID = int.Parse(User.FindFirst("CustomerID")?.Value);
             Customer customerDB = customerRepo.GetById(customerID);
             IEnumerable<Order> orderDB = orderRepo.GetByCustomer(customerID);
             if (customerDB != null)
@@ -28,7 +28,7 @@ namespace Kitchen.Controllers
                 ProfileViewModel ProfileVM = new ProfileViewModel()
                 {
                     customerName = customerDB.Name,
-                    customerSAddress = customerDB.Address,
+                    customerAddress = customerDB.Address,
                     customerPhone = customerDB.PhoneNumber,
                     Orders = orderDB,
                 };

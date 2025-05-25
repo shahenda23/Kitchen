@@ -55,11 +55,9 @@ namespace Kitchen.Repository
             }
             return obj;
         }
-
         public void Save()
         {
             context.SaveChanges();
         }
     }
-    
 }

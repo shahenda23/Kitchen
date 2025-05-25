@@ -7,17 +7,17 @@ using Microsoft.Identity.Client;
 
 namespace Kitchen.Controllers
 {
-    [Authorize(Roles = "1,2,3,4,5")]
+    [Authorize(Roles = "3")]
     public class FeedbackController : Controller
     {
-        IFeedbackRepository feedbackrepo;
+        IFeedbackRepository feedbackrepo; 
         public FeedbackController(IFeedbackRepository _feedbackrepo)
         {
             feedbackrepo = _feedbackrepo;
         }
         public IActionResult All()
         {
-            List<Feedback> feedBackList = feedbackrepo.GetAll("Customer");
+            List<Feedback> feedBackList = feedbackrepo.GetAll();
             return View("All", feedBackList);
         }
         public IActionResult Random()
@@ -33,11 +33,11 @@ namespace Kitchen.Controllers
         {
             var feedbackorderVM = new FeedbackViewModel
             {
-                orderId = orderId
+                OrderId = orderId,
             };
             return View(feedbackorderVM);
         }
-
+        
         [HttpPost]
         public IActionResult SubmitFeedback(FeedbackViewModel feedbackVM)
         {
@@ -46,17 +46,17 @@ namespace Kitchen.Controllers
                 var feedback = new Feedback
                 {
                     Comment = feedbackVM.Comment,
-                    Rate = feedbackVM.orderrate,
-                    OrderId = (int)HttpContext.Session.GetInt32("OrderID"),
-                    Customer_ID = int.Parse(User.FindFirst("ID")?.Value)
+                    Rate = feedbackVM.OrderRate,
+                    OrderId = feedbackVM.OrderId,
+                    Customer_ID = int.Parse(User.FindFirst("CustomerID")?.Value)
                 };
 
                 feedbackrepo.Add(feedback);
                 feedbackrepo.Save();
-                return RedirectToAction("FeedbackSuccess");
+                return RedirectToAction("FeedbackSuccess"); 
             }
 
-            return View(feedbackVM);
+            return View(feedbackVM); 
         }
         public IActionResult FeedbackSuccess()
         {

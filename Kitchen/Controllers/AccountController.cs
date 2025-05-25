@@ -79,7 +79,14 @@ namespace Kitchen.Controllers
                     Customer customerDB = CustomerRepo.GetByAccountId(accountDB.Id);
 
                     ClaimsIdentity claims = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-                    claims.AddClaim(new Claim("ID", customerDB.Id.ToString()));
+                    if(roleDB.RoleID == 3)
+                    {
+                        claims.AddClaim(new Claim("CustomerID", customerDB.Id.ToString()));
+                    }
+                    else
+                    {
+                        claims.AddClaim(new Claim("AccountID", accountDB.Id.ToString()));
+                    }
                     claims.AddClaim(new Claim(ClaimTypes.Name, accountDB.Username));
                     claims.AddClaim(new Claim(ClaimTypes.Role, roleDB.RoleID.ToString()));
                     ClaimsPrincipal principal = new ClaimsPrincipal(claims);
@@ -121,6 +128,38 @@ namespace Kitchen.Controllers
                 customerDB.Name = profileVM.customerName;
                 customerDB.PhoneNumber = profileVM.customerPhone;
                 customerDB.Address = profileVM.customerSAddress;
+                CustomerRepo.Edit(customerDB);
+                CustomerRepo.Save();
+                return RedirectToAction("Profile", "Customer");
+            }
+            return View("Edit", profileVM);
+        }
+
+        public IActionResult Edit()
+        {
+            int customerID = int.Parse(User.FindFirst("ID")?.Value);
+            Customer customerDB = CustomerRepo.GetById(customerID);
+
+            ProfileViewModel profileVM = new ProfileViewModel()
+            {
+                customerName = customerDB.Name,
+                customerPhone = customerDB.PhoneNumber,
+                customerAddress = customerDB.Address
+            };
+            return View("Edit", profileVM);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(ProfileViewModel profileVM)
+        {
+            if (ModelState.IsValid)
+            {
+                int customerID = int.Parse(User.FindFirst("ID")?.Value);
+                Customer customerDB = CustomerRepo.GetById(customerID);
+
+                customerDB.Name = profileVM.customerName;
+                customerDB.PhoneNumber = profileVM.customerPhone;
+                customerDB.Address = profileVM.customerAddress;
                 CustomerRepo.Edit(customerDB);
                 CustomerRepo.Save();
                 return RedirectToAction("Profile", "Customer");

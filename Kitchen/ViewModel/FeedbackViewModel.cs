@@ -8,8 +8,8 @@ namespace Kitchen.ViewModel
         [Display(Name = "Tell us a little more")]
         [MaxLength(100)]
         public string Comment { get; set; }
-        public int orderrate { get; set; }
-        public int orderId { get; set; }
-        public int customerId { get; set; }
+        public int OrderRate { get; set; }
+        public int OrderId { get; set; }
+        public int CustomerId { get; set; }
     }
 }

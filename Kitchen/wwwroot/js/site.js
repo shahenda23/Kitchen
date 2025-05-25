@@ -81,36 +81,6 @@ function calculateTotalPrice() {
     return order.reduce((total, item) => total + (item.Price * item.Quantity), 0).toFixed(2);
 }
 
-//function updateOrderSummary() {
-//    var orderSummary = document.getElementById('orderSummary');
-//    if (!orderSummary) return;
-
-//    orderSummary.innerHTML = '';
-
-//    if (order.length === 0) {
-//        document.getElementById('bottomNavbar').classList.add('d-none');
-//        return;
-//    }
-
-//    var totalDiv = document.createElement('div');
-//    totalDiv.className = "me-3 text-success";
-//    totalDiv.innerHTML = `Total: ${calculateTotalPrice()} EGP`;
-//    orderSummary.appendChild(totalDiv);
-
-//    order.forEach(item => {
-//        var itemDiv = document.createElement('div');
-//        itemDiv.className = "me-2";
-//        itemDiv.innerHTML = `
-//            Dish #${item.DishId}
-//            <span class="badge bg-success">${item.Quantity}</span>
-//            <button class="btn btn-sm btn-outline-danger ms-1" onclick="removeItem(${item.DishId})">
-//                <i class="bi bi-x-circle"></i>
-//            </button>
-//        `;
-//        orderSummary.appendChild(itemDiv);
-//    });
-//}
-
 function updateOrderSummary() {
     var orderSummary = document.getElementById('orderSummary');
     if (!orderSummary) return;
@@ -188,8 +158,8 @@ function displayOrderDetails(orderDetails) {
         row.innerHTML = `
             <td>${item.DishId}</td>
             <td>${item.Name}</td>
-            <td>${item.Price.toFixed(2)} EGP</td>
             <td>${item.Quantity}</td>
+            <td>${item.Price.toFixed(2)} EGP</td>
             <td>${subtotal.toFixed(2)} EGP</td>
         `;
         tableBody.appendChild(row);

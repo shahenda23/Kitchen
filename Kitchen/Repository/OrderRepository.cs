@@ -21,7 +21,9 @@ namespace Kitchen.Repository
         }
         public void Edit(Order obj)
         {
-            throw new NotImplementedException();
+            Order orderDB = GetById(obj.Id);
+            orderDB.TotalPrice = obj.TotalPrice;
+            orderDB.Status = obj.Status;
         }
         public List<Order> GetAll(string includes = "")
         {
@@ -42,7 +44,7 @@ namespace Kitchen.Repository
             return context.Orders
                 .Where(o => o.CustomerId == customerId)
                 .Include(o => o.OrderDetails)
-                .ThenInclude(od => od.Dish)
+                    .ThenInclude(od => od.Dish)
                 .ToList();
         }
         public Order GetById(int id, string includes = "")
