@@ -1,85 +1,102 @@
 ﻿@model FeedbackViewModel
-<h1>Add your Feedback</h1>
+<link rel="stylesheet" href="~/css/FeedBack.css" asp-append-version="true" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-<form asp-action="SubmitFeedback" method="post" asp-controller="Feedback">
-    <div>
-        <label asp-for="Comment"></label>
-        <input class="form form-control" asp-for="Comment" />
-        <span asp-validation-for="Comment" id="nameError" class="text-danger"></span>
-    </div>
-
-    <input type="hidden" name="Customer_ID" value="@Model.CustomerId" />
-
-    <label>Rating:</label>
-    <div class="star-rating">
-        <input type="radio" id="star5" name="orderrate" value="5" onclick="showRatingMessage(5)"><label for="star5">★</label>
-        <input type="radio" id="star4" name="orderrate" value="4" onclick="showRatingMessage(4)"><label for="star4">★</label>
-        <input type="radio" id="star3" name="orderrate" value="3" onclick="showRatingMessage(3)"><label for="star3">★</label>
-        <input type="radio" id="star2" name="orderrate" value="2" onclick="showRatingMessage(2)"><label for="star2">★</label>
-        <input type="radio" id="star1" name="orderrate" value="1" onclick="showRatingMessage(1)"><label for="star1">★</label>
-    </div>
-
-    <p id="rating-message" class="rating-text"></p>
+<div class="feedback-container">
+    <i class="fas fa-comments feedback-icon"></i>
     
-    <script>
-        function showRatingMessage(starValue) {
-            let message = "";
-            switch (starValue) {
-                case 1:
-                    message = "Disappointing";
-                    break;
-                case 2:
-                    message = "Not so good";
-                    break;
-                case 3:
-                    message = "It was alright";
-                    break;
-                case 4:
-                    message = "Pretty Good";
-                    break;
-                case 5:
-                    message = "Excellent!";
-                    break;
-            }
-            document.getElementById("rating-message").textContent = message;
+    <div class="form-header">
+        <h1>Share Your Experience</h1>
+        <p>Your feedback helps us serve you better</p>
+    </div>
+
+    <form class="feedback-form" asp-action="SubmitFeedback" method="post" asp-controller="Feedback">
+        <div class="form-group">
+            <label asp-for="Comment">Tell us about your experience</label>
+            <textarea 
+                class="form-control" 
+                asp-for="Comment" 
+                placeholder="Share your thoughts about our service, food quality, or overall experience..."
+                rows="5">
+            </textarea>
+            <span asp-validation-for="Comment" id="nameError" class="text-danger"></span>
+        </div>
+
+        <div class="form-group rating-section">
+            <label class="rating-label">How would you rate your experience?</label>
+            <div class="star-rating">
+                <input type="radio" id="star5" name="orderrate" value="5" onclick="showRatingMessage(5)">
+                <label for="star5">★</label>
+                <input type="radio" id="star4" name="orderrate" value="4" onclick="showRatingMessage(4)">
+                <label for="star4">★</label>
+                <input type="radio" id="star3" name="orderrate" value="3" onclick="showRatingMessage(3)">
+                <label for="star3">★</label>
+                <input type="radio" id="star2" name="orderrate" value="2" onclick="showRatingMessage(2)">
+                <label for="star2">★</label>
+                <input type="radio" id="star1" name="orderrate" value="1" onclick="showRatingMessage(1)">
+                <label for="star1">★</label>
+            </div>
+            <p id="rating-message" class="rating-message"></p>
+        </div>
+
+        <input type="hidden" name="Customer_ID" value="@Model.customerId" />
+        <input type="hidden" name="OrderId" value="@Model.orderId">
+
+        <div class="form-group">
+            <button type="submit" class="submit-button">
+                <i class="fas fa-paper-plane" style="margin-right: 10px;"></i>
+                Submit Feedback
+            </button>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    function showRatingMessage(starValue) {
+        const messageElement = document.getElementById("rating-message");
+        let message = "";
+        let className = "";
+        
+        switch (starValue) {
+            case 1:
+                message = "We're sorry to hear that. We'll work harder to improve.";
+                className = "bad";
+                break;
+            case 2:
+                message = "Thank you for your feedback. We'll strive to do better.";
+                className = "poor";
+                break;
+            case 3:
+                message = "Thanks for your feedback. We appreciate your honesty.";
+                className = "okay";
+                break;
+            case 4:
+                message = "Great! We're glad you had a good experience.";
+                className = "good";
+                break;
+            case 5:
+                message = "Excellent! Thank you for choosing us!";
+                className = "excellent";
+                break;
         }
-    </script>
-
-    <input type="hidden" name="OrderId" value="@Model.OrderId">
-
-    <button type="submit">Submit Feedback</button>
-</form>
-<style>
-    .rating-text {
-        text-align: center;
-        font-size: 20px;
-        color: black;
-        margin-top: 10px; 
+        
+        messageElement.textContent = message;
+        messageElement.className = `rating-message ${className}`;
     }
 
-    .star-rating {
-        display: flex;
-        flex-direction: row-reverse;
-        justify-content: center;
-    }
-
-        .star-rating input {
-            display: none;
+    // Add interactive effects
+    document.addEventListener('DOMContentLoaded', function() {
+        const textarea = document.querySelector('textarea');
+        
+        if (textarea) {
+            textarea.addEventListener('focus', function() {
+                this.style.transform = 'scale(1.02)';
+            });
+            
+            textarea.addEventListener('blur', function() {
+                this.style.transform = 'scale(1)';
+            });
         }
-
-        .star-rating label {
-            font-size: 30px;
-            color: gray;
-            cursor: pointer;
-        }
-
-        .star-rating input:checked ~ label {
-            color: gold;
-        }
-
-        .star-rating label:hover,
-        .star-rating label:hover ~ label {
-            color: gold;
-        }
-
-</style>
+    });
+</script>

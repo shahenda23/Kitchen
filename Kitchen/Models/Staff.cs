@@ -14,8 +14,8 @@ namespace Kitchen.Models
         [Range(10000, 20000, ErrorMessage = "Salary must be between 10000 and 20000")]
         public float Salary { get; set; }
 
-        
-
+        public string? Image {  get; set; } 
+       
         [ForeignKey("Account")]
         public int AccountId { get; set; }
         public Account? Account { get; set; }

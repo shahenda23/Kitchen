@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Kitchen.Controllers
 {
-    [Authorize(Roles = "1, 2, 3, 4")]
+    [Authorize(Roles = "1, 2, 3, 4, 5")]
     public class OrderController : Controller
     {
         IOrderRepository orderrepo; 
@@ -21,10 +21,10 @@ namespace Kitchen.Controllers
             custrepo = _custrepo;
             orderdetailsrepo = _orderdetailsrepo;
         }
-        [Authorize(Roles = "2, 4")]
+        [Authorize(Roles = "2 , 4 ")]
         public IActionResult All()
         {
-            List<Order> order = orderrepo.GetAll();
+            List<Order> order = orderrepo.GetAll("Customer");
             return View(order);
         }
         public IActionResult CreateOrder(string orderDetailsJson)

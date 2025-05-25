@@ -18,16 +18,25 @@ namespace Kitchen.Repository
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            context.Feedbacks.Remove(GetById(id));
         }
 
         public void Edit(Feedback obj)
         {
             throw new NotImplementedException();
         }
+
+
         public List<Feedback> GetAll(string includes = "")
         {
-            return context.Feedbacks.ToList();
+            if (includes == "")
+            {
+                return context.Feedbacks.ToList();
+            }
+            else
+            {
+                return context.Feedbacks.Include(includes).ToList();
+            }
         }
 
         public IEnumerable<Feedback> GetByCustomer(int customerId)
@@ -37,6 +46,12 @@ namespace Kitchen.Repository
                    .Include(f => f.Customer) 
                    .ToList();
         }
+
+        public Feedback GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public Feedback GetById(int id, string includes = "")
         {
             throw new NotImplementedException();

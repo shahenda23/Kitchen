@@ -9,7 +9,7 @@
 
 <div class="mb-4">
     <h4>Customer Information</h4>
-    <dl class="row">
+    <dl class="row"> 
         <dt class="col-sm-3">Name</dt>
         <dd class="col-sm-9">@Model.customername</dd>
         <dt class="col-sm-3">Address</dt>
@@ -30,6 +30,7 @@
 </div>
 
 @if (Model.OrderDetails != null && Model.OrderDetails.Any())
+
 {
     <div>
         <h4>Dishes</h4>
@@ -44,6 +45,7 @@
             </thead>
             <tbody>
                 @foreach (var item in Model.OrderDetails)
+
                 {
                     <tr>
                         <td>@(item.Dish?.Name ?? "N/A")</td>
@@ -56,7 +58,9 @@
         </table>
     </div>
 }
+
 else
+
 {
     <div class="alert alert-info">No dishes found for this order.</div>
 }

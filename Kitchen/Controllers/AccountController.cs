@@ -49,7 +49,7 @@ namespace Kitchen.Controllers
                     AccountRole roleDB = new AccountRole()
                     {
                         AccountID = accountDB.Id,
-                        RoleID = 3,
+                        RoleID = 5,
                     };
                     CustomerRepo.Add(customerDB);
                     CustomerRepo.Save();
@@ -100,7 +100,39 @@ namespace Kitchen.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("index", "Home");
+            return RedirectToAction("Login","Account" );
+        }
+
+        public IActionResult Edit()
+        {
+            int customerID = int.Parse(User.FindFirst("ID")?.Value);
+            Customer customerDB = CustomerRepo.GetById(customerID);
+
+            ProfileViewModel profileVM = new ProfileViewModel()
+            {
+                customerName = customerDB.Name,
+                customerPhone = customerDB.PhoneNumber,
+                customerSAddress = customerDB.Address
+            };
+            return View("Edit", profileVM);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(ProfileViewModel profileVM)
+        {
+            if (ModelState.IsValid)
+            {
+                int customerID = int.Parse(User.FindFirst("ID")?.Value);
+                Customer customerDB = CustomerRepo.GetById(customerID);
+
+                customerDB.Name = profileVM.customerName;
+                customerDB.PhoneNumber = profileVM.customerPhone;
+                customerDB.Address = profileVM.customerSAddress;
+                CustomerRepo.Edit(customerDB);
+                CustomerRepo.Save();
+                return RedirectToAction("Profile", "Customer");
+            }
+            return View("Edit", profileVM);
         }
 
         public IActionResult Edit()

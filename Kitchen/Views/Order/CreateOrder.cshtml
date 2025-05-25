@@ -1,107 +1,4 @@
-﻿@*
-@model Kitchen.ViewModel.OrderDishesViewModel
-@{
-    ViewData["Title"] = "Complete Your Order";
-}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <script src="~/js/site.js"></script>
-    <style>
-        .total-price-badge {
-            font-size: 1.5rem;
-            padding: 0.75rem 1.5rem;
-            border-radius: 2rem;
-        }
-
-        .order-table th, .order-table td {
-            vertical-align: middle;
-            text-align: center;
-        }
-
-        .order-table th {
-            background-color: #f8f9fa;
-        }
-    </style>
-</head>
-<body class="bg-light py-4">
-    <div class="container">
-        <h2 class="text-center mb-5">📝 Complete Your Order</h2>
-        <form id="orderForm" asp-action="Profile" asp-controller="Customer" method="post">
-            @Html.AntiForgeryToken()
-            <div class="row">
-                <!-- Customer Info -->
-                <div class="col-md-6">
-                    <div class="card shadow-sm mb-4">
-                        <div class="card-header bg-primary text-white">
-                            <h4 class="mb-0">Customer Information</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group mb-3">
-                                <label asp-for="customername" class="form-label">Name</label>
-                                <input asp-for="customername" class="form-control" required />
-                            </div>
-                            <div class="form-group mb-3">
-                                <label asp-for="customeraddress" class="form-label">Address</label>
-                                <input asp-for="customeraddress" class="form-control" required />
-                            </div>
-                            <div class="form-group mb-3">
-                                <label asp-for="customerphone" class="form-label">Phone Number</label>
-                                <input asp-for="customerphone" class="form-control" required />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Order Details -->
-                <div class="col-md-6">
-                    <div class="card shadow-sm">
-                        <div class="card-header d-flex justify-content-between align-items-center bg-success text-white">
-                            <h4 class="mb-0">Order Details</h4>
-                            <span class="badge bg-warning text-dark total-price-badge" id="totalPrice">Total: 0 EGP</span>
-                        </div>
-                        <div class="card-body p-0">
-                            <table class="table table-bordered order-table m-0">
-                                <thead>
-                                    <tr>
-                                        <th>Dish ID</th>
-                                        <th>Dish Name</th>
-                                        <th>Price</th>
-                                        <th>Quantity</th>
-                                        <th>Subtotal</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="orderDetailsTable">
-                                    <!-- Will be populated by JS -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Hidden input for order JSON -->
-            <input type="hidden" id="orderDetailsInput" name="OrderDetailsJson" />
-            <div class="mt-5 text-center">
-                <button type="submit" class="btn btn-lg btn-success px-5">
-                    <i class="bi bi-check-circle me-2"></i>Confirm Order
-                </button>
-                <a href="/Order/SelectDishes" class="btn btn-lg btn-outline-secondary ms-3 px-4">
-                    <i class="bi bi-arrow-left me-2"></i>Back to Dishes
-                </a>
-            </div>
-        </form>
-    </div>
-</body>
-</html>
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-*@
-
-
-@model Kitchen.ViewModel.OrderDishesViewModel
+﻿@model Kitchen.ViewModel.OrderDishesViewModel
 @{
     ViewData["Title"] = "Checkout - Complete Your Order";
 }
@@ -142,7 +39,7 @@
         max-width: 1400px;
         margin: 0 auto;
         padding: 2rem;
-        min-height: 100vh;
+
     }
 
     .checkout-header {
@@ -156,15 +53,15 @@
         overflow: hidden;
     }
 
-        .checkout-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, var(--primary-orange) 0%, var(--dark-orange) 100%);
-        }
+    .checkout-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, var(--primary-orange) 0%, var(--dark-orange) 100%);
+    }
 
     .checkout-title {
         color: var(--black);
@@ -257,17 +154,17 @@
         font-family: inherit;
     }
 
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary-orange);
-            box-shadow: 0 0 0 4px var(--light-orange);
-            transform: translateY(-2px);
-        }
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary-orange);
+        box-shadow: 0 0 0 4px var(--light-orange);
+        transform: translateY(-2px);
+    }
 
-        .form-control::placeholder {
-            color: var(--medium-gray);
-            opacity: 0.7;
-        }
+    .form-control::placeholder {
+        color: var(--medium-gray);
+        opacity: 0.7;
+    }
 
     /* Enhanced Order Summary with Table */
     .order-summary-container {
@@ -286,18 +183,18 @@
         position: relative;
     }
 
-        .order-header::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-top: 15px solid var(--dark-gray);
-        }
+    .order-header::after {
+        content: '';
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-top: 15px solid var(--dark-gray);
+    }
 
     .order-title {
         font-size: 1.6rem;
@@ -326,96 +223,96 @@
         font-family: inherit;
     }
 
-        .order-table thead {
-            background: linear-gradient(135deg, var(--light-gray) 0%, #e9ecef 100%);
-        }
+    .order-table thead {
+        background: linear-gradient(135deg, var(--light-gray) 0%, #e9ecef 100%);
+    }
 
-        .order-table th {
-            padding: 1.5rem 1rem;
-            text-align: left;
-            font-weight: 700;
-            color: var(--black);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            border-bottom: 2px solid var(--border-light);
-            position: relative;
-        }
+    .order-table th {
+        padding: 1.5rem 1rem;
+        text-align: left;
+        font-weight: 700;
+        color: var(--black);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 2px solid var(--border-light);
+        position: relative;
+    }
 
-            .order-table th:first-child {
-                padding-left: 2rem;
-                border-top-left-radius: 0;
-            }
+    .order-table th:first-child {
+        padding-left: 2rem;
+        border-top-left-radius: 0;
+    }
 
-            .order-table th:last-child {
-                text-align: right;
-                padding-right: 2rem;
-                border-top-right-radius: 0;
-            }
+    .order-table th:last-child {
+        text-align: right;
+        padding-right: 2rem;
+        border-top-right-radius: 0;
+    }
 
-            .order-table th:nth-child(3),
-            .order-table th:nth-child(4),
-            .order-table th:nth-child(5) {
-                text-align: center;
-            }
+    .order-table th:nth-child(3),
+    .order-table th:nth-child(4),
+    .order-table th:nth-child(5) {
+        text-align: center;
+    }
 
-        .order-table tbody tr {
-            transition: all 0.3s ease;
-            border-bottom: 1px solid var(--border-light);
-        }
+    .order-table tbody tr {
+        transition: all 0.3s ease;
+        border-bottom: 1px solid var(--border-light);
+    }
 
-            .order-table tbody tr:hover {
-                background: var(--light-orange);
-                transform: scale(1.01);
-                box-shadow: 0 4px 12px rgba(255, 107, 53, 0.1);
-            }
+    .order-table tbody tr:hover {
+        background: var(--light-orange);
+        transform: scale(1.01);
+        box-shadow: 0 4px 12px rgba(255, 107, 53, 0.1);
+    }
 
-            .order-table tbody tr:last-child {
-                border-bottom: none;
-            }
+    .order-table tbody tr:last-child {
+        border-bottom: none;
+    }
 
-        .order-table td {
-            padding: 1.5rem 1rem;
-            vertical-align: middle;
-            font-size: 1rem;
-        }
+    .order-table td {
+        padding: 1.5rem 1rem;
+        vertical-align: middle;
+        font-size: 1rem;
+    }
 
-            .order-table td:first-child {
-                padding-left: 2rem;
-                font-weight: 600;
-                color: var(--medium-gray);
-                font-size: 0.9rem;
-            }
+    .order-table td:first-child {
+        padding-left: 2rem;
+        font-weight: 600;
+        color: var(--medium-gray);
+        font-size: 0.9rem;
+    }
 
-            .order-table td:nth-child(2) {
-                font-weight: 600;
-                color: var(--black);
-                font-size: 1.1rem;
-            }
+    .order-table td:nth-child(2) {
+        font-weight: 600;
+        color: var(--black);
+        font-size: 1.1rem;
+    }
 
-            .order-table td:nth-child(3) {
-                text-align: center;
-                font-weight: 700;
-                background: var(--light-gray);
-                color: var(--black);
-                border-radius: 20px;
-                margin: 0 0.5rem;
-                min-width: 60px;
-            }
+    .order-table td:nth-child(3) {
+        text-align: center;
+        font-weight: 700;
+        background: var(--light-gray);
+        color: var(--black);
+        border-radius: 20px;
+        margin: 0 0.5rem;
+        min-width: 60px;
+    }
 
-            .order-table td:nth-child(4) {
-                text-align: center;
-                color: var(--medium-gray);
-                font-weight: 500;
-            }
+    .order-table td:nth-child(4) {
+        text-align: center;
+        color: var(--medium-gray);
+        font-weight: 500;
+    }
 
-            .order-table td:last-child {
-                text-align: right;
-                padding-right: 2rem;
-                font-weight: 700;
-                color: var(--primary-orange);
-                font-size: 1.2rem;
-            }
+    .order-table td:last-child {
+        text-align: right;
+        padding-right: 2rem;
+        font-weight: 700;
+        color: var(--primary-orange);
+        font-size: 1.2rem;
+    }
 
     .order-summary {
         padding: 2rem;
@@ -432,35 +329,35 @@
         padding: 0.5rem 0;
     }
 
-        .summary-row:not(.total) {
-            color: var(--medium-gray);
-            border-bottom: 1px dashed var(--border-dashed);
-            padding-bottom: 1rem;
-        }
+    .summary-row:not(.total) {
+        color: var(--medium-gray);
+        border-bottom: 1px dashed var(--border-dashed);
+        padding-bottom: 1rem;
+    }
 
-        .summary-row.total {
-            background: linear-gradient(135deg, var(--primary-orange), var(--dark-orange));
-            color: var(--white);
-            padding: 1.5rem 2rem;
-            margin: 1.5rem -2rem -2rem -2rem;
-            font-size: 1.4rem;
-            font-weight: 800;
-            position: relative;
-            border-radius: 0 0 16px 16px;
-        }
+    .summary-row.total {
+        background: linear-gradient(135deg, var(--primary-orange), var(--dark-orange));
+        color: var(--white);
+        padding: 1.5rem 2rem;
+        margin: 1.5rem -2rem -2rem -2rem;
+        font-size: 1.4rem;
+        font-weight: 800;
+        position: relative;
+        border-radius: 0 0 16px 16px;
+    }
 
-            .summary-row.total::before {
-                content: '';
-                position: absolute;
-                top: -10px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 0;
-                height: 0;
-                border-left: 15px solid transparent;
-                border-right: 15px solid transparent;
-                border-bottom: 10px solid var(--primary-orange);
-            }
+    .summary-row.total::before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-bottom: 10px solid var(--primary-orange);
+    }
 
     .empty-order {
         text-align: center;
@@ -468,18 +365,18 @@
         color: var(--medium-gray);
     }
 
-        .empty-order i {
-            font-size: 5rem;
-            color: var(--primary-orange);
-            margin-bottom: 1.5rem;
-            opacity: 0.7;
-        }
+    .empty-order i {
+        font-size: 5rem;
+        color: var(--primary-orange);
+        margin-bottom: 1.5rem;
+        opacity: 0.7;
+    }
 
-        .empty-order h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--black);
-        }
+    .empty-order h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: var(--black);
+    }
 
     /* Full-width Action Section */
     .checkout-actions {
@@ -526,6 +423,7 @@
         gap: 1.5rem;
         flex-wrap: wrap;
         justify-content: center;
+        margin-bottom:20px;
     }
 
     .btn {
@@ -552,11 +450,11 @@
         box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
     }
 
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(255, 107, 53, 0.4);
-            color: var(--white);
-        }
+    .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(255, 107, 53, 0.4);
+        color: var(--white);
+    }
 
     .btn-secondary {
         background: var(--white);
@@ -565,12 +463,12 @@
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     }
 
-        .btn-secondary:hover {
-            background: var(--black);
-            color: var(--white);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-        }
+    .btn-secondary:hover {
+        background: var(--black);
+        color: var(--white);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    }
 
     .loading-spinner {
         display: none;
@@ -584,7 +482,7 @@
 
     .hero-section {
         width: 100vw;
-        height: 40vh;
+        height: 20vh;
         position: relative;
         margin-left: calc(50% - 50vw);
         margin-right: calc(50% - 50vw);
@@ -644,13 +542,14 @@
         text-shadow: 0 1px 5px rgba(0,0,0,0.2);
     }
 
+
 </style>
 
 <section class="hero-section">
     <div class="creative-slider-container">
         <div class="slider-wrapper">
             <div class="slider">
-                <div class="slide" style="background-image: url('/Images/bill.png');">
+                <div class="slide" style="background-color: transparent;">
                     <div class="slide-content">
                         <h2 class="slide-title">
                             <i class="bi bi-receipt-cutoff"></i>
@@ -663,11 +562,17 @@
         </div>
     </div>
 </section>
+<div class="actions-container">
+    <p class="actions-subtitle">
+        Review your information below and click the button below to finalize your delicious order.
+        Your food will be prepared fresh and delivered to your doorstep!
+    </p>
+</div>
 
 <div class="checkout-container">
-    <form id="orderForm" asp-action="OrderDetails" method="post">
+    <form id="orderForm" asp-action="Profile" asp-controller="Customer" method="post">
         @Html.AntiForgeryToken()
-
+        
         <div class="checkout-form">
             <!-- Customer Information -->
             <div class="form-section">
@@ -680,20 +585,20 @@
 
                 <div class="form-group">
                     <label asp-for="customername" class="form-label">Full Name *</label>
-                    <input asp-for="customername" class="form-control"
+                    <input asp-for="customername" class="form-control" 
                            placeholder="Enter your full name" required />
                 </div>
 
                 <div class="form-group">
                     <label asp-for="customeraddress" class="form-label">Delivery Address *</label>
-                    <input asp-for="customeraddress" class="form-control"
-                           placeholder="Street address, city, postal code" required />
+                    <input asp-for="customeraddress" class="form-control" 
+                           placeholder="Street address, city" required />
                 </div>
 
                 <div class="form-group">
                     <label asp-for="customerphone" class="form-label">Phone Number *</label>
-                    <input asp-for="customerphone" class="form-control"
-                           placeholder="+1 (555) 123-4567" required />
+                    <input asp-for="customerphone" class="form-control" 
+                           placeholder="+2 01023456789" required />
                 </div>
             </div>
 
@@ -722,7 +627,7 @@
                             <!-- Sample data - will be populated by JavaScript -->
                         </tbody>
                     </table>
-
+                    
                     <div class="order-summary">
                         <div class="summary-row total" id="totalPrice">
                             <span>Total Amount:</span>
@@ -743,44 +648,38 @@
     </form>
 </div>
 
-<!-- Full-width Action Buttons Section -->
-<div class="checkout-actions">
-    <div class="actions-container">
-        <h3 class="actions-title">Ready to Complete Your Order?</h3>
-        <p class="actions-subtitle">
-            Review your information above and click the button below to finalize your delicious order.
-            Your food will be prepared fresh and delivered to your doorstep!
-        </p>
-        <div class="btn-group">
-            <button type="submit" form="orderForm" class="btn btn-primary" id="submitBtn">
-                <i class="bi bi-credit-card-fill"></i>
-                Complete Order
-                <div class="loading-spinner"></div>
-            </button>
-            <a href="/Dish/All" class="btn btn-secondary">
-                <i class="bi bi-arrow-left"></i>
-                Continue Shopping
-            </a>
-        </div>
+
+<div class="actions-container">
+    <div class="btn-group">
+        <button type="submit" form="orderForm" class="btn btn-primary" id="submitBtn">
+            <i class="bi bi-credit-card-fill"></i>
+            Complete Order
+            <div class="loading-spinner"></div>
+        </button>
+        <a href="/Dish/All" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i>
+            Continue Shopping
+        </a>
     </div>
 </div>
+
 
 <script>
     // Enhanced form submission handling
     document.getElementById('orderForm').addEventListener('submit', function(e) {
         const submitBtn = document.getElementById('submitBtn');
         const spinner = submitBtn.querySelector('.loading-spinner');
-
+        
         // Show loading state
         spinner.style.display = 'block';
         submitBtn.disabled = true;
         submitBtn.style.opacity = '0.7';
-
+        
         // Generate order number
-        const orderNum = 'ORD-' + new Date().getFullYear() + '-' +
+        const orderNum = 'ORD-' + new Date().getFullYear() + '-' + 
                         String(Math.floor(Math.random() * 10000)).padStart(4, '0');
         document.getElementById('orderNumber').textContent = orderNum;
-
+        
         // Collect order data from table
         const orderData = collectOrderData();
         document.getElementById('orderDetailsInput').value = JSON.stringify(orderData);
@@ -790,20 +689,20 @@
     function collectOrderData() {
         const rows = document.querySelectorAll('#orderDetailsTable tr');
         const orderData = [];
-
+        
         rows.forEach(row => {
             const cells = row.querySelectorAll('td');
             if (cells.length >= 5) {
                 orderData.push({
-                    Dishid: cells[0].textContent.replace('#', ''),
+                    id: cells[0].textContent.replace('#', ''),
                     name: cells[1].textContent,
-                    Quantity: parseInt(cells[2].textContent),
-                    Price: parseFloat(cells[3].textContent.replace('$', '')),
+                    quantity: parseInt(cells[2].textContent),
+                    price: parseFloat(cells[3].textContent.replace('$', '')),
                     subtotal: parseFloat(cells[4].textContent.replace('$', ''))
                 });
             }
         });
-
+        
         return orderData;
     }
 
@@ -849,7 +748,7 @@
         const tableBody = document.getElementById('orderDetailsTable');
         const emptyOrder = document.getElementById('emptyOrder');
         const orderContent = document.getElementById('orderContent');
-
+        
         if (!orderData || orderData.length === 0) {
             orderContent.style.display = 'none';
             emptyOrder.style.display = 'block';
@@ -865,7 +764,7 @@
         orderData.forEach((item, index) => {
             const itemSubtotal = item.price * item.quantity;
             subtotal += itemSubtotal;
-
+            
             html += `
                 <tr>
                     <td>#${String(index + 1).padStart(3, '0')}</td>
@@ -888,7 +787,7 @@
         document.getElementById('taxAmount').textContent = `$${tax.toFixed(2)}`;
         document.getElementById('totalAmount').textContent = `$${total.toFixed(2)}`;
     }
-
+    
     // Smooth scrolling for mobile
     if (window.innerWidth <= 768) {
         const form = document.getElementById('orderForm');
@@ -897,11 +796,5 @@
         });
     }
 </script>
-
-
-
-
-
-
 
 

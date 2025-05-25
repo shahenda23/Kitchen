@@ -1,383 +1,231 @@
-﻿@using System.Text.Json  
-@model IEnumerable<Kitchen.Models.Dish>  
-@{  
-     ViewData["Title"] = "Dishes List";  
-}  
- <html lang="en">  
- <head>  
-     <meta charset="utf-8" />  
-     <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">  
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />  
-     <script src="~/js/site.js"></script>  
-     <style>  
-         body {  
-         padding: 20px;  
-         }  
+﻿@using System.Text.Json
+@model Kitchen.ViewModel.DishListViewModel
+@{
+    ViewData["Title"] = "Dishes List";
+}
+<link rel="stylesheet" href="~/css/AllDish.css" asp-append-version="true" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<script src="~/js/site.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<section class="hero-section">
+    <div class="creative-slider-container">
+        <div class="slider-wrapper">
+            <div class="slider">
+                <div class="slide" style="background-image: url('/Images/me.png');">
+                    <div class="slide-content">
+                        <h2 class="slide-title">Our Menu</h2>
+                        <p class="slide-subtitle">Delicious Dishes Await</p>
+                        @if (!User.IsInRole("5"))
+                        {
+                            <a href="/Dish/Add" class="hero-btn">Add New Dish</a>
+                        }
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<nav class="category-nav" id="categoryNav">
+    <div class="nav-container">
+        @foreach (var category in Model.Categories.OrderBy(c => c.Name))
+        {
+            <div class="category-item">
+                <a class="category-link" href="#category-@category.Name.Replace(" ", "-")">
+                    <div class="category-image-container">
+                        <img src="~/Images/@category.Image" class="category-image" alt="@category.Name"/>
+                        <div class="category-name">@category.Name</div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+</nav>
+<form  id= "orderForm" asp-action="CreateOrder" asp-controller="Order" method="post">
+@foreach (var category in Model.Categories.OrderBy(c => c.Name))
+{
+    var CategoryDishes = Model.Dishes.Where(d => d.Category_Id == category.Id).ToList();
+    if (CategoryDishes.Any())
+    {
+        <div id="category-@category.Name.Replace(" " , "-")" class="category-section mb-5">
+            <section class="cate-section">
+                <div >
+                    <h3 style="font-family: 'Brush Script MT'; color:#d35400;">@category.Name.ToUpper()</h3>
+                </div>
+            </section>
 
-         .card {  
-         transition: transform 0.2s;  
-         }  
+            <section class="menu-categories-section">
+                <div class="container">
+                    <div class="categories-grid">
+                        <div class="grid-left">
+                            @foreach (var dish in CategoryDishes.Take((int)Math.Ceiling(CategoryDishes.Count() / 2.0)))
+                            {
+                                <div class="dish-item">
+                                    <div class="dish-image-wrapper">
+                                        <img src="/Images/@dish.Image" alt="@dish.Name" class="dish-image">
+                                    </div>
+                                    <div class="dish-info">
+                                        <div>
+                                            @if(User.IsInRole("5"))
+                                            {
+                                                <h3 class="dish-title">@dish.Name.ToUpper()</h3>
+                                            }
+                                            else
+                                            {
+                                                <a href="/Dish/Details/@dish.Id"><h3 class="dish-title">@dish.Name.ToUpper()</h3></a>
+                                            }
+                                            <p class="dish-description">@dish.Description</p>
+                                            <div class="dish-price">@dish.Price.ToString("N2") EGP</div>
+                                        </div>
+                                        <div>
+                                            <div class="quantity-controls">
+                                                <button type="button" class="qty-btn decrease" onclick="decreaseQuantity(@dish.Id)">-</button>
+                                                <span id="qty-@dish.Id" class="qty-display">0</span>
+                                                <button type="button" class="qty-btn increase" onclick="increaseQuantity(@dish.Id)">+</button>
+                                            </div>
+                                            <button type="button" class="add-to-order-btn"
+                                                    onclick='addToOrder(@dish.Id, @Html.Raw(Json.Serialize(dish.Name ?? "")), @dish.Price.ToString(System.Globalization.CultureInfo.InvariantCulture))'>
+                                                <i class="bi bi-plus-circle"></i>
+                                                Add to Cart
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
 
-         .card:hover {  
-         transform: scale(1.05);  
-         }  
+                        <div class="grid-right">
+                            @foreach (var dish in CategoryDishes.Skip((int)Math.Ceiling(CategoryDishes.Count() / 2.0)).Take((CategoryDishes.Count())/2))
+                            {
+                                <div class="dish-item">
+                                    <div class="dish-image-wrapper">
+                                        <img src="/Images/@dish.Image" alt="@dish.Name" class="dish-image">
+                                    </div>
+                                    <div class="dish-info">
+                                        <div>
+                                            @if (User.IsInRole("5"))
+                                            {
+                                                <h3 class="dish-title">@dish.Name.ToUpper()</h3>
+                                            }
+                                            else
+                                            {
+                                                <a href="/Dish/Details/@dish.Id"><h3 class="dish-title">@dish.Name.ToUpper()</h3></a>
+                                            }
+                                            <p class="dish-description">@dish.Description</p>
+                                            <div class="dish-price">@dish.Price.ToString("N2") EGP</div>
+                                        </div>
+                                        <div>
+                                            <div class="quantity-controls">
+                                                <button type="button" class="qty-btn decrease" onclick="decreaseQuantity(@dish.Id)">-</button>
+                                                <span id="qty-@dish.Id" class="qty-display">0</span>
+                                                <button type="button" class="qty-btn increase" onclick="increaseQuantity(@dish.Id)">+</button>
+                                            </div>
+                                            <button type="button" class="add-to-order-btn"
+                                                    onclick='addToOrder(@dish.Id, @Html.Raw(Json.Serialize(dish.Name ?? "")), @dish.Price.ToString(System.Globalization.CultureInfo.InvariantCulture))'>
+                                                <i class="bi bi-plus-circle"></i>
+                                                Add to Cart
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    }
+}
+</form>
+<div id="bottomNavbar" class="fixed-bottom p-3 d-none animate__animated animate__slideInUp" style="background: rgba(248, 249, 250, 0.95); backdrop-filter: blur(10px); border-top: 2px solid #d35400; box-shadow: 0 -5px 20px rgba(0,0,0,0.1);">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-basket-fill fs-4 me-3" style="color: #d35400;"></i>
+                <div id="orderSummary" class="flex-grow-1 me-3 fw-bold" style="color: #333; font-size: 1.1rem;"></div>
+            </div>
+            <button type="button" class="btn btn-order-confirm" onclick="submitOrder()">
+                <i class="bi bi-check-circle me-2"></i> View Cart
+            </button>
+        </div>
+    </div>
+</div>
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+        const nav = document.getElementById('categoryNav');
+        const headerHeight = 80; 
 
-         .fixed-bottom {  
-         z-index: 1050;  
-         }  
+        window.addEventListener('scroll', function() {
+                if (window.scrollY > headerHeight) {
+                nav.classList.add('fixed');
+            } else {
+                nav.classList.remove('fixed');
+            }
+            });
+    });
+    document.querySelectorAll('.category-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
 
-         .btn-success {  
-         background-color: #28a745;  
-         border-color: #28a745;  
-         }  
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop,
+                    behavior: 'smooth'
+                    });
+            }
+        });
+    });
+    const orderQuantities = {};
+    const orderDetails = [];
 
-         .btn-success:hover {  
-         background-color: #218838;  
-         border-color: #1e7e34;  
-         }  
-     </style>  
- </head>  
- <body>  
-     <h1 class="mb-4">🍽️ Dishes List</h1>  
+    function increaseQuantity(id) {
+        orderQuantities[id] = (orderQuantities[id] || 0) + 1;
+        document.getElementById(`qty-${id}`).textContent = orderQuantities[id];
+    }
 
-     <!-- Search & Filter -->  
-     <div class="row mb-4">  
-         <div class="col-md-6">  
-             <form asp-action="Search" method="get" class="d-flex">  
-                 <input type="text" name="searchString" class="form-control me-2" placeholder="Search by name..." />  
-                 <button type="submit" class="btn btn-primary">Search</button>  
-             </form>  
-         </div>  
-         <div class="col-md-4">  
-             <form asp-action="Filter" asp-controller="Dish" method="get" class="d-flex">  
-                 <select name="category" class="form-select me-2">  
-                     <option value="">All Categories</option>  
-                     <option value="Main">Main Dish</option>  
-                     <option value="Desert">Desert</option>  
-                     <option value="Appetizers">Appetizers</option>  
-                 </select>  
-                 <button type="submit" class="btn btn-secondary">Filter</button>  
-             </form>  
-         </div>  
-         @if (User.IsInRole("2"))  
-         {  
-             <div class="col-md-2 text-end">  
-                 <a asp-action="Add" class="btn btn-success">+ Add Dish</a>  
-             </div>  
-         }  
-     </div>  
-     <form id="orderForm" asp-action="CreateOrder" asp-controller="Order" method="post">  
-         <div class="row">  
-             @foreach (var i in Model)  
-             {  
-                 <div class="col-md-4">  
-                     <div class="card mb-3">  
-                         @if (!string.IsNullOrEmpty(i.Image))  
-                         {  
-                             <img src="/Images/@i.Image" class="card-img-top" alt="@i.Name" style="height: 200px; object-fit: cover;" />  
-                         }  
-                         else  
-                         {  
-                             <div class="bg-light text-center p-5" style="height: 200px;">  
-                                 <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>  
-                                 <p class="mt-2">No Image</p>  
-                             </div>  
-                         }  
-                         <div class="card-body">  
-                             <h5 class="card-title">@i.Name</h5>  
-                             <p class="card-text">Price: @i.Price EGP</p>  
-                             <div class="d-flex align-items-center mb-2">  
-                                 <button type="button" class="btn btn-danger btn-sm me-2" onclick="decreaseQuantity(@i.Id)">-</button>  
-                                 <span id="qty-@i.Id" class="fw-bold">0</span>  
-                                 <button type="button" class="btn btn-success btn-sm ms-2" onclick="increaseQuantity(@i.Id)">+</button>  
-                             </div>  
-                             <button type="button" class="btn btn-primary btn-sm mt-2"  
-                             onclick='addToOrder(@i.Id, @Html.Raw(JsonSerializer.Serialize(i.Name ?? "")), @i.Price.ToString(System.Globalization.CultureInfo.InvariantCulture))'>  
-                                 <i class="bi bi-plus-circle"></i> Add to Order  
-                             </button>  
-                         </div>  
-                         <div class="card-footer d-flex justify-content-between">  
-                             <a asp-action="Details" asp-route-id="@i.Id" class="btn btn-info btn-sm">Details</a>    
-                         </div>  
-                     </div>  
-                 </div>  
-             }  
-         </div>  
-         <input type="hidden" id="orderDetailsInput" name="orderDetailsJson" />  
-     </form>  
+    function decreaseQuantity(id) {
+        if (orderQuantities[id] > 0) {
+            orderQuantities[id]--;
+            document.getElementById(`qty-${id}`).textContent = orderQuantities[id];
+        }
+    }
 
-     <div id="bottomNavbar" class="fixed-bottom bg-light border-top p-2 d-none animate__animated animate__slideInUp shadow">  
-         <div class="d-flex justify-content-between align-items-center">  
-             <div class="d-flex align-items-center">  
-                 <i class="bi bi-basket-fill fs-4 text-success me-2"></i>  
-                 <div id="orderSummary" class="flex-grow-1 me-2 fw-bold"></div>  
-             </div>  
-             <button type="button" class="btn btn-success" onclick="submitOrder()">  
-                 <i class="bi bi-check-circle me-1"></i> Confirm Order  
-             </button>  
-         </div>  
-     </div>  
-     <script>  
-         const orderQuantities = {};  
-         const orderDetails = [];  
+    function addToOrder(id, name, price) {
+        const quantity = orderQuantities[id] || 0;
 
-         function increaseQuantity(id) {  
-             orderQuantities[id] = (orderQuantities[id] || 0) + 1;  
-             document.getElementById(`qty-${id}`).textContent = orderQuantities[id];  
-         }  
+        if (quantity > 0) {
+            const existingIndex = orderDetails.findIndex(item => item.id === id);
+            if (existingIndex !== -1) {
+                orderDetails[existingIndex].quantity = quantity;
+            } else {
+                orderDetails.push({ id, name, price: parseFloat(price), quantity });
+            }
 
-         function decreaseQuantity(id) {  
-             if (orderQuantities[id] > 0) {  
-                 orderQuantities[id]--;  
-                 document.getElementById(`qty-${id}`).textContent = orderQuantities[id];  
-             }  
-         }  
+            updateOrderSummary();
+            document.getElementById("bottomNavbar").classList.remove("d-none");
+        } else {
+            alert("Please increase the quantity before adding to the order.");
+        }
+    }
 
-         function addToOrder(id, name, price) {  
-             const quantity = orderQuantities[id] || 0;  
+    function updateOrderSummary() 
+    {
+        const summary = orderDetails.map(item => ${ item.name } x${ item.quantity }).join(", ");
+        document.getElementById("orderSummary").textContent = summary || "No items selected.";
+        document.getElementById("orderDetailsInput").value = JSON.stringify(orderDetails);
+    }
 
-             if (quantity > 0) {  
-                 const existingIndex = orderDetails.findIndex(item => item.id === id);  
-                 if (existingIndex !== -1) {  
-                     orderDetails[existingIndex].quantity = quantity;  
-                 } else {  
-                     orderDetails.push({ id, name, price: parseFloat(price), quantity });  
-                 }  
-
-                 updateOrderSummary();  
-                 document.getElementById("bottomNavbar").classList.remove("d-none");  
-             } else {  
-                 alert("Please increase the quantity before adding to the order.");  
-             }  
-         }  
-
-         function updateOrderSummary() {  
-             const summary = orderDetails.map(item => `${item.name} x${item.quantity}`).join(", ");  
-             document.getElementById("orderSummary").textContent = summary || "No items selected.";  
-             document.getElementById("orderDetailsInput").value = JSON.stringify(orderDetails);  
-         }  
-
-         function submitOrder() {  
-             if (orderDetails.length === 0) {  
-                 alert("No items in the order.");  
-                 return;  
-             }  
-
-             document.getElementById("orderDetailsInput").value = JSON.stringify(orderDetails);  
-             document.getElementById("orderForm").submit();  
-         }  
-     </script>  
-
- </body>  
- </html>
-
-
-
-
-
- <!-- Views/Dish/All.cshtml -->  
-@* @* @model Kitchen.ViewModel.DishListViewModel   *@
-@* @* @{   *@
-@* @*     ViewData["Title"] = "Dishes List";   *@
-@* @* }   *@
-@* @* <html lang="en">   *@
-@* @* <head>   *@
-@* @*     <meta charset="utf-8" />   *@
-@* @*     <meta name="viewport" content="width=device-width, initial-scale=1.0" />   *@
-@* @*     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">   *@
-@* @*     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />   *@
-@* @*     <script src="~/js/site.js"></script>   *@
-@* @*     <style>   *@
-@* @*         body {   *@
-@* @*             padding: 20px;   *@
-@* @*         }   *@
-
-@* @*         .card {   *@
-@* @*             transition: transform 0.2s;   *@
-@* @*         }   *@
-
-@* @*             .card:hover {   *@
-@* @*                 transform: scale(1.05);   *@
-@* @*             }   *@
-
-@* @*         .fixed-bottom {   *@
-@* @*             z-index: 1050;   *@
-@* @*         }   *@
-
-@* @*         .btn-success {   *@
-@* @*             background-color: #28a745;   *@
-@* @*             border-color: #28a745;   *@
-@* @*         }   *@
-
-@* @*             .btn-success:hover {   *@
-@* @*                 background-color: #218838;   *@
-@* @*                 border-color: #1e7e34;   *@
-@* @*             }   *@
-@* @*     </style>   *@
-@* @* </head>   *@
-@* @* <body>   *@
-@* @* <div class="container custom-container">   *@
-@* @*     <h2 class="text-center" style="color: #ec610c;">🍽️ Dishes List</h2>   *@
-
-@* @*     <!-- Sub-navbar for categories -->   *@
-@* @*     <nav class="nav nav-pills justify-content-center mb-4">   *@
-@* @*         @foreach (var category in Model.Categories.OrderBy(c => c.Name))   *@
-@* @*         {   *@
-@* @*             <a class="nav-link" href="#category-@category.Name.Replace(" ", "-")"    *@
-@* @*                style="color: rgba(255, 255, 255, 0.7);"   *@
-@* @*                onmouseover="this.style.color='#ec610c'"    *@
-@* @*                onmouseout="this.style.color='rgba(255, 255, 255, 0.7)'">   *@
-@* @*                 @category.Name   *@
-@* @*             </a>   *@
-@* @*         }   *@
-@* @*     </nav>   *@
-
-@* @*     <!-- Search and Filter -->   *@
-@* @*     <div class="row mb-3">   *@
-@* @*         <div class="col-md-6">   *@
-@* @*                 <form asp-action="Search" method="get" class="d-flex">   *@
-@* @*                     <input type="text" name="searchString" class="form-control me-2" placeholder="Search by name..." />   *@
-@* @*                     <button type="submit" class="btn btn-primary">Search</button>   *@
-@* @*                 </form>   *@
-@* @*         </div>   *@
-@* @*         <div class="col-md-3">   *@
-@* @*             <select class="form-control">   *@
-@* @*                 <option>All Categories</option>   *@
-@* @*                 @foreach (var category in Model.Categories)   *@
-@* @*                 {   *@
-@* @*                     <option>@category.Name</option>   *@
-@* @*                 }   *@
-@* @*             </select>   *@
-@* @*         </div>   *@
-@* @*         <div class="col-md-3">   *@
-@* @*             <button class="btn btn-primary w-100">Filter</button>   *@
-@* @*         </div>   *@
-@* @*     </div>   *@
-
-@* @*     <!-- Add Dish Button -->   *@
-@* @*         <div class="col-md-2 text-end">   *@
-@* @*             <a asp-action="Add" class="btn btn-success">+ Add Dish</a>   *@
-@* @*         </div>   *@
-@* @*     <form id="orderForm" asp-action="CreateOrder" asp-controller="Order" method="post">   *@
-
-@* @*     <!-- Grouped Dishes -->   *@
-@* @*     @foreach (var category in Model.Categories.OrderBy(c => c.Name))   *@
-@* @*     {   *@
-@* @*         var categoryDishes = Model.Dishes.Where(d => d.Category_Id == category.Id).ToList();   *@
-@* @*         if (categoryDishes.Any())   *@
-@* @*         {   *@
-@* @*             <div id="category-@category.Name.Replace(" ", "-")" class="category-section mb-5">   *@
-@* @*                 <h3 style="color: #ec610c;">@category.Name</h3>   *@
-@* @*                 <div class="row">   *@
-@* @*                     @foreach (var dish in categoryDishes)   *@
-@* @*                     {   *@
-@* @*                         <div class="col-md-4 mb-3">   *@
-@* @*                             <div class="card h-100">   *@
-@* @*                                 @if (!string.IsNullOrEmpty(dish.Image))   *@
-@* @*                                 {   *@
-@* @*                                     <img src="/Images/@dish.Image" class="card-img-top" alt="@dish.Name" style="height: 200px; object-fit: cover;" />   *@
-@* @*                                 }   *@
-@* @*                                 else   *@
-@* @*                                 {   *@
-@* @*                                     <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">   *@
-@* @*                                         <span class="text-white">No Image</span>   *@
-@* @*                                     </div>   *@
-@* @*                                 }   *@
-@* @*                                     <div class="card-body">   *@
-@* @*                                         <h5 class="card-title">@i.Name</h5>   *@
-@* @*                                         <p class="card-text">Price: @i.Price EGP</p>   *@
-@* @*                                         <div class="d-flex align-items-center mb-2">   *@
-@* @*                                             <button type="button" class="btn btn-danger btn-sm me-2" onclick="decreaseQuantity(@i.Id)">-</button>   *@
-@* @*                                             <span id="qty-@i.Id" class="fw-bold">0</span>   *@
-@* @*                                             <button type="button" class="btn btn-success btn-sm ms-2" onclick="increaseQuantity(@i.Id)">+</button>   *@
-@* @*                                         </div>   *@
-@* @*                                         <button type="button" class="btn btn-primary btn-sm mt-2"   *@
-@* @*                                                 onclick='addToOrder(@i.Id, @Html.Raw(JsonSerializer.Serialize(i.Name ?? "")), @i.Price.ToString(System.Globalization.CultureInfo.InvariantCulture))'>   *@
-@* @*                                             <i class="bi bi-plus-circle"></i> Add to Order   *@
-@* @*                                         </button>   *@
-@* @*                                     </div>   *@
-@* @*                                 <div class="card-footer text-center">   *@
-@* @*                                     <a asp-controller="Dish" asp-action="Details" asp-route-id="@dish.Id" class="btn btn-info btn-sm">Details</a>   *@
-@* @*                                     <a asp-controller="Dish" asp-action="Edit" asp-route-id="@dish.Id" class="btn btn-warning btn-sm">Edit</a>   *@
-@* @*                                     <a asp-controller="Dish" asp-action="Delete" asp-route-id="@dish.Id" class="btn btn-danger btn-sm">Delete</a>   *@
-@* @*                                 </div>   *@
-@* @*                             </div>   *@
-@* @*                         </div>   *@
-@* @*                     }   *@
-@* @*                 </div>   *@
-@* @*             </div>   *@
-@* @*         }   *@
-@* @*     }   *@
-@* @*             <input type="hidden" id="orderDetailsInput" name="orderDetailsJson" />   *@
-@* @*         </form>   *@
-
-@* @*     <!-- Confirm Order Button -->   *@
-@* @*     <div class="text-center mt-4">   *@
-@* @*         <a href="#" class="btn btn-success">Confirm Order</a>   *@
-@* @*     </div>   *@
-@* @* </div>   *@
-@* @*     <div id="bottomNavbar" class="fixed-bottom bg-light border-top p-2 d-none animate__animated animate__slideInUp shadow">   *@
-@* @*         <div class="d-flex justify-content-between align-items-center">   *@
-@* @*             <div class="d-flex align-items-center">   *@
-@* @*                 <i class="bi bi-basket-fill fs-4 text-success me-2"></i>   *@
-@* @*                 <div id="orderSummary" class="flex-grow-1 me-2 fw-bold"></div>   *@
-@* @*             </div>   *@
-@* @*             <button type="button" class="btn btn-success" onclick="submitOrder()">   *@
-@* @*                 <i class="bi bi-check-circle me-1"></i> Confirm Order   *@
-@* @*             </button>   *@
-@* @*         </div>   *@
-@* @*     </div>   *@
-@* @*     <script>   *@
-@* @*         const orderQuantities = {};   *@
-@* @*         const orderDetails = [];   *@
-
-@* @*         function increaseQuantity(id) {   *@
-@* @*             orderQuantities[id] = (orderQuantities[id] || 0) + 1;   *@
-@* @*             document.getElementById(`qty-${id}`).textContent = orderQuantities[id];   *@
-@* @*         }   *@
-
-@* @*         function decreaseQuantity(id) {   *@
-@* @*             if (orderQuantities[id] > 0) {   *@
-@* @*                 orderQuantities[id]--;   *@
-@* @*                 document.getElementById(`qty-${id}`).textContent = orderQuantities[id];   *@
-@* @*             }   *@
-@* @*         }   *@
-
-@* @*         function addToOrder(id, name, price) {   *@
-@* @*             const quantity = orderQuantities[id] || 0;   *@
-
-@* @*             if (quantity > 0) {   *@
-@* @*                 const existingIndex = orderDetails.findIndex(item => item.id === id);   *@
-@* @*                 if (existingIndex !== -1) {   *@
-@* @*                     orderDetails[existingIndex].quantity = quantity;   *@
-@* @*                 } else {   *@
-@* @*                     orderDetails.push({ id, name, price: parseFloat(price), quantity });   *@
-@* @*                 }   *@
-
-@* @*                 updateOrderSummary();   *@
-@* @*                 document.getElementById("bottomNavbar").classList.remove("d-none");   *@
-@* @*             } else {   *@
-@* @*                 alert("Please increase the quantity before adding to the order.");   *@
-@* @*             }   *@
-@* @*         }   *@
-
-@* @*         function updateOrderSummary() {   *@
-@* @*             const summary = orderDetails.map(item => `${item.name} x${item.quantity}`).join(", ");   *@
-@* @*             document.getElementById("orderSummary").textContent = summary || "No items selected.";   *@
-@* @*             document.getElementById("orderDetailsInput").value = JSON.stringify(orderDetails);   *@
-@* @*         }   *@
-
-@* @*         function submitOrder() {   *@
-@* @*             if (orderDetails.length === 0) {   *@
-@* @*                 alert("No items in the order.");   *@
-@* @*                 return;   *@
-@* @*             }   *@
-
-@* @*             document.getElementById("orderDetailsInput").value = JSON.stringify(orderDetails);   *@
-@* @*             document.getElementById("orderForm").submit();   *@
-@* @*         }   *@
-@* @*     </script>   *@
-@* @* </body>   *@
-@* @* </html>   *@
-
+    function submitOrder() 
+    {
+        if (orderDetails.length === 0) 
+        {
+            alert("No items in the order.");
+            return;
+        }
+        document.getElementById("orderDetailsInput").value = JSON.stringify(orderDetails);
+        document.getElementById("orderForm").submit();
+     }
+</script> 

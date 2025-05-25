@@ -1,29 +1,38 @@
 ﻿using Kitchen.Models;
 using Kitchen.Repository;
 using Kitchen.ViewModel;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kitchen.Controllers
 {
-    [Authorize(Roles = "1, 2, 3, 4")]
     public class DishController : Controller
     {
-        IDishRepository DishRepo;
+        IDishRepository DishRep;
+        ICategoryRepository CategoryRep;
         
-        public DishController(IDishRepository _dishRepo)
+        public DishController(IDishRepository dishrep , ICategoryRepository categoryRep)
         {
-            DishRepo = _dishRepo;
+            DishRep = dishrep;
+            CategoryRep = categoryRep;
             
         }
+        //show all dish
+
         public IActionResult All()
         {
-            List<Dish> DishList = DishRepo.GetAll();
-            return View("All", DishList);
+            var viewModel = new DishListViewModel
+            {
+                Dishes = DishRep.GetAll(),
+                Categories = CategoryRep.GetAll()
+            };
+            return View("All", viewModel);
+            
         }
+
+
         public IActionResult Details(int id)
         {
-            var dish = DishRepo.GetById(id);
+            var dish = DishRep.GetById(id);
 
             if (dish == null)
             {
@@ -32,16 +41,18 @@ namespace Kitchen.Controllers
 
             return View(dish);
         }
-        [Authorize(Roles = "2")]
+        
         public IActionResult Add()
         {
             var model = new DishViewModel();
+            model.Categories = CategoryRep.GetAll();
 
             return View("Create", model);
         }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "2")]
+
+
         public IActionResult Create(DishViewModel DishReq)
         {
             if (DishReq.Name != null)
@@ -65,38 +76,36 @@ namespace Kitchen.Controllers
                     Price = DishReq.Price,
                     Image = fileName,
                     Description = DishReq.Description,
-                    Category = DishReq.Category
+                    Category_Id = DishReq.CategoryId
                 };
 
-                DishRepo.Add(newDish);
-                DishRepo.Save();
+                DishRep.Add(newDish);
+                DishRep.Save();
                 return RedirectToAction("All");
             }
             return View("Create", DishReq);
         }
-        [Authorize(Roles = "2")]
+
         public IActionResult Edit(int id)
         {
-            Dish dishList = DishRepo.GetById(id);
+            Dish dish = DishRep.GetById(id);
 
             DishViewModel DishVM = new();
-            DishVM.Id = dishList.Id;
-            DishVM.Name = dishList.Name;
-            DishVM.Image = dishList.Image;
-            DishVM.Price = dishList.Price;
-            DishVM.Description = dishList.Description;
-            DishVM.Category = dishList?.Category;
-
+            DishVM.Id = dish.Id;
+            DishVM.Name = dish.Name;
+            DishVM.Image = dish.Image;
+            DishVM.Price = dish.Price;
+            DishVM.Description = dish.Description;
+            DishVM.CategoryId = dish.Category_Id;
+            DishVM.Categories= CategoryRep.GetAll();
             return View("Edit", DishVM);
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "2")]
         public IActionResult Edit(DishViewModel DishReq)
         {
             if (ModelState.IsValid)
             {
-                Dish? DishDB = DishRepo.GetById(DishReq.Id);
+                Dish? DishDB = DishRep.GetById(DishReq.Id);
 
                 if (DishDB == null)
                 {
@@ -106,7 +115,7 @@ namespace Kitchen.Controllers
                 DishDB.Name = DishReq.Name;
                 DishDB.Price = DishReq.Price;
                 DishDB.Description = DishReq.Description;
-                DishDB.Category = DishReq.Category;
+                DishDB.Category_Id = DishReq.CategoryId;
 
                 if (DishReq.ImageFile != null)
                 {
@@ -122,57 +131,48 @@ namespace Kitchen.Controllers
 
                     DishDB.Image = fileName;
                 }
-                DishRepo.Edit(DishDB);
-                DishRepo.Save();
+
+
+                DishRep.Edit(DishDB);
+                DishRep.Save();
 
                 return RedirectToAction("All");
             }
 
             return View("Edit", DishReq);
         }
-        [Authorize(Roles = "2")]
-        public IActionResult Delete(int id)
-        {
-            var dish = DishRepo.GetById(id);
-            if (dish == null)
-            {
-                return NotFound();
-            }
-            return View(dish);
-        }
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "2")]
         public IActionResult DeleteConfirmed(int id)
         {
-            var dish = DishRepo.GetById(id);
+            var dish = DishRep.GetById(id);
             if (dish == null)
             {
                 return NotFound();
             }
 
-            DishRepo.Delete(id);
-            DishRepo.Save();
+            DishRep.Delete(id);
+            DishRep.Save();
 
-            return RedirectToAction("All");
+            return RedirectToAction("Details", id);
         }
         public IActionResult Search(string searchString)
         {
-            var dishes = DishRepo.GetAll();
+            var dishes = DishRep.GetAll();
             if (!string.IsNullOrEmpty(searchString))
             {
                 dishes = dishes.Where(d => d.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
             }
             return View("All", dishes);
         }
-        public IActionResult Filter(string category)
-        {
-            var dishes = DishRepo.GetAll();
-            if (!string.IsNullOrEmpty(category))
-            {
-                dishes = dishes.Where(d => d.Category == category).ToList();
-            }
-            return View("All", dishes);
-        }
+        //public IActionResult Filter(string category)
+        //{
+        //    var dishes = DishRep.GetAll();
+        //    if (!string.IsNullOrEmpty(category))
+        //    {
+        //        dishes = dishes.Where(d => d.Category == category).ToList();
+        //    }
+        //    return View("All", dishes);
+        //}
     }
 }
