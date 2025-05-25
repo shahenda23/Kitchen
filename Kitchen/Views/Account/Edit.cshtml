@@ -43,15 +43,15 @@
                     </div>
 
                     <div class="form-group">
-                        <label asp-for="customerSAddress" class="form-label">
+                        <label asp-for="customerAddress" class="form-label">
                             <svg class="form-icon" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
                             </svg>
                             Address
                         </label>
                         <div class="input-wrapper">
-                            <input asp-for="customerSAddress" class="form-input" placeholder="Enter your address" />
-                            <span asp-validation-for="customerSAddress" class="field-validation"></span>
+                            <input asp-for="customerAddress" class="form-input" placeholder="Enter your address" />
+                            <span asp-validation-for="customerAddress" class="field-validation"></span>
                         </div>
                     </div>
 
@@ -103,7 +103,7 @@
                 </div>
                 <div class="preview-item">
                     <div class="preview-label">Address</div>
-                    <div class="preview-value" id="preview-address">@Model.customerSAddress</div>
+                    <div class="preview-value" id="preview-address">@Model.customerAddress</div>
                 </div>
                 <div class="preview-item">
                     <div class="preview-label">Phone</div>

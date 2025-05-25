@@ -112,38 +112,6 @@ namespace Kitchen.Controllers
             {
                 customerName = customerDB.Name,
                 customerPhone = customerDB.PhoneNumber,
-                customerSAddress = customerDB.Address
-            };
-            return View("Edit", profileVM);
-        }
-
-        [HttpPost]
-        public IActionResult Edit(ProfileViewModel profileVM)
-        {
-            if (ModelState.IsValid)
-            {
-                int customerID = int.Parse(User.FindFirst("ID")?.Value);
-                Customer customerDB = CustomerRepo.GetById(customerID);
-
-                customerDB.Name = profileVM.customerName;
-                customerDB.PhoneNumber = profileVM.customerPhone;
-                customerDB.Address = profileVM.customerSAddress;
-                CustomerRepo.Edit(customerDB);
-                CustomerRepo.Save();
-                return RedirectToAction("Profile", "Customer");
-            }
-            return View("Edit", profileVM);
-        }
-
-        public IActionResult Edit()
-        {
-            int customerID = int.Parse(User.FindFirst("ID")?.Value);
-            Customer customerDB = CustomerRepo.GetById(customerID);
-
-            ProfileViewModel profileVM = new ProfileViewModel()
-            {
-                customerName = customerDB.Name,
-                customerPhone = customerDB.PhoneNumber,
                 customerAddress = customerDB.Address
             };
             return View("Edit", profileVM);
