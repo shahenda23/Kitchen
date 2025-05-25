@@ -1,12 +1,14 @@
 ﻿using Kitchen.Models;
 using Kitchen.Repository;
 using Kitchen.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using System.Drawing.Printing;
 
 namespace Kitchen.Controllers
 {
+    [Authorize(Roles = "1, 2")]
     public class StaffController : Controller
     {
         IStaffRepository staffRepository;
@@ -69,7 +71,5 @@ namespace Kitchen.Controllers
             }
             return View("Details", staff);
         }
-
-
     }
 }

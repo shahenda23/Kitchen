@@ -28,7 +28,7 @@ namespace Kitchen.Repository
             List<Order> list;
             if (string.IsNullOrEmpty(includes))
             {
-                list = context.Orders.ToList();
+                list = context.Orders.Include(c => c.Customer).ToList();
 
             }
             else
@@ -47,7 +47,8 @@ namespace Kitchen.Repository
         }
         public Order GetById(int id, string includes = "")
         {
-            return context.Orders.Include(o => o.Feedbacks).FirstOrDefault(o => o.Id == id);
+            //return context.Orders.Include(o => o.Feedbacks).FirstOrDefault(o => o.Id == id);
+            return context.Orders.Include(o => o.Customer).Include(o => o.OrderDetails).ThenInclude(od => od.Dish).FirstOrDefault(o => o.Id == id);
         }
         public void Save()
         {

@@ -9,7 +9,7 @@ namespace Kitchen.ViewModel
         public string customerphone { get; set; }
         public float orderprice { get; set; }
         public string? orderStatus { get; set; }
-        public string OrderDetailsJson { get; set; }
+        public string? OrderDetailsJson { get; set; }
         public List<OrderDetails>? OrderDetails { get; set; }
     }
 }
