@@ -68,7 +68,14 @@
                                         </div>
                                         <div class="dish-info">
                                             <div>
-                                                <a href="/Dish/Details/@dish.Id"><h3 class="dish-title">@dish.Name.ToUpper()</h3></a>
+                                                @if (!User.IsInRole("1,2,3,4"))
+                                                {
+                                                    <a href="/Dish/Details/@dish.Id"><h3 class="dish-title">@dish.Name.ToUpper()</h3></a>
+                                                }
+                                                else
+                                                {
+                                                    <h3 class="dish-title">@dish.Name.ToUpper()</h3>
+                                                }
                                                 <p class="dish-description">@dish.Description</p>
                                                 <div class="dish-price">@dish.Price.ToString("N2") EGP</div>
                                             </div>
