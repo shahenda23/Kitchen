@@ -88,9 +88,9 @@
     transition: transform 0.2s;
 }
 
-    .card:hover {
-        transform: scale(1.05);
-    }
+.card:hover {
+    transform: scale(1.05);
+}
 
 .fixed-bottom {
     z-index: 1050;
@@ -526,4 +526,6 @@
     background: #d35400;
     border-radius: 10px;
 }
+
+
 

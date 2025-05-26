@@ -1,149 +1,194 @@
 ﻿@*
 @model Kitchen.ViewModel.DishViewModel
-
 @{
     ViewData["Title"] = "Edit";
+    SelectList CatList = new SelectList(@Model.Categories, "Id", "Name");
 }
 
-<h1>Edit</h1>
+<link rel="stylesheet" href="~/css/NewDishes.css" asp-append-version="true" />
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+
+<div class="dish-create-container">
+    <div class="page-header">
+        <h1>Create</h1>
+        <h4>New Dish</h4>
+    </div>
+    <div class="form-card">
+        <form asp-action="Edit" asp-controller="Dish" asp-route-Id="@Model.Id">
+            <div asp-validation-summary="All" class="text-danger validation-summary-errors"></div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label">Dish Name</label>
+                    <input asp-for="Name" class="form-control" placeholder="Enter dish name..." />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Price" class="control-label">Price</label>
+                    <input asp-for="Price" class="form-control" placeholder="0.00" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <div class="form-group full-width">
+                    <label asp-for="ImageFile" class="control-label">Dish Image</label>
+                    <div class="file-input-wrapper" onclick="document.getElementById('ImageFile').click()">
+                        <input asp-for="ImageFile" type="file" id="ImageFile" accept="image/*" />
+                        <div class="file-input-content">
+                            <div class="file-icon">📷</div>
+                            <div class="file-text">Click to upload image</div>
+                            <div class="file-subtext">PNG, JPG, GIF up to 10MB</div>
+                        </div>
+                    </div>
+                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                </div>
+
+                <div class="form-group full-width">
+                    <label asp-for="Description" class="control-label">Description</label>
+                    <input asp-for="Description" class="form-control" placeholder="Describe your delicious dish..." />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group full-width">
+                    <label asp-for="Categories" class="control-label">Category</label>
+                    <select asp-for="CategoryId" class="form-control" asp-items="@CatList">
+                        <option value="0">-- Select Category --</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
+            <div class="action-section">
+                <input type="submit" value="Save Edits" class="btn btn-primary" />
             </div>
-            <div class="form-group">
-                <label asp-for="ImageFile" class="control-label">Image</label>
-                <input asp-for="ImageFile" class="form-control" />
-                <span asp-validation-for="ImageFile" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-             <div class="mb-3">
-                <label asp-for="CategoryId" class="form-label">Category</label>
-                <select name="CategoryId" id="CategoryId" class="form-select form-select-lg">
-                    <option value="">-- Select Category --</option>
-                    @foreach (Category catitem in Model.Categories ?? new List<Category>())
-                    {
-                        if (Model?.CategoryId == catitem.Id)
-                        {
-                                    <option value="@catitem.Id" selected>@catitem.Name</option>
-                        }
-                        else
-                        {
-                                    <option value="@catitem.Id">@catitem.Name</option>
-                        }
-                    }
-                </select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="action-section">
+                <a href="/Dish/Details/@Model.Id" class="btn btn-primary">← Details</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="All" asp-controller="Dish">Back to List</a>
-</div>
+<script>
+    // File input enhancement
+    document.getElementById('ImageFile').addEventListener('change', function (e) {
+        const wrapper = this.closest('.file-input-wrapper');
+        const fileName = e.target.files[0]?.name;
+        const content = wrapper.querySelector('.file-input-content');
+
+        if (fileName) {
+            content.innerHTML = `
+                        <div class="file-icon">✓</div>
+                        <div class="file-text">${fileName}</div>
+                        <div class="file-subtext">Click to change image</div>
+                    `;
+            wrapper.style.borderColor = 'rgba(72, 187, 120, 0.6)';
+            wrapper.style.background = 'linear-gradient(135deg, rgba(72, 187, 120, 0.08) 0%, rgba(255, 255, 255, 0.9) 100%)';
+        }
+    });
+
+
+</script>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
----------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
 *@
 
+
+
+
+
+
 @model Kitchen.ViewModel.DishViewModel
+@{
+    ViewData["Title"] = "Edit";
+    SelectList CatList = new SelectList(Model.Categories, "Id", "Name", Model.CategoryId);
+}
 
-<div class="edit-container">
-    <div class="edit-card">
-        <div class="edit-header">
-            <h1>Edit Dish</h1>
-            <h4>Update your dish details</h4>
-        </div>
+<link rel="stylesheet" href="~/css/NewDishes.css" asp-append-version="true" />
 
-        @if (ViewData.ModelState.ErrorCount > 0)
-        {
-            <div class="validation-summary">
-                <div asp-validation-summary="All"></div>
-            </div>
-        }
+<div class="dish-create-container">
+    <div class="page-header">
+        <h1>Edit</h1>
+        <h4>Edit Dish</h4>
+    </div>
+    <div class="form-card">
+        <form asp-action="Edit" asp-controller="Dish" asp-route-Id="@Model.Id" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger validation-summary-errors"></div>
 
-        <form asp-action="Edit" enctype="multipart/form-data">
-            <div class="form-group form-group-with-icon">
-                <label asp-for="Name" class="form-label">Dish Name</label>
-                <svg class="form-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-                </svg>
-                <input asp-for="Name" class="form-control" placeholder="Enter dish name" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label">Dish Name</label>
+                    <input asp-for="Name" class="form-control" placeholder="Enter dish name..." />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
 
-            <div class="form-group form-group-with-icon">
-                <label asp-for="Price" class="form-label">Price</label>
-                <svg class="form-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718H4zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73l.348.086z" />
-                </svg>
-                <input asp-for="Price" class="form-control" placeholder="Enter price" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="Price" class="control-label">Price</label>
+                    <input asp-for="Price" class="form-control" placeholder="0.00" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="ImageFile" class="form-label">Dish Image</label>
-                <input asp-for="ImageFile" class="form-control" type="file" accept="image/*" />
-                <span asp-validation-for="ImageFile" class="text-danger"></span>
-
-                @if (!string.IsNullOrEmpty(Model.Image))
-                {
-                    <div class="image-preview">
-                        <p>Current Image:</p>
-                        <img src="~/Images/@Model.Image" alt="Current dish image" />
+                <div class="form-group full-width">
+                    <label asp-for="ImageFile" class="control-label">Dish Image</label>
+                    <div class="file-input-wrapper" onclick="document.getElementById('ImageFile').click()">
+                        <input asp-for="ImageFile" type="file" id="ImageFile" accept="image/*" />
+                        <div class="file-input-content">
+                            <div class="file-icon">📷</div>
+                            <div class="file-text">Click to upload image</div>
+                            <div class="file-subtext">PNG, JPG, GIF up to 10MB</div>
+                        </div>
                     </div>
-                }
+                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                </div>
+
+                <div class="form-group full-width">
+                    <label asp-for="Description" class="control-label">Description</label>
+                    <input asp-for="Description" class="form-control" placeholder="Describe your delicious dish..." />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group full-width">
+                    <label asp-for="CategoryId" class="control-label">Category</label>
+                    <select asp-for="CategoryId" class="form-control" asp-items="@CatList">
+                        <option value="">-- Select Category --</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
             </div>
-
-            <div class="form-group">
-                <label asp-for="Description" class="form-label">Description</label>
-                <textarea asp-for="Description" class="form-control" rows="4" placeholder="Enter dish description"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
+            <div class="action-section">
+                <input type="submit" value="Save Edits" class="btn btn-primary" />
             </div>
-
-            <div class="form-group">
-                <label asp-for="CategoryId" class="form-label">Category</label> 
-                <select asp-for="CategoryId" class="form-select" asp-items="@(new SelectList(Model.Categories ?? new List<Category>(), "Id", "Name", Model.CategoryId))"> 
-                    <option value="">-- Select Category --</option> 
-                </select> 
-                <span asp-validation-for="CategoryId" class="text-danger"></span> 
-            </div> 
-
-            <div class="button-group">
-                <button type="submit" class="btn btn-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v7.293l2.646-2.647a.5.5 0 0 1 .708.708l-3.5 3.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L7.5 9.293V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z" />
-                    </svg>
-                    Save Changes
-                </button>
-                <a asp-action="All" asp-controller="Dish" class="btn btn-outline">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
-                    </svg>
-                    Back to List
-                </a>
+            <div class="action-section">
+                <a href="/Dish/Details/@Model.Id" class="btn btn-primary">← Details</a>
             </div>
         </form>
     </div>
 </div>
+
+<script>
+    // File input enhancement
+    document.getElementById('ImageFile').addEventListener('change', function (e) {
+        const wrapper = this.closest('.file-input-wrapper');
+        const fileName = e.target.files[0]?.name;
+        const content = wrapper.querySelector('.file-input-content');
+
+        if (fileName) {
+            content.innerHTML = `
+                <div class="file-icon">✓</div>
+                <div class="file-text">${fileName}</div>
+                <div class="file-subtext">Click to change image</div>
+            `;
+            wrapper.style.borderColor = 'rgba(72, 187, 120, 0.6)';
+            wrapper.style.background = 'linear-gradient(135deg, rgba(72, 187, 120, 0.08) 0%, rgba(255, 255, 255, 0.9) 100%)';
+        }
+    });
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

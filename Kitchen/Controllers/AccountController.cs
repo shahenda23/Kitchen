@@ -79,7 +79,7 @@ namespace Kitchen.Controllers
                     Customer customerDB = CustomerRepo.GetByAccountId(accountDB.Id);
 
                     ClaimsIdentity claims = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-                    if(roleDB.RoleID == 3)
+                    if(roleDB.RoleID == 5)
                     {
                         claims.AddClaim(new Claim("CustomerID", customerDB.Id.ToString()));
                     }
@@ -105,7 +105,7 @@ namespace Kitchen.Controllers
 
         public IActionResult Edit()
         {
-            int customerID = int.Parse(User.FindFirst("ID")?.Value);
+            int customerID = int.Parse(User.FindFirst("CustomerID")?.Value);
             Customer customerDB = CustomerRepo.GetById(customerID);
 
             ProfileViewModel profileVM = new ProfileViewModel()
@@ -122,7 +122,7 @@ namespace Kitchen.Controllers
         {
             if (ModelState.IsValid)
             {
-                int customerID = int.Parse(User.FindFirst("ID")?.Value);
+                int customerID = int.Parse(User.FindFirst("CustomerID")?.Value);
                 Customer customerDB = CustomerRepo.GetById(customerID);
 
                 customerDB.Name = profileVM.customerName;

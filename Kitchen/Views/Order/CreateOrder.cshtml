@@ -570,7 +570,7 @@
 </div>
 
 <div class="checkout-container">
-    <form id="orderForm" asp-action="Profile" asp-controller="Customer" method="post">
+    <form id="orderForm" asp-action="OrderDetails" method="post">
         @Html.AntiForgeryToken()
         
         <div class="checkout-form">
@@ -694,7 +694,7 @@
             const cells = row.querySelectorAll('td');
             if (cells.length >= 5) {
                 orderData.push({
-                    id: cells[0].textContent.replace('#', ''),
+                    DishId: cells[0].textContent.replace('#', ''),
                     name: cells[1].textContent,
                     quantity: parseInt(cells[2].textContent),
                     price: parseFloat(cells[3].textContent.replace('$', '')),

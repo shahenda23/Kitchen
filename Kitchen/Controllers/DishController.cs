@@ -117,6 +117,7 @@ namespace Kitchen.Controllers
                 DishDB.Description = DishReq.Description;
                 DishDB.Category_Id = DishReq.CategoryId;
 
+
                 if (DishReq.ImageFile != null)
                 {
 
@@ -131,13 +132,12 @@ namespace Kitchen.Controllers
 
                     DishDB.Image = fileName;
                 }
-
-
                 DishRep.Edit(DishDB);
                 DishRep.Save();
 
-                return RedirectToAction("All");
+                return RedirectToAction("Details", new { id = DishReq.Id });
             }
+            DishReq.Categories = CategoryRep.GetAll();
 
             return View("Edit", DishReq);
         }
@@ -154,7 +154,7 @@ namespace Kitchen.Controllers
             DishRep.Delete(id);
             DishRep.Save();
 
-            return RedirectToAction("Details", id);
+            return RedirectToAction("All");
         }
         public IActionResult Search(string searchString)
         {
@@ -165,14 +165,5 @@ namespace Kitchen.Controllers
             }
             return View("All", dishes);
         }
-        //public IActionResult Filter(string category)
-        //{
-        //    var dishes = DishRep.GetAll();
-        //    if (!string.IsNullOrEmpty(category))
-        //    {
-        //        dishes = dishes.Where(d => d.Category == category).ToList();
-        //    }
-        //    return View("All", dishes);
-        //}
     }
 }

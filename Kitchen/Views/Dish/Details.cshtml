@@ -1,5 +1,4 @@
-﻿
-@model Kitchen.Models.Dish
+﻿@model Kitchen.Models.Dish
 @{
     ViewData["Title"] = "Dish Details";
 }
@@ -91,7 +90,7 @@
         
         // Redirect to delete action
         setTimeout(() => {
-            window.location.href = '@Url.Action("Delete", "Dish", new { id = Model.Id })';
+            window.location.href = '@Url.Action("All", "Dish")'; //, new { id = Model.Id }
         }, 500);
     }
 

@@ -7,7 +7,7 @@ using Microsoft.Identity.Client;
 
 namespace Kitchen.Controllers
 {
-    [Authorize(Roles = "3")]
+    [Authorize(Roles = "5")]
     public class FeedbackController : Controller
     {
         IFeedbackRepository feedbackrepo; 
@@ -15,6 +15,7 @@ namespace Kitchen.Controllers
         {
             feedbackrepo = _feedbackrepo;
         }
+        [Authorize(Roles = "1, 2, 3, 4")]
         public IActionResult All()
         {
             List<Feedback> feedBackList = feedbackrepo.GetAll();
