@@ -331,14 +331,18 @@
                         <p style="color: #666; font-style: italic; margin: 1rem 0;">No order details available.</p>
                     }
 
-                    @if (order.Status.ToLower() == "pending")
+                    @if (order.Status?.ToLower() == "pending")
                     {
-                        <a href="@Url.Action("CreateFeedback", "Feedback", new { orderId = order.Id })" class="edit-btn" style="margin-top: 1rem; display: inline-block;">
-                            <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L11.586 10l-2.293 2.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd"></path>
-                            </svg>
-                            Mark as Delivered & Leave Feedback
-                        </a>
+                        <form asp-action="UpdateOrderStatus" asp-controller="Order" method="post" style="margin-top: 1rem; display: inline-block;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="orderId" value="@order.Id" />
+                            <button type="submit" class="edit-btn">
+                                <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L11.586 10l-2.293 2.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd"></path>
+                                </svg>
+                                Mark as Delivered & Leave Feedback
+                            </button>
+                        </form>
                     }
                 </div>
             }

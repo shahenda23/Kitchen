@@ -4,6 +4,7 @@ using Kitchen.Repository;
 using Kitchen.ViewModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kitchen.Controllers
@@ -102,7 +103,6 @@ namespace Kitchen.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login","Account" );
         }
-
         public IActionResult Edit()
         {
             int customerID = int.Parse(User.FindFirst("CustomerID")?.Value);

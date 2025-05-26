@@ -485,10 +485,13 @@
     padding: 5px;
 }
 
-    .delete-btn:hover {
-        color: #c82333;
-        transform: scale(1.1);
-    }
+.delete-btn:hover {
+    color: #c82333;
+    transform: scale(1.1);
+}
+a{
+text-decoration : none;
+}
 
 .btn-order-confirm {
     background-color: #d35400 !important;

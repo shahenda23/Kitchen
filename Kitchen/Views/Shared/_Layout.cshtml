@@ -3,121 +3,121 @@
 <head>
     <style>
         body.fullscreen-page {
-            padding-top: 0 !important;
+        padding-top: 0 !important;
         }
 
         body:not(.fullscreen-page) {
-            padding-top: 76px;
+        padding-top: 76px;
         }
 
         .navbar {
-            background-color: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(10px);
-            padding: 0.5rem 0;
-            width: 100%;
-            box-sizing: border-box;
-            z-index: 1050;
+        background-color: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(10px);
+        padding: 0.5rem 0;
+        width: 100%;
+        box-sizing: border-box;
+        z-index: 1050;
         }
 
         .navbar-container {
-            max-width: 1200px;
-            padding-left: 7rem !important;
-            padding-right: 7rem !important;
-            box-sizing: border-box;
-            width: 100%;
-            margin-left: auto;
-            margin-right: auto;
+        max-width: 1200px;
+        padding-left: 7rem !important;
+        padding-right: 7rem !important;
+        box-sizing: border-box;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
         }
 
         .custom-container {
-            max-width: 1200px !important;
-            padding-left: 5rem !important;
-            padding-right: 5rem !important;
-            box-sizing: border-box !important;
-            width: 100% !important;
+        max-width: 1200px !important;
+        padding-left: 5rem !important;
+        padding-right: 5rem !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
         }
 
         .navbar-light .navbar-nav .nav-link.active {
-            color: #ec610c !important;
+        color: #ec610c !important;
         }
 
         .navbar-light .navbar-nav .nav-link.text-light {
-            color: rgba(255, 255, 255, 0.7);
-            transition: color 0.3s ease;
-            padding-left: 1rem;
-            padding-right: 1rem;
+        color: rgba(255, 255, 255, 0.7);
+        transition: color 0.3s ease;
+        padding-left: 1rem;
+        padding-right: 1rem;
         }
 
-            .navbar-light .navbar-nav .nav-link.text-light:hover {
-                color: #bb7143 !important;
-            }
+        .navbar-light .navbar-nav .nav-link.text-light:hover {
+        color: #bb7143 !important;
+        }
 
         .logo {
-            width: 50px;
-            height: auto;
-            margin-right: 10px;
-            vertical-align: middle;
+        width: 50px;
+        height: auto;
+        margin-right: 10px;
+        vertical-align: middle;
         }
 
         .navbar-brand {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         }
 
 
         .brand-text-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         }
 
 
         .delicious-text {
-            font-family: 'Brush Script MT', cursive;
-            color: #ec610c;
-            margin: 0;
-            font-size: 1.2rem;
-            line-height: 1.2;
+        font-family: 'Brush Script MT', cursive;
+        color: #ec610c;
+        margin: 0;
+        font-size: 1.2rem;
+        line-height: 1.2;
         }
         .signup-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-            background-color: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
-            border-radius: 10px;
-            padding: 20px;
-            width: 250px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            color: white;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        background-color: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px);
+        border-radius: 10px;
+        padding: 20px;
+        width: 250px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        color: white;
         }
-        
+
         .signup-title {
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            text-align: center;
-            color: #ec610c;
+        font-weight: bold;
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        text-align: center;
+        color: #ec610c;
         }
-        
-        
+
+
         .signup-btn {
-            width: 100%;
-            padding: 8px;
-            border-radius: 5px;
-            background-color: #ec610c;
-            color: white;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-bottom: 3px;
+        width: 100%;
+        padding: 8px;
+        border-radius: 5px;
+        background-color: #ec610c;
+        color: white;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-bottom: 3px;
         }
-        
+
         .signup-btn:hover {
-            background-color: #d4560b;
+        background-color: #d4560b;
         }
     </style>
     <meta charset="utf-8" />
@@ -147,11 +147,11 @@
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
                             <a class="nav-link text-light @((ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["Action"]?.ToString() == "Index") ? "active" : "")"
-                               asp-controller="Home" asp-action="Index">Home</a>
+                            asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-light @((ViewContext.RouteData.Values["Controller"]?.ToString() == "Dish" && ViewContext.RouteData.Values["Action"]?.ToString() == "All") ? "active" : "")"
-                               asp-controller="Dish" asp-action="All">Menu</a>
+                            asp-controller="Dish" asp-action="All">Menu</a>
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
@@ -159,23 +159,26 @@
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-light @((ViewContext.RouteData.Values["Controller"]?.ToString() == "Order" && ViewContext.RouteData.Values["Action"]?.ToString() == "All") ? "active" : "")"
-                                       asp-controller="Order" asp-action="All">
+                                    asp-controller="Order" asp-action="All">
                                         Orders
                                     </a>
                                 </li>
                             }
                             <li class="nav-item">
                                 <a class="nav-link text-light @((ViewContext.RouteData.Values["Controller"]?.ToString() == "Account" && ViewContext.RouteData.Values["Action"]?.ToString() == "Logout") ? "active" : "")"
-                                   asp-controller="Account" asp-action="Logout">
+                                asp-controller="Account" asp-action="Logout">
                                     <i class="fa-solid fa-right-from-bracket"></i> Logout
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light @((ViewContext.RouteData.Values["Controller"]?.ToString() == "Customer" && ViewContext.RouteData.Values["Action"]?.ToString() == "Profile") ? "active" : "")"
-                                   asp-controller="Customer" asp-action="Profile">
-                                    <i class="fa-solid fa-user"></i>
-                                </a>
-                            </li>
+                            @if (User.IsInRole("5"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light @((ViewContext.RouteData.Values["Controller"]?.ToString() == "Customer" && ViewContext.RouteData.Values["Action"]?.ToString() == "Profile") ? "active" : "")"
+                                       asp-controller="Customer" asp-action="Profile">
+                                        <i class="fa-solid fa-user"></i>
+                                    </a>
+                                </li>
+                            }
                         }
                     </ul>
                 </div>

@@ -27,7 +27,7 @@
                 <div class="slide" style="background-image: url('/Images/P3.png')">
                     <div class="slide-overlay"></div>
                     <div class="slide-content">
-                        <h2 class="slide-title">AscIS Pro</h2>
+                        <h2 class="slide-title">Professional Team</h2>
                         <p class="slide-subtitle">Professional Service</p>
                         <a href="#staff" class="hero-btn">Meet Our Team</a>
                     </div>
@@ -127,7 +127,7 @@
         <div class="feedback-carousel">
             @{
                 var random = new Random();
-                var randomFeedbacks = Model.Feedbacks.OrderBy(x => random.Next()).Take(5).ToList();
+                var randomFeedbacks = Model.Feedbacks.OrderBy(x => random.Next()).Take(6).ToList();
             }
             @foreach (var feedback in randomFeedbacks)
             {

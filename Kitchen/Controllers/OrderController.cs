@@ -145,7 +145,6 @@ namespace Kitchen.Controllers
             {
                 return NotFound();
             }
-
             // Update status to "Delivered"
             order.Status = "Delivered";
             orderrepo.Edit(order);
