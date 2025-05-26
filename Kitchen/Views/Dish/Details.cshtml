@@ -61,12 +61,12 @@
             This action cannot be undone.
         </p>
         <div class="modal-actions">
-            <button class="modal-btn modal-btn-delete" onclick="confirmDelete()">
-                Delete
-            </button>
-            <button class="modal-btn modal-btn-cancel" onclick="closeModal()">
-                Cancel
-            </button>
+            <form id="deleteForm" method="post" asp-action="DeleteConfirmed" asp-controller="Dish">
+                <input type="hidden" name="id" value="@Model.Id" />
+                @Html.AntiForgeryToken()
+                <button type="button" class="modal-btn modal-btn-delete" onclick="confirmDelete()">Delete</button>
+            </form>
+            <button class="modal-btn modal-btn-cancel" onclick="closeModal()">Cancel</button>
         </div>
     </div>
 </div>
@@ -87,10 +87,11 @@
         const deleteBtn = document.querySelector('.modal-btn-delete');
         deleteBtn.innerHTML = 'Deleting...';
         deleteBtn.disabled = true;
+        document.getElementById('deleteForm').submit();
         
         // Redirect to delete action
         setTimeout(() => {
-            window.location.href = '@Url.Action("All", "Dish")'; //, new { id = Model.Id }
+            window.location.href = '@Url.Action("DeleteConfirmed", "Dish", new { id = Model.Id })'; //
         }, 500);
     }
 
