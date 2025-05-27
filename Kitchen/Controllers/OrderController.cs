@@ -21,7 +21,7 @@ namespace Kitchen.Controllers
             custrepo = _custrepo;
             orderdetailsrepo = _orderdetailsrepo;
         }
-        [Authorize(Roles = "2 , 4 ")]
+        [Authorize(Roles = "1,2,3,4 ")]
         public IActionResult All()
         {
             List<Order> order = orderrepo.GetAll("Customer");

@@ -91,7 +91,7 @@
         
         // Redirect to delete action
         setTimeout(() => {
-            window.location.href = '@Url.Action("All", "Dish")'; //, new { id = Model.Id }
+            window.location.href = '@Url.Action("DeleteConfirmed", "Dish", new { id = Model.Id })'; //
         }, 500);
     }
 
