@@ -18,7 +18,7 @@ namespace Kitchen.Repository
 
         public void Delete(int id)
         {
-            context.Dishes.Remove(GetById(id));
+            context.Remove(GetById(id));
         }
 
         public void Edit(Dish obj)

@@ -141,7 +141,7 @@ namespace Kitchen.Controllers
 
             return View("Edit", DishReq);
         }
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
@@ -151,7 +151,7 @@ namespace Kitchen.Controllers
                 return NotFound();
             }
 
-            DishRep.Delete(id);
+            DishRep.Delete(dish.Id);
             DishRep.Save();
 
             return RedirectToAction("All");
